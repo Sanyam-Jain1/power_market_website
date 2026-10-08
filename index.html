@@ -1,0 +1,833 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>[Name] | Decision intelligence for India's electricity markets</title>
+<meta name="description" content="Decision intelligence for India's electricity markets. We help battery owners, traders and large power consumers decide when to buy, store, sell or trade electricity.">
+<meta name="theme-color" content="#0a1630">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a1630'/%3E%3Crect x='7' y='17' width='4' height='8' fill='%23f7e34a'/%3E%3Crect x='14' y='11' width='4' height='14' fill='%23f7e34a'/%3E%3Crect x='21' y='6' width='4' height='19' fill='%23f7e34a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one left-aligned column (max 1180px) on a deep-blue ground; sections open with a mono label on a hairline rule; the only accent is electric yellow. */
+:root {
+  --bg: #0a1630;          /* deep grid blue */
+  --surface: #0f1f40;     /* cards and tiles */
+  --line: #223660;        /* hairlines and borders */
+  --fg: #eaf0fb;          /* primary text */
+  --muted: #9cabc8;       /* secondary text */
+  --accent: #f7e34a;      /* electric yellow */
+  --accent-ink: #0a1630;  /* text on accent */
+  --bar: #2b4677;         /* chart bars, neutral */
+  --bar-low: #8fb3ff;     /* chart bars, midday dip */
+
+  --font-display: "Archivo", "Arial Narrow", Arial, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --step--1: 0.8125rem;
+  --step-0: 1rem;
+  --step-1: 1.1875rem;
+  --step-2: clamp(1.375rem, 1.1rem + 1vw, 1.75rem);
+  --step-3: clamp(1.75rem, 1.2rem + 2.2vw, 2.75rem);
+  --step-4: clamp(2.5rem, 1.2rem + 5.6vw, 5.5rem);
+
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+  --max: 1180px;
+  --radius: 6px;
+
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img, svg { max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+.wrap {
+  width: 100%;
+  max-width: calc(var(--max) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.875rem;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: 112%;
+  font-size: 1.125rem;
+  letter-spacing: -0.01em;
+}
+.brand svg { width: 26px; height: 26px; flex: none; }
+.nav { display: flex; align-items: center; gap: 1.75rem; }
+.nav a.link {
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+.nav a.link:hover { color: var(--fg); }
+@media (max-width: 760px) { .nav a.link { display: none; } }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px -8px var(--accent); }
+.btn svg { width: 16px; height: 16px; }
+.btn.small { padding: 0.5rem 1rem; font-size: 0.875rem; }
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 0.25rem;
+  color: var(--fg);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+}
+.btn-ghost:hover { text-decoration-color: var(--accent); }
+
+/* ---------- Hero ---------- */
+.hero { padding-block: clamp(4rem, 10vw, 8.5rem) clamp(2.5rem, 6vw, 4.5rem); }
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 1.5rem;
+}
+.eyebrow .dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-right: 0.625rem;
+  vertical-align: 0.05em;
+}
+h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 118%;
+  font-size: var(--step-4);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  margin: 0;
+  max-width: 14ch;
+  text-wrap: balance;
+}
+h1 em { font-style: normal; color: var(--accent); }
+.hero .lead {
+  font-size: var(--step-1);
+  color: var(--muted);
+  max-width: 56ch;
+  margin: 2rem 0 0;
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  margin-top: 2.25rem;
+}
+
+/* The 96-block ruler: one tick per 15-minute block of the trading day. */
+.ruler {
+  margin-top: clamp(3.5rem, 8vw, 6rem);
+  height: 22px;
+  background:
+    repeating-linear-gradient(to right, var(--muted) 0 1px, transparent 1px calc(100% / 24)) bottom left / 100% 14px no-repeat,
+    repeating-linear-gradient(to right, var(--line) 0 1px, transparent 1px calc(100% / 96)) bottom left / 100% 7px no-repeat;
+  border-bottom: 1px solid var(--line);
+}
+.ruler-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+  font-variant-numeric: tabular-nums;
+}
+.ruler-caption {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin: 0.25rem 0 0;
+  text-align: center;
+}
+
+/* ---------- Sections ---------- */
+section { scroll-margin-top: 4.5rem; }
+.section { padding-block: clamp(4rem, 9vw, 7rem); }
+.section-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  border-top: 1px solid var(--line);
+  padding-top: 1.25rem;
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+@media (min-width: 900px) {
+  .section-head { grid-template-columns: 220px minmax(0, 1fr); gap: 2rem; }
+}
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0.4rem 0 0;
+}
+h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: 112%;
+  font-size: var(--step-3);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  margin: 0;
+  max-width: 22ch;
+  text-wrap: balance;
+}
+.section-head p.sub {
+  color: var(--muted);
+  margin: 1rem 0 0;
+  max-width: 60ch;
+}
+@media (min-width: 900px) {
+  .section-body { margin-left: calc(220px + 2rem); }
+}
+h3 {
+  font-family: var(--font-display);
+  font-weight: 650;
+  font-stretch: 106%;
+  font-size: var(--step-1);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+/* Who we help */
+.audiences {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: 1rem;
+}
+.audience {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.audience .tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.audience p { margin: 0; color: var(--muted); }
+
+/* Markets */
+.markets {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+@media (max-width: 900px) { .markets { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .markets { grid-template-columns: minmax(0, 1fr); } }
+.market {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 1.5rem 1.5rem 1.75rem;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  transition: background-color 0.2s ease;
+}
+.market:hover { background: var(--surface); }
+.market .code-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.market .code {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 1.375rem;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+}
+.market:hover .code { color: var(--accent); }
+.market .horizon {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: right;
+}
+.market h3 { font-size: 1rem; font-stretch: 100%; font-weight: 600; }
+.market p { margin: 0; color: var(--muted); font-size: 0.9375rem; }
+
+/* Capabilities */
+.capabilities {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3.5rem);
+}
+@media (max-width: 640px) { .capabilities { grid-template-columns: minmax(0, 1fr); } }
+.capability {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+.capability .icon {
+  width: 48px; height: 48px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--accent);
+}
+.capability .icon svg { width: 26px; height: 26px; }
+.capability p { margin: 0.5rem 0 0; color: var(--muted); max-width: 46ch; }
+
+/* Why now */
+.why-text {
+  font-size: var(--step-2);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  max-width: 34ch;
+  margin: 0;
+  text-wrap: pretty;
+}
+.why-text .hl { color: var(--accent); }
+.chart-card {
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.chart-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+.chart-title { font-weight: 600; margin: 0; }
+.chart-note {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin: 0;
+}
+.chart { position: relative; }
+.chart svg { display: block; width: 100%; height: auto; }
+.chart-axis {
+  display: flex;
+  justify-content: space-between;
+  width: calc(100% * 900 / 960);
+  margin-top: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.chart-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 1rem 2rem;
+  margin: 1.75rem 0 0;
+  padding: 1.25rem 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+.chart-legend li {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr);
+  gap: 0.75rem;
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+.chart-legend strong { color: var(--fg); font-weight: 600; }
+.swatch { width: 14px; height: 14px; border-radius: 2px; margin-top: 0.3rem; }
+.swatch.low { background: var(--bar-low); }
+.swatch.high { background: var(--accent); }
+.swatch.gap {
+  background: repeating-linear-gradient(to bottom, var(--fg) 0 2px, transparent 2px 4px);
+  width: 2px;
+  margin-left: 6px;
+}
+
+/* Contact */
+.contact { padding-block: clamp(4rem, 9vw, 7rem) clamp(3rem, 6vw, 5rem); }
+.contact-big {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 118%;
+  font-size: var(--step-4);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  margin: 0;
+}
+.contact .lead { color: var(--muted); font-size: var(--step-1); max-width: 52ch; margin: 1.5rem 0 0; }
+.contact-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 1rem;
+  margin: clamp(2rem, 5vw, 3rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.contact-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  min-width: 0;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.contact-item:hover { border-color: var(--accent); background: var(--surface); }
+.contact-item .k {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.contact-item .v {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-stretch: 106%;
+  font-size: var(--step-2);
+  letter-spacing: -0.015em;
+  overflow-wrap: anywhere;
+}
+.contact-item .v::after { content: " \2197"; color: var(--accent); }
+
+/* Footer */
+.site-footer { border-top: 1px solid var(--line); }
+.site-footer .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  padding-block: 1.75rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <!-- TODO: replace [Name] with the final company name everywhere on this page. -->
+    <a class="brand" href="#top" aria-label="[Name] home">
+      <svg viewBox="0 0 26 26" aria-hidden="true">
+        <rect x="2" y="14" width="5" height="10" rx="1" fill="#f7e34a"/>
+        <rect x="10.5" y="8" width="5" height="16" rx="1" fill="#f7e34a"/>
+        <rect x="19" y="2" width="5" height="22" rx="1" fill="#f7e34a"/>
+      </svg>
+      <span>[Name]</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a class="link" href="#who">Who we help</a>
+      <a class="link" href="#markets">Markets</a>
+      <a class="link" href="#what">What we do</a>
+      <a class="link" href="#why">Why now</a>
+      <a class="btn small" href="#contact">Talk to us</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- 1. Hero -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <p class="eyebrow"><span class="dot" aria-hidden="true"></span>Decision intelligence for India's electricity markets</p>
+      <h1 id="hero-title">Smarter decisions for every <em>unit of power.</em></h1>
+      <p class="lead">Whether you own a battery, trade power or buy it for your business, we help you buy, sell and trade electricity at the right time, across every market.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#contact">Talk to us
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+        <a class="btn-ghost" href="#markets">See the markets we cover</a>
+      </div>
+
+      <div class="ruler" aria-hidden="true"></div>
+      <div class="ruler-labels" aria-hidden="true">
+        <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span>
+      </div>
+      <p class="ruler-caption">One trading day, 96 blocks of 15 minutes. Every one is a decision.</p>
+    </div>
+  </section>
+
+  <!-- 2. Who we help -->
+  <section class="section" id="who" aria-labelledby="who-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">Who we help</p>
+        <div>
+          <h2 id="who-title">Built for everyone who buys, stores, sells or trades power.</h2>
+        </div>
+      </div>
+      <div class="audiences">
+        <article class="audience">
+          <span class="tag">Storage</span>
+          <h3>Battery owners</h3>
+          <p>When to charge, when to discharge, and which market to sell in.</p>
+        </article>
+        <article class="audience">
+          <span class="tag">Trading</span>
+          <h3>Traders</h3>
+          <p>Sharper views on prices across exchange markets, block by block.</p>
+        </article>
+        <article class="audience">
+          <span class="tag">Industry</span>
+          <h3>Large consumers</h3>
+          <p>For factories, data centres and campuses: when and where to buy power to cut costs.</p>
+        </article>
+        <article class="audience">
+          <span class="tag">Renewables</span>
+          <h3>Renewable developers</h3>
+          <p>How to sell green power, and how to pair it with storage for the best return.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Markets we cover -->
+  <section class="section" id="markets" aria-labelledby="markets-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">Markets we cover</p>
+        <div>
+          <h2 id="markets-title">Every market where a unit of power can be bought or sold.</h2>
+          <p class="sub">Exchange markets, green markets, grid services, certificates and contracts, in one view.</p>
+        </div>
+      </div>
+      <div class="markets">
+        <article class="market">
+          <div class="code-row"><span class="code">DAM</span><span class="horizon">Next day</span></div>
+          <h3>Day-Ahead Market</h3>
+          <p>Next-day power, traded in 15-minute blocks.</p>
+        </article>
+        <article class="market">
+          <div class="code-row"><span class="code">RTM</span><span class="horizon">Same day</span></div>
+          <h3>Real-Time Market</h3>
+          <p>Power traded every half hour, close to delivery.</p>
+        </article>
+        <article class="market">
+          <div class="code-row"><span class="code">G-DAM</span><span class="horizon">Next day</span></div>
+          <h3>Green Day-Ahead Market</h3>
+          <p>Next-day renewable power.</p>
+        </article>
+        <article class="market">
+          <div class="code-row"><span class="code">G-TAM</span><span class="horizon">Days to weeks</span></div>
+          <h3>Green Term-Ahead Market</h3>
+          <p>Renewable power for days to weeks ahead.</p>
+        </article>
+        <article class="market">
+          <div class="code-row"><span class="code">TAM</span><span class="horizon">Same day to weekly</span></div>
+          <h3>Term-Ahead Market</h3>
+          <p>Contracts from same-day to weekly.</p>
+        </article>
+        <article class="market">
+          <div class="code-row"><span class="code">HP-DAM</span><span class="horizon">Next day</span></div>
+          <h3>High-Price Day-Ahead Market</h3>
+          <p>For costlier sources such as batteries and gas.</p>
+        </article>
+        <article class="market">
+          <div class="code-row"><span class="code">AS</span><span class="horizon">Grid support</span></div>
+          <h3>Ancillary services</h3>
+          <p>Paid support that keeps the grid stable.</p>
+        </article>
+        <article class="market">
+          <div class="code-row"><span class="code">REC</span><span class="horizon">Certificates</span></div>
+          <h3>Renewable Energy Certificates</h3>
+          <p>Certificates for the green attributes of renewable power.</p>
+        </article>
+        <article class="market">
+          <div class="code-row"><span class="code">Bilateral</span><span class="horizon">Contracts</span></div>
+          <h3>Short-term bilateral contracts</h3>
+          <p>Direct deals between buyers and sellers, outside the exchange.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. What we do -->
+  <section class="section" id="what" aria-labelledby="what-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">What we do</p>
+        <div>
+          <h2 id="what-title">From price view to decision, for every unit.</h2>
+        </div>
+      </div>
+      <div class="section-body capabilities">
+        <div class="capability">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 20l5-6 4 3 5-8"/>
+              <path d="M17 9l6-4" stroke-dasharray="2 2.5"/>
+              <path d="M3 23h20"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Price forecasting</h3>
+            <p>Price forecasts across every market we cover, from next-day blocks to real-time trading.</p>
+          </div>
+        </div>
+        <div class="capability">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="5" cy="13" r="2.5"/>
+              <path d="M7.5 13H12m0 0l9-7m-9 7h9m-9 0l9 7"/>
+              <circle cx="21.5" cy="6" r="1.6"/>
+              <circle cx="21.5" cy="13" r="1.6" fill="currentColor"/>
+              <circle cx="21.5" cy="20" r="1.6"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Decision optimisation</h3>
+            <p>What to buy, sell or store, and when. Including the best market for each unit.</p>
+          </div>
+        </div>
+        <div class="capability">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 7a9.5 9.5 0 1 1-1 6"/>
+              <path d="M4 3v4h4"/>
+              <path d="M13 8v5l3.5 2"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Strategy testing</h3>
+            <p>Try a strategy on years of historical market data before anything goes live.</p>
+          </div>
+        </div>
+        <div class="capability">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="5" width="18" height="17" rx="2"/>
+              <path d="M4 10h18M9 3v4M17 3v4"/>
+              <path d="M9 15.5l2.5 2.5 5-5"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Built for India</h3>
+            <p>Designed around India's market rules, bidding windows and timelines.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Why now -->
+  <section class="section" id="why" aria-labelledby="why-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">Why now</p>
+        <div>
+          <h2 id="why-title">The gap between a good decision and an average one has never been wider.</h2>
+        </div>
+      </div>
+      <div class="section-body">
+        <p class="why-text">India is adding solar, wind and battery storage faster than ever. Prices now <span class="hl">swing sharply within a single day</span> and differ across markets, so the timing and the market you choose matter more than they ever have.</p>
+
+        <div class="chart-card">
+          <div class="chart-head">
+            <p class="chart-title">A typical day's price swing</p>
+            <p class="chart-note">Illustrative shape, 96 blocks of 15 minutes</p>
+          </div>
+          <div class="chart">
+            <svg id="swing" viewBox="0 0 960 360" role="img" aria-label="Illustrative day-ahead price curve: moderate overnight, a deep dip in the middle of the day when solar output is high, and a sharp peak in the evening as solar fades and demand rises."></svg>
+            <div class="chart-axis" aria-hidden="true">
+              <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span>
+            </div>
+          </div>
+          <ul class="chart-legend">
+            <li><span class="swatch low" aria-hidden="true"></span><span><strong>Midday dip.</strong> Solar floods the grid and prices fall. A good time to buy or charge.</span></li>
+            <li><span class="swatch high" aria-hidden="true"></span><span><strong>Evening peak.</strong> Solar fades, demand climbs and prices jump. A good time to sell or discharge.</span></li>
+            <li><span class="swatch gap" aria-hidden="true"></span><span><strong>The spread.</strong> The distance between the two is where good decisions pay.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Contact -->
+  <section class="contact" id="contact" aria-labelledby="contact-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">Contact</p>
+        <div>
+          <h2 id="contact-title" class="contact-big">Talk to us.</h2>
+          <p class="lead">Tell us what you own, trade or buy, and we will show you how we can help.</p>
+        </div>
+      </div>
+      <!-- TODO: replace the email address and LinkedIn URL with the real ones. -->
+      <ul class="section-body contact-list">
+        <li><a class="contact-item" href="mailto:hello@example.com">
+          <span class="k">Email</span>
+          <span class="v">hello@example.com</span>
+        </a></li>
+        <li><a class="contact-item" href="https://www.linkedin.com/company/your-company" target="_blank" rel="noopener">
+          <span class="k">LinkedIn</span>
+          <span class="v">[Name] on LinkedIn</span>
+        </a></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; 2026 [Name]</span>
+    <span>Decision intelligence for India's electricity markets.</span>
+  </div>
+</footer>
+
+<script>
+/* Draws the illustrative price-swing chart: 96 bars, one per 15-minute block.
+   The shape is a stylised example, not real market data, and carries no price values. */
+(function () {
+  var svg = document.getElementById("swing");
+  if (!svg) return;
+  var NS = "http://www.w3.org/2000/svg";
+  var W = 900, TOP = 16, BASE = 340;  // plot area; x 900-960 is kept for the spread marker
+  var keys = [[0,.50],[3,.42],[5,.45],[7,.60],[9,.55],[10.5,.30],[12,.13],[14,.15],[15.5,.30],
+              [17,.55],[18.5,.88],[19.5,1],[21,.94],[22.5,.70],[24,.52]];
+  function level(h) {
+    for (var i = 1; i < keys.length; i++) {
+      if (h <= keys[i][0]) {
+        var a = keys[i - 1], b = keys[i], t = (h - a[0]) / (b[0] - a[0]);
+        return a[1] + (b[1] - a[1]) * t;
+      }
+    }
+    return keys[keys.length - 1][1];
+  }
+  function el(name, attrs) {
+    var n = document.createElementNS(NS, name);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+  var css = getComputedStyle(document.documentElement);
+  var c = {
+    bar: css.getPropertyValue("--bar").trim(),
+    low: css.getPropertyValue("--bar-low").trim(),
+    high: css.getPropertyValue("--accent").trim(),
+    line: css.getPropertyValue("--line").trim(),
+    fg: css.getPropertyValue("--fg").trim(),
+    bg: css.getPropertyValue("--surface").trim()
+  };
+  var step = W / 96, gap = 2, minV = 1, maxV = 0, vals = [];
+  for (var i = 0; i < 96; i++) {
+    var h = (i + 0.5) / 4;
+    var v = level(h) + 0.025 * Math.sin(i * 1.7) + 0.015 * Math.sin(i * 0.45);
+    v = Math.max(0.06, Math.min(1, v));
+    vals.push(v);
+    if (v < minV) minV = v;
+    if (v > maxV) maxV = v;
+  }
+  // Hour gridlines
+  for (var g = 0; g <= 24; g += 6) {
+    svg.appendChild(el("line", { x1: g * W / 24, x2: g * W / 24, y1: TOP, y2: BASE,
+      stroke: c.line, "stroke-width": 1, "stroke-dasharray": g === 0 || g === 24 ? "" : "3 5" }));
+  }
+  var span = BASE - TOP;
+  for (var j = 0; j < 96; j++) {
+    var hr = j / 4, val = vals[j];
+    var fill = (hr >= 10 && hr < 16) ? c.low : (hr >= 18 && hr < 22) ? c.high : c.bar;
+    var bh = val * span;
+    svg.appendChild(el("rect", { x: (j * step + gap / 2).toFixed(2), y: (BASE - bh).toFixed(2),
+      width: (step - gap).toFixed(2), height: bh.toFixed(2), rx: 1.5, fill: fill }));
+  }
+  svg.appendChild(el("line", { x1: 0, x2: W, y1: BASE, y2: BASE, stroke: c.line, "stroke-width": 1.5 }));
+  // Spread marker: dashed guides at the day's low and high, joined by a bracket in the right margin
+  var yHi = BASE - maxV * span, yLo = BASE - minV * span, xm = 932;
+  [yHi, yLo].forEach(function (y) {
+    svg.appendChild(el("line", { x1: 0, x2: xm, y1: y, y2: y, stroke: c.fg, "stroke-opacity": .55,
+      "stroke-width": 1.25, "stroke-dasharray": "4 5" }));
+  });
+  svg.appendChild(el("line", { x1: xm, x2: xm, y1: yHi, y2: yLo, stroke: c.fg, "stroke-width": 2 }));
+  svg.appendChild(el("path", { d: "M" + (xm - 7) + " " + (yHi + 9) + "L" + xm + " " + yHi + "L" + (xm + 7) + " " + (yHi + 9),
+    fill: "none", stroke: c.fg, "stroke-width": 2 }));
+  svg.appendChild(el("path", { d: "M" + (xm - 7) + " " + (yLo - 9) + "L" + xm + " " + yLo + "L" + (xm + 7) + " " + (yLo - 9),
+    fill: "none", stroke: c.fg, "stroke-width": 2 }));
+})();
+</script>
+</body>
+</html>
