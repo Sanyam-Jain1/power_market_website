@@ -5,57 +5,53 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>[Name] | Decision intelligence for India's electricity markets</title>
 <meta name="description" content="Decision intelligence for India's electricity markets. We help battery owners, traders and large power consumers decide when to buy, store, sell or trade electricity.">
-<meta name="theme-color" content="#0a1630">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a1630'/%3E%3Crect x='7' y='17' width='4' height='8' fill='%23f7e34a'/%3E%3Crect x='14' y='11' width='4' height='14' fill='%23f7e34a'/%3E%3Crect x='21' y='6' width='4' height='19' fill='%23f7e34a'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0c'/%3E%3Crect x='7' y='17' width='4' height='8' fill='%23fff'/%3E%3Crect x='14' y='11' width='4' height='14' fill='%23fff'/%3E%3Crect x='21' y='6' width='4' height='19' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: one left-aligned column (max 1180px) on a deep-blue ground; sections open with a mono label on a hairline rule; the only accent is electric yellow. */
+/* Layout: monochrome, Swiss-style. One 1240px column, hairline rules between sections,
+   mono labels for data and market codes, one inverted (black) band for "Why now". */
 :root {
-  --bg: #0a1630;          /* deep grid blue */
-  --surface: #0f1f40;     /* cards and tiles */
-  --line: #223660;        /* hairlines and borders */
-  --fg: #eaf0fb;          /* primary text */
-  --muted: #9cabc8;       /* secondary text */
-  --accent: #f7e34a;      /* electric yellow */
-  --accent-ink: #0a1630;  /* text on accent */
-  --bar: #2b4677;         /* chart bars, neutral */
-  --bar-low: #8fb3ff;     /* chart bars, midday dip */
+  --paper: #ffffff;
+  --ink: #0b0b0c;
+  --ink-2: #3b3b3f;
+  --muted: #6c6c72;
+  --rule: #e2e2e5;
+  --wash: #f5f5f6;
 
-  --font-display: "Archivo", "Arial Narrow", Arial, sans-serif;
-  --font-body: "IBM Plex Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-sans: "Geist", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  --step--1: 0.8125rem;
+  --step--1: 0.75rem;
   --step-0: 1rem;
   --step-1: 1.1875rem;
   --step-2: clamp(1.375rem, 1.1rem + 1vw, 1.75rem);
-  --step-3: clamp(1.75rem, 1.2rem + 2.2vw, 2.75rem);
-  --step-4: clamp(2.5rem, 1.2rem + 5.6vw, 5.5rem);
+  --step-3: clamp(2rem, 1.2rem + 3vw, 3.5rem);
+  --step-4: clamp(2.75rem, 1rem + 7.4vw, 7.25rem);
 
   --gutter: clamp(1rem, 4vw, 2.5rem);
-  --max: 1180px;
-  --radius: 6px;
+  --max: 1240px;
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--font-body);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
   font-size: var(--step-0);
-  line-height: 1.6;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
 img, svg { max-width: 100%; }
 a { color: inherit; }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
-::selection { background: var(--accent); color: var(--accent-ink); }
+:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+::selection { background: var(--ink); color: var(--paper); }
 
 .wrap {
   width: 100%;
@@ -63,16 +59,22 @@ a { color: inherit; }
   margin-inline: auto;
   padding-inline: var(--gutter);
 }
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
 
 /* ---------- Header ---------- */
 .site-header {
   position: sticky;
   top: env(safe-area-inset-top, 0px);
   z-index: 10;
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--paper) 90%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
 }
 .site-header .wrap {
   display: flex;
@@ -86,206 +88,198 @@ a { color: inherit; }
   align-items: center;
   gap: 0.625rem;
   text-decoration: none;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-stretch: 112%;
-  font-size: 1.125rem;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  font-size: 1.0625rem;
+  letter-spacing: -0.02em;
 }
-.brand svg { width: 26px; height: 26px; flex: none; }
-.nav { display: flex; align-items: center; gap: 1.75rem; }
-.nav a.link {
-  text-decoration: none;
-  color: var(--muted);
-  font-size: 0.9375rem;
-}
-.nav a.link:hover { color: var(--fg); }
-@media (max-width: 760px) { .nav a.link { display: none; } }
+.brand svg { width: 22px; height: 22px; flex: none; }
+.nav { display: flex; align-items: center; gap: 2rem; }
+.nav a.link { text-decoration: none; color: var(--muted); font-size: 0.9375rem; }
+.nav a.link:hover { color: var(--ink); }
+@media (max-width: 800px) { .nav a.link { display: none; } }
 
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
-  border-radius: 999px;
-  background: var(--accent);
-  color: var(--accent-ink);
-  font-weight: 600;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 0.875rem 1.125rem;
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--ink);
+  font-weight: 500;
   font-size: 0.9375rem;
   text-decoration: none;
   white-space: nowrap;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
-.btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px -8px var(--accent); }
-.btn svg { width: 16px; height: 16px; }
-.btn.small { padding: 0.5rem 1rem; font-size: 0.875rem; }
-.btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.75rem 0.25rem;
-  color: var(--fg);
-  font-weight: 500;
-  font-size: 0.9375rem;
-  text-decoration: underline;
-  text-decoration-color: var(--line);
-  text-underline-offset: 6px;
-  text-decoration-thickness: 2px;
-}
-.btn-ghost:hover { text-decoration-color: var(--accent); }
+.btn:hover { background: var(--paper); color: var(--ink); }
+.btn svg { width: 16px; height: 16px; transition: transform 0.15s ease; }
+.btn:hover svg { transform: translateX(3px); }
+.btn.small { padding: 0.5rem 0.875rem; gap: 0.75rem; font-size: 0.875rem; }
+.btn.outline { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn.outline:hover { border-color: var(--ink); }
 
 /* ---------- Hero ---------- */
-.hero { padding-block: clamp(4rem, 10vw, 8.5rem) clamp(2.5rem, 6vw, 4.5rem); }
+.hero { padding-block: clamp(3.5rem, 9vw, 7.5rem) clamp(3rem, 6vw, 5rem); }
 .eyebrow {
-  font-family: var(--font-mono);
-  font-size: var(--step--1);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin: 0 0 1.5rem;
-}
-.eyebrow .dot {
-  display: inline-block;
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
-  margin-right: 0.625rem;
-  vertical-align: 0.05em;
-}
-h1 {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-stretch: 118%;
-  font-size: var(--step-4);
-  line-height: 0.98;
-  letter-spacing: -0.035em;
-  margin: 0;
-  max-width: 14ch;
-  text-wrap: balance;
-}
-h1 em { font-style: normal; color: var(--accent); }
-.hero .lead {
-  font-size: var(--step-1);
-  color: var(--muted);
-  max-width: 56ch;
-  margin: 2rem 0 0;
-}
-.hero-actions {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem 1.5rem;
-  margin-top: 2.25rem;
+  gap: 0.25rem 1rem;
+  color: var(--muted);
+  margin: 0 0 clamp(1.5rem, 3vw, 2.5rem);
 }
+h1 {
+  font-weight: 500;
+  font-size: var(--step-4);
+  line-height: 0.96;
+  letter-spacing: -0.055em;
+  margin: 0;
+  max-width: 13ch;
+  text-wrap: balance;
+}
+h1 .soft { color: var(--muted); }
+.hero-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+  align-items: end;
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+@media (min-width: 900px) { .hero-row { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); } }
+.hero .lead {
+  font-size: var(--step-1);
+  line-height: 1.5;
+  color: var(--ink-2);
+  max-width: 52ch;
+  margin: 0;
+}
+.hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+@media (min-width: 900px) { .hero-actions { justify-content: flex-end; } }
 
-/* The 96-block ruler: one tick per 15-minute block of the trading day. */
-.ruler {
-  margin-top: clamp(3.5rem, 8vw, 6rem);
-  height: 22px;
-  background:
-    repeating-linear-gradient(to right, var(--muted) 0 1px, transparent 1px calc(100% / 24)) bottom left / 100% 14px no-repeat,
-    repeating-linear-gradient(to right, var(--line) 0 1px, transparent 1px calc(100% / 96)) bottom left / 100% 7px no-repeat;
-  border-bottom: 1px solid var(--line);
+/* Hero board: a week of 15-minute blocks as a grayscale heatmap */
+.board {
+  margin-top: clamp(3rem, 7vw, 5rem);
+  border: 1px solid var(--ink);
 }
-.ruler-labels {
+.board-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--ink);
+}
+.board-head span:first-child { color: var(--ink); }
+.board-head span { color: var(--muted); }
+.board-body {
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr);
+  gap: 0.75rem;
+  padding: 1rem 1rem 0;
+}
+.board-days {
+  display: grid;
+  grid-template-rows: repeat(7, 1fr);
+  color: var(--muted);
+  font-size: 0.6875rem;
+}
+.board-days span { display: flex; align-items: center; }
+#heat { display: block; width: 100%; height: clamp(150px, 22vw, 260px); }
+.board-axis {
   display: flex;
   justify-content: space-between;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  padding: 0.5rem 1rem 0.75rem calc(1rem + 2.75rem + 0.75rem);
   color: var(--muted);
-  margin-top: 0.5rem;
+  font-size: 0.6875rem;
   font-variant-numeric: tabular-nums;
 }
-.ruler-caption {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+.board-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--rule);
   color: var(--muted);
-  margin: 0.25rem 0 0;
-  text-align: center;
+}
+.scale { display: inline-flex; align-items: center; gap: 0.625rem; }
+.scale i {
+  display: block;
+  width: 120px;
+  height: 8px;
+  background: linear-gradient(to right, #f1f1f2, #0b0b0c);
+  border: 1px solid var(--rule);
 }
 
 /* ---------- Sections ---------- */
 section { scroll-margin-top: 4.5rem; }
-.section { padding-block: clamp(4rem, 9vw, 7rem); }
+.section { padding-block: clamp(4rem, 9vw, 7.5rem); border-top: 1px solid var(--rule); }
 .section-head {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
-  border-top: 1px solid var(--line);
-  padding-top: 1.25rem;
-  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 @media (min-width: 900px) {
-  .section-head { grid-template-columns: 220px minmax(0, 1fr); gap: 2rem; }
+  .section-head { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 2rem; }
 }
-.label {
-  font-family: var(--font-mono);
-  font-size: var(--step--1);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin: 0.4rem 0 0;
-}
+.label { color: var(--muted); margin: 0.75rem 0 0; }
+.label b { color: var(--ink); font-weight: 500; }
 h2 {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-stretch: 112%;
+  font-weight: 500;
   font-size: var(--step-3);
-  line-height: 1.08;
-  letter-spacing: -0.025em;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
   margin: 0;
-  max-width: 22ch;
+  max-width: 18ch;
   text-wrap: balance;
 }
-.section-head p.sub {
-  color: var(--muted);
-  margin: 1rem 0 0;
-  max-width: 60ch;
-}
-@media (min-width: 900px) {
-  .section-body { margin-left: calc(220px + 2rem); }
-}
+.section-head .sub { color: var(--muted); margin: 1.25rem 0 0; max-width: 56ch; font-size: var(--step-1); }
 h3 {
-  font-family: var(--font-display);
-  font-weight: 650;
-  font-stretch: 106%;
+  font-weight: 500;
   font-size: var(--step-1);
   line-height: 1.25;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   margin: 0;
   text-wrap: balance;
 }
 
-/* Who we help */
+/* Who we help: four columns divided by hairlines */
 .audiences {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--ink);
 }
+@media (max-width: 1000px) { .audiences { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .audiences { grid-template-columns: minmax(0, 1fr); } }
 .audience {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.875rem;
   min-width: 0;
-  padding: 1.5rem;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  padding: 1.5rem 1.5rem 2rem 0;
+  border-bottom: 1px solid var(--rule);
 }
-.audience .tag {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
+@media (min-width: 561px) {
+  .audience { padding-left: 1.5rem; border-left: 1px solid var(--rule); }
+  .audience:nth-child(odd) { padding-left: 0; border-left: 0; }
 }
-.audience p { margin: 0; color: var(--muted); }
+@media (min-width: 1001px) {
+  .audience:nth-child(odd) { padding-left: 1.5rem; border-left: 1px solid var(--rule); }
+  .audience:first-child { padding-left: 0; border-left: 0; }
+}
+.audience .glyph { width: 40px; height: 40px; color: var(--ink); margin-bottom: 1rem; }
+.audience .tag { color: var(--muted); }
+.audience p { margin: 0; color: var(--ink-2); }
 
-/* Markets */
+/* Markets: tile grid with shared hairlines */
 .markets {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-top: 1px solid var(--line);
-  border-left: 1px solid var(--line);
+  border-top: 1px solid var(--ink);
+  border-left: 1px solid var(--rule);
 }
 @media (max-width: 900px) { .markets { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .markets { grid-template-columns: minmax(0, 1fr); } }
@@ -295,188 +289,158 @@ h3 {
   gap: 0.5rem;
   min-width: 0;
   padding: 1.5rem 1.5rem 1.75rem;
-  border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  transition: background-color 0.2s ease;
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
-.market:hover { background: var(--surface); }
+.market:hover { background: var(--ink); color: var(--paper); }
+.market:hover p, .market:hover .horizon { color: #a9a9ae; }
 .market .code-row {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 0.75rem;
+  margin-bottom: 1.5rem;
 }
 .market .code {
   font-family: var(--font-mono);
   font-weight: 500;
-  font-size: 1.375rem;
-  letter-spacing: -0.01em;
-  color: var(--fg);
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
 }
-.market:hover .code { color: var(--accent); }
-.market .horizon {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-  text-align: right;
-}
-.market h3 { font-size: 1rem; font-stretch: 100%; font-weight: 600; }
+.market .horizon { color: var(--muted); text-align: right; font-size: 0.6875rem; }
+.market h3 { font-size: 1rem; letter-spacing: -0.01em; }
 .market p { margin: 0; color: var(--muted); font-size: 0.9375rem; }
 
 /* Capabilities */
 .capabilities {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3.5rem);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2.5rem 2rem;
 }
-@media (max-width: 640px) { .capabilities { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 1000px) { .capabilities { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .capabilities { grid-template-columns: minmax(0, 1fr); } }
 .capability {
-  display: grid;
-  grid-template-columns: 48px minmax(0, 1fr);
-  gap: 1.25rem;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--ink);
 }
-.capability .icon {
-  width: 48px; height: 48px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  color: var(--accent);
-}
-.capability .icon svg { width: 26px; height: 26px; }
-.capability p { margin: 0.5rem 0 0; color: var(--muted); max-width: 46ch; }
+.capability .icon { width: 36px; height: 36px; margin-bottom: 0.75rem; }
+.capability p { margin: 0; color: var(--ink-2); }
 
-/* Why now */
+/* Why now: inverted band */
+.dark {
+  background: var(--ink);
+  color: var(--paper);
+  border-top: 0;
+  --muted: #9a9aa0;
+  --rule: #2b2b30;
+  --ink-2: #c9c9cd;
+}
+.dark .label b { color: var(--paper); }
 .why-text {
   font-size: var(--step-2);
-  line-height: 1.45;
-  letter-spacing: -0.01em;
-  max-width: 34ch;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  color: var(--ink-2);
+  max-width: 36ch;
   margin: 0;
   text-wrap: pretty;
 }
-.why-text .hl { color: var(--accent); }
-.chart-card {
-  margin-top: clamp(2.5rem, 5vw, 3.5rem);
-  padding: clamp(1.25rem, 3vw, 2rem);
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-}
+.why-text strong { color: var(--paper); font-weight: 500; }
+.chart-wrap { margin-top: clamp(2.5rem, 6vw, 4rem); border-top: 1px solid var(--paper); padding-top: 1rem; }
 .chart-head {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: baseline;
   gap: 0.5rem 1.5rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
 }
-.chart-title { font-weight: 600; margin: 0; }
-.chart-note {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--muted);
-  margin: 0;
-}
-.chart { position: relative; }
-.chart svg { display: block; width: 100%; height: auto; }
+.chart-head span:last-child { color: var(--muted); }
+#swing { display: block; width: 100%; height: auto; }
 .chart-axis {
   display: flex;
   justify-content: space-between;
   width: calc(100% * 900 / 960);
-  margin-top: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  margin-top: 0.625rem;
   color: var(--muted);
+  font-size: 0.6875rem;
   font-variant-numeric: tabular-nums;
 }
 .chart-legend {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
-  gap: 1rem 2rem;
-  margin: 1.75rem 0 0;
-  padding: 1.25rem 0 0;
-  border-top: 1px solid var(--line);
-  list-style: none;
-}
-.chart-legend li {
-  display: grid;
-  grid-template-columns: 14px minmax(0, 1fr);
-  gap: 0.75rem;
-  font-size: 0.9375rem;
-  color: var(--muted);
-}
-.chart-legend strong { color: var(--fg); font-weight: 600; }
-.swatch { width: 14px; height: 14px; border-radius: 2px; margin-top: 0.3rem; }
-.swatch.low { background: var(--bar-low); }
-.swatch.high { background: var(--accent); }
-.swatch.gap {
-  background: repeating-linear-gradient(to bottom, var(--fg) 0 2px, transparent 2px 4px);
-  width: 2px;
-  margin-left: 6px;
-}
-
-/* Contact */
-.contact { padding-block: clamp(4rem, 9vw, 7rem) clamp(3rem, 6vw, 5rem); }
-.contact-big {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-stretch: 118%;
-  font-size: var(--step-4);
-  line-height: 1;
-  letter-spacing: -0.035em;
-  margin: 0;
-}
-.contact .lead { color: var(--muted); font-size: var(--step-1); max-width: 52ch; margin: 1.5rem 0 0; }
-.contact-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-  gap: 1rem;
-  margin: clamp(2rem, 5vw, 3rem) 0 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem 2rem;
+  margin: 2rem 0 0;
   padding: 0;
   list-style: none;
 }
-.contact-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.375rem;
-  min-width: 0;
-  padding: 1.5rem;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  text-decoration: none;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
-}
-.contact-item:hover { border-color: var(--accent); background: var(--surface); }
-.contact-item .k {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+@media (max-width: 760px) { .chart-legend { grid-template-columns: minmax(0, 1fr); } }
+.chart-legend li {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 0.875rem;
   color: var(--muted);
+  font-size: 0.9375rem;
 }
+.chart-legend strong { color: var(--paper); font-weight: 500; }
+.swatch { width: 18px; height: 18px; margin-top: 0.15rem; border: 1px solid var(--paper); }
+.swatch.low { background: repeating-linear-gradient(135deg, var(--paper) 0 1.5px, transparent 1.5px 5px); }
+.swatch.high { background: var(--paper); }
+.swatch.gap { border: 0; border-left: 2px solid var(--paper); width: 2px; margin-left: 8px; }
+
+/* Contact */
+.contact-big {
+  font-weight: 500;
+  font-size: var(--step-4);
+  line-height: 0.96;
+  letter-spacing: -0.055em;
+  margin: 0;
+}
+.contact-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--ink);
+}
+@media (max-width: 700px) { .contact-list { grid-template-columns: minmax(0, 1fr); } }
+.contact-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 0.5rem 1rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+}
+@media (min-width: 701px) {
+  .contact-list li + li .contact-item { padding-left: 1.5rem; border-left: 1px solid var(--rule); }
+  .contact-list li:first-child .contact-item { padding-right: 1.5rem; }
+}
+.contact-item .k { grid-column: 1 / -1; color: var(--muted); }
 .contact-item .v {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-stretch: 106%;
   font-size: var(--step-2);
-  letter-spacing: -0.015em;
+  font-weight: 500;
+  letter-spacing: -0.03em;
   overflow-wrap: anywhere;
 }
-.contact-item .v::after { content: " \2197"; color: var(--accent); }
+.contact-item svg { width: 22px; height: 22px; transition: transform 0.15s ease; }
+.contact-item:hover svg { transform: translate(3px, -3px); }
+.contact-item:hover .v { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px; }
 
 /* Footer */
-.site-footer { border-top: 1px solid var(--line); }
+.site-footer { border-top: 1px solid var(--ink); }
 .site-footer .wrap {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 0.5rem 2rem;
-  padding-block: 1.75rem;
-  font-size: 0.875rem;
+  padding-block: 1.5rem;
   color: var(--muted);
 }
 
@@ -492,10 +456,10 @@ h3 {
   <div class="wrap">
     <!-- TODO: replace [Name] with the final company name everywhere on this page. -->
     <a class="brand" href="#top" aria-label="[Name] home">
-      <svg viewBox="0 0 26 26" aria-hidden="true">
-        <rect x="2" y="14" width="5" height="10" rx="1" fill="#f7e34a"/>
-        <rect x="10.5" y="8" width="5" height="16" rx="1" fill="#f7e34a"/>
-        <rect x="19" y="2" width="5" height="22" rx="1" fill="#f7e34a"/>
+      <svg viewBox="0 0 22 22" aria-hidden="true">
+        <rect x="1" y="12" width="5" height="9" fill="#0b0b0c"/>
+        <rect x="8.5" y="7" width="5" height="14" fill="#0b0b0c"/>
+        <rect x="16" y="1" width="5" height="20" fill="#0b0b0c"/>
       </svg>
       <span>[Name]</span>
     </a>
@@ -504,7 +468,9 @@ h3 {
       <a class="link" href="#markets">Markets</a>
       <a class="link" href="#what">What we do</a>
       <a class="link" href="#why">Why now</a>
-      <a class="btn small" href="#contact">Talk to us</a>
+      <a class="btn small" href="#contact">Talk to us
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
     </nav>
   </div>
 </header>
@@ -514,21 +480,37 @@ h3 {
   <!-- 1. Hero -->
   <section class="hero" aria-labelledby="hero-title">
     <div class="wrap">
-      <p class="eyebrow"><span class="dot" aria-hidden="true"></span>Decision intelligence for India's electricity markets</p>
-      <h1 id="hero-title">Smarter decisions for every <em>unit of power.</em></h1>
-      <p class="lead">Whether you own a battery, trade power or buy it for your business, we help you buy, sell and trade electricity at the right time, across every market.</p>
-      <div class="hero-actions">
-        <a class="btn" href="#contact">Talk to us
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-        </a>
-        <a class="btn-ghost" href="#markets">See the markets we cover</a>
+      <p class="eyebrow mono"><span>Decision intelligence</span><span>India's electricity markets</span></p>
+      <h1 id="hero-title">Smarter decisions for every <span class="soft">unit of power.</span></h1>
+      <div class="hero-row">
+        <p class="lead">Whether you own a battery, trade power or buy it for your business, we help you buy, sell and trade electricity at the right time, across every market.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#contact">Talk to us
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a class="btn outline" href="#markets">Markets we cover</a>
+        </div>
       </div>
 
-      <div class="ruler" aria-hidden="true"></div>
-      <div class="ruler-labels" aria-hidden="true">
-        <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span>
+      <div class="board" role="img" aria-label="Illustrative heatmap of one week of electricity prices in 15-minute blocks. Prices are low in the middle of each day and high in the evening.">
+        <div class="board-head mono" aria-hidden="true">
+          <span>One week, 96 blocks a day</span>
+          <span>Illustrative pattern</span>
+        </div>
+        <div class="board-body" aria-hidden="true">
+          <div class="board-days mono">
+            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+          </div>
+          <svg id="heat" viewBox="0 0 960 210" preserveAspectRatio="none"></svg>
+        </div>
+        <div class="board-axis mono" aria-hidden="true">
+          <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span>
+        </div>
+        <div class="board-foot mono" aria-hidden="true">
+          <span>Every block is a decision: buy, store, sell or hold</span>
+          <span class="scale">Lower <i></i> Higher price</span>
+        </div>
       </div>
-      <p class="ruler-caption">One trading day, 96 blocks of 15 minutes. Every one is a decision.</p>
     </div>
   </section>
 
@@ -536,31 +518,43 @@ h3 {
   <section class="section" id="who" aria-labelledby="who-title">
     <div class="wrap">
       <div class="section-head">
-        <p class="label">Who we help</p>
-        <div>
-          <h2 id="who-title">Built for everyone who buys, stores, sells or trades power.</h2>
-        </div>
+        <p class="label mono"><b>Who we help</b></p>
+        <h2 id="who-title">For everyone who buys, stores, sells or trades power.</h2>
       </div>
       <div class="audiences">
         <article class="audience">
-          <span class="tag">Storage</span>
-          <h3>Battery owners</h3>
+          <svg class="glyph" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="6" y="11" width="25" height="18"/><path d="M31 17h3v6h-3"/>
+            <rect x="9" y="14" width="5" height="12" fill="currentColor"/><rect x="16" y="14" width="5" height="12" fill="currentColor"/>
+          </svg>
+          <span class="tag mono">Storage</span>
+          <h3>Battery (BESS) owners</h3>
           <p>When to charge, when to discharge, and which market to sell in.</p>
         </article>
         <article class="audience">
-          <span class="tag">Trading</span>
+          <svg class="glyph" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M5 30h6v-8h6v-6h6v4h6v-10h6"/><path d="M5 35h30"/>
+          </svg>
+          <span class="tag mono">Trading</span>
           <h3>Traders</h3>
-          <p>Sharper views on prices across exchange markets, block by block.</p>
+          <p>Sharper views on prices across exchange markets.</p>
         </article>
         <article class="audience">
-          <span class="tag">Industry</span>
+          <svg class="glyph" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M5 34V18l8 5v-5l8 5v-5l8 5V8h6v26z"/><path d="M5 34h30"/>
+          </svg>
+          <span class="tag mono">Industry</span>
           <h3>Large consumers</h3>
-          <p>For factories, data centres and campuses: when and where to buy power to cut costs.</p>
+          <p>Factories, data centres and campuses: when and where to buy power to cut costs.</p>
         </article>
         <article class="audience">
-          <span class="tag">Renewables</span>
+          <svg class="glyph" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <circle cx="20" cy="12" r="5"/><path d="M20 3v2M20 19v2M11 12H9M31 12h-2M13.6 5.6l1.4 1.4M25 17l1.4 1.4M26.4 5.6L25 7M15 17l-1.4 1.4"/>
+            <path d="M6 35l4-10h20l4 10z"/><path d="M20 25v10M8 30h24"/>
+          </svg>
+          <span class="tag mono">Renewables</span>
           <h3>Renewable developers</h3>
-          <p>How to sell green power, and how to pair it with storage for the best return.</p>
+          <p>How to sell green power, and combine it with storage for the best return.</p>
         </article>
       </div>
     </div>
@@ -570,55 +564,55 @@ h3 {
   <section class="section" id="markets" aria-labelledby="markets-title">
     <div class="wrap">
       <div class="section-head">
-        <p class="label">Markets we cover</p>
+        <p class="label mono"><b>Markets we cover</b></p>
         <div>
-          <h2 id="markets-title">Every market where a unit of power can be bought or sold.</h2>
+          <h2 id="markets-title">Every market where a unit of power is bought or sold.</h2>
           <p class="sub">Exchange markets, green markets, grid services, certificates and contracts, in one view.</p>
         </div>
       </div>
       <div class="markets">
         <article class="market">
-          <div class="code-row"><span class="code">DAM</span><span class="horizon">Next day</span></div>
+          <div class="code-row"><span class="code">DAM</span><span class="horizon mono">Next day</span></div>
           <h3>Day-Ahead Market</h3>
-          <p>Next-day power, traded in 15-minute blocks.</p>
+          <p>Next-day power in 15-minute blocks.</p>
         </article>
         <article class="market">
-          <div class="code-row"><span class="code">RTM</span><span class="horizon">Same day</span></div>
+          <div class="code-row"><span class="code">RTM</span><span class="horizon mono">Same day</span></div>
           <h3>Real-Time Market</h3>
           <p>Power traded every half hour, close to delivery.</p>
         </article>
         <article class="market">
-          <div class="code-row"><span class="code">G-DAM</span><span class="horizon">Next day</span></div>
+          <div class="code-row"><span class="code">G-DAM</span><span class="horizon mono">Next day</span></div>
           <h3>Green Day-Ahead Market</h3>
           <p>Next-day renewable power.</p>
         </article>
         <article class="market">
-          <div class="code-row"><span class="code">G-TAM</span><span class="horizon">Days to weeks</span></div>
+          <div class="code-row"><span class="code">G-TAM</span><span class="horizon mono">Days to weeks</span></div>
           <h3>Green Term-Ahead Market</h3>
           <p>Renewable power for days to weeks ahead.</p>
         </article>
         <article class="market">
-          <div class="code-row"><span class="code">TAM</span><span class="horizon">Same day to weekly</span></div>
+          <div class="code-row"><span class="code">TAM</span><span class="horizon mono">Same day to weekly</span></div>
           <h3>Term-Ahead Market</h3>
           <p>Contracts from same-day to weekly.</p>
         </article>
         <article class="market">
-          <div class="code-row"><span class="code">HP-DAM</span><span class="horizon">Next day</span></div>
+          <div class="code-row"><span class="code">HP-DAM</span><span class="horizon mono">Next day</span></div>
           <h3>High-Price Day-Ahead Market</h3>
           <p>For costlier sources such as batteries and gas.</p>
         </article>
         <article class="market">
-          <div class="code-row"><span class="code">AS</span><span class="horizon">Grid support</span></div>
+          <div class="code-row"><span class="code">AS</span><span class="horizon mono">Grid support</span></div>
           <h3>Ancillary services</h3>
           <p>Paid support that keeps the grid stable.</p>
         </article>
         <article class="market">
-          <div class="code-row"><span class="code">REC</span><span class="horizon">Certificates</span></div>
+          <div class="code-row"><span class="code">REC</span><span class="horizon mono">Certificates</span></div>
           <h3>Renewable Energy Certificates</h3>
           <p>Certificates for the green attributes of renewable power.</p>
         </article>
         <article class="market">
-          <div class="code-row"><span class="code">Bilateral</span><span class="horizon">Contracts</span></div>
+          <div class="code-row"><span class="code">Bilateral</span><span class="horizon mono">Contracts</span></div>
           <h3>Short-term bilateral contracts</h3>
           <p>Direct deals between buyers and sellers, outside the exchange.</p>
         </article>
@@ -630,122 +624,94 @@ h3 {
   <section class="section" id="what" aria-labelledby="what-title">
     <div class="wrap">
       <div class="section-head">
-        <p class="label">What we do</p>
-        <div>
-          <h2 id="what-title">From price view to decision, for every unit.</h2>
-        </div>
+        <p class="label mono"><b>What we do</b></p>
+        <h2 id="what-title">From price view to decision, for every unit.</h2>
       </div>
-      <div class="section-body capabilities">
+      <div class="capabilities">
         <div class="capability">
-          <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 20l5-6 4 3 5-8"/>
-              <path d="M17 9l6-4" stroke-dasharray="2 2.5"/>
-              <path d="M3 23h20"/>
-            </svg>
-          </div>
-          <div>
-            <h3>Price forecasting</h3>
-            <p>Price forecasts across every market we cover, from next-day blocks to real-time trading.</p>
-          </div>
+          <svg class="icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M3 28l8-9 6 4 7-10"/><path d="M24 13l9-6" stroke-dasharray="2.5 3"/><path d="M3 33h30"/>
+          </svg>
+          <h3>Price forecasting</h3>
+          <p>Forecasts across every market we cover, from next-day blocks to real-time trading.</p>
         </div>
         <div class="capability">
-          <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="5" cy="13" r="2.5"/>
-              <path d="M7.5 13H12m0 0l9-7m-9 7h9m-9 0l9 7"/>
-              <circle cx="21.5" cy="6" r="1.6"/>
-              <circle cx="21.5" cy="13" r="1.6" fill="currentColor"/>
-              <circle cx="21.5" cy="20" r="1.6"/>
-            </svg>
-          </div>
-          <div>
-            <h3>Decision optimisation</h3>
-            <p>What to buy, sell or store, and when. Including the best market for each unit.</p>
-          </div>
+          <svg class="icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="3" y="15" width="6" height="6" fill="currentColor"/>
+            <path d="M9 18h7m0 0l10-10h5m-15 10h15m-15 0l10 10h5"/>
+            <rect x="29" y="15" width="5" height="6" fill="currentColor"/>
+          </svg>
+          <h3>Decision optimisation</h3>
+          <p>What to buy, sell or store, and when, including the best market for each unit.</p>
         </div>
         <div class="capability">
-          <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 7a9.5 9.5 0 1 1-1 6"/>
-              <path d="M4 3v4h4"/>
-              <path d="M13 8v5l3.5 2"/>
-            </svg>
-          </div>
-          <div>
-            <h3>Strategy testing</h3>
-            <p>Try a strategy on years of historical market data before anything goes live.</p>
-          </div>
+          <svg class="icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M6 10a13 13 0 1 1-2 8"/><path d="M5 4v6h6"/><path d="M18 11v7l5 3"/>
+          </svg>
+          <h3>Strategy testing</h3>
+          <p>Test a strategy on years of historical market data before anything goes live.</p>
         </div>
         <div class="capability">
-          <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="4" y="5" width="18" height="17" rx="2"/>
-              <path d="M4 10h18M9 3v4M17 3v4"/>
-              <path d="M9 15.5l2.5 2.5 5-5"/>
-            </svg>
-          </div>
-          <div>
-            <h3>Built for India</h3>
-            <p>Designed around India's market rules, bidding windows and timelines.</p>
-          </div>
+          <svg class="icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="4" y="6" width="28" height="26"/><path d="M4 13h28M11 3v6M25 3v6"/><path d="M12 22l4 4 8-8"/>
+          </svg>
+          <h3>Built for India</h3>
+          <p>Designed around India's market rules, bidding windows and timelines.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- 5. Why now -->
-  <section class="section" id="why" aria-labelledby="why-title">
+  <section class="section dark" id="why" aria-labelledby="why-title">
     <div class="wrap">
       <div class="section-head">
-        <p class="label">Why now</p>
+        <p class="label mono"><b>Why now</b></p>
         <div>
           <h2 id="why-title">The gap between a good decision and an average one has never been wider.</h2>
+          <p class="why-text" style="margin-top:2rem">India is adding solar, wind and battery storage faster than ever. <strong>Prices now swing sharply within a single day</strong> and differ across markets, so when you act and where you trade matter more than they ever have.</p>
         </div>
       </div>
-      <div class="section-body">
-        <p class="why-text">India is adding solar, wind and battery storage faster than ever. Prices now <span class="hl">swing sharply within a single day</span> and differ across markets, so the timing and the market you choose matter more than they ever have.</p>
 
-        <div class="chart-card">
-          <div class="chart-head">
-            <p class="chart-title">A typical day's price swing</p>
-            <p class="chart-note">Illustrative shape, 96 blocks of 15 minutes</p>
-          </div>
-          <div class="chart">
-            <svg id="swing" viewBox="0 0 960 360" role="img" aria-label="Illustrative day-ahead price curve: moderate overnight, a deep dip in the middle of the day when solar output is high, and a sharp peak in the evening as solar fades and demand rises."></svg>
-            <div class="chart-axis" aria-hidden="true">
-              <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span>
-            </div>
-          </div>
-          <ul class="chart-legend">
-            <li><span class="swatch low" aria-hidden="true"></span><span><strong>Midday dip.</strong> Solar floods the grid and prices fall. A good time to buy or charge.</span></li>
-            <li><span class="swatch high" aria-hidden="true"></span><span><strong>Evening peak.</strong> Solar fades, demand climbs and prices jump. A good time to sell or discharge.</span></li>
-            <li><span class="swatch gap" aria-hidden="true"></span><span><strong>The spread.</strong> The distance between the two is where good decisions pay.</span></li>
-          </ul>
+      <div class="chart-wrap">
+        <div class="chart-head mono">
+          <span>A day's price swing</span>
+          <span>Illustrative shape, 15-minute blocks</span>
         </div>
+        <svg id="swing" viewBox="0 0 960 340" role="img" aria-label="Illustrative price curve over one day: moderate overnight, a deep dip in the middle of the day when solar output is high, and a sharp peak in the evening as solar fades and demand rises."></svg>
+        <div class="chart-axis mono" aria-hidden="true">
+          <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span>
+        </div>
+        <ul class="chart-legend">
+          <li><span class="swatch low" aria-hidden="true"></span><span><strong>Midday dip.</strong> Solar floods the grid and prices fall. A time to buy or charge.</span></li>
+          <li><span class="swatch high" aria-hidden="true"></span><span><strong>Evening peak.</strong> Solar fades, demand climbs and prices jump. A time to sell or discharge.</span></li>
+          <li><span class="swatch gap" aria-hidden="true"></span><span><strong>The spread.</strong> The distance between the two is where good decisions pay.</span></li>
+        </ul>
       </div>
     </div>
   </section>
 
   <!-- 6. Contact -->
-  <section class="contact" id="contact" aria-labelledby="contact-title">
+  <section class="section contact" id="contact" aria-labelledby="contact-title">
     <div class="wrap">
       <div class="section-head">
-        <p class="label">Contact</p>
+        <p class="label mono"><b>Contact</b></p>
         <div>
           <h2 id="contact-title" class="contact-big">Talk to us.</h2>
-          <p class="lead">Tell us what you own, trade or buy, and we will show you how we can help.</p>
+          <p class="sub">Tell us what you own, trade or buy, and we will show you how we can help.</p>
         </div>
       </div>
       <!-- TODO: replace the email address and LinkedIn URL with the real ones. -->
-      <ul class="section-body contact-list">
+      <ul class="contact-list">
         <li><a class="contact-item" href="mailto:hello@example.com">
-          <span class="k">Email</span>
+          <span class="k mono">Email</span>
           <span class="v">hello@example.com</span>
+          <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 17L17 5M8 5h9v9"/></svg>
         </a></li>
         <li><a class="contact-item" href="https://www.linkedin.com/company/your-company" target="_blank" rel="noopener">
-          <span class="k">LinkedIn</span>
+          <span class="k mono">LinkedIn</span>
           <span class="v">[Name] on LinkedIn</span>
+          <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 17L17 5M8 5h9v9"/></svg>
         </a></li>
       </ul>
     </div>
@@ -754,20 +720,17 @@ h3 {
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">
+  <div class="wrap mono">
     <span>&copy; 2026 [Name]</span>
-    <span>Decision intelligence for India's electricity markets.</span>
+    <span>Decision intelligence for India's electricity markets</span>
   </div>
 </footer>
 
 <script>
-/* Draws the illustrative price-swing chart: 96 bars, one per 15-minute block.
-   The shape is a stylised example, not real market data, and carries no price values. */
+/* Both charts are stylised examples, not market data, and carry no price values. */
 (function () {
-  var svg = document.getElementById("swing");
-  if (!svg) return;
   var NS = "http://www.w3.org/2000/svg";
-  var W = 900, TOP = 16, BASE = 340;  // plot area; x 900-960 is kept for the spread marker
+  // Typical intraday shape: overnight plateau, morning ramp, solar dip, evening peak.
   var keys = [[0,.50],[3,.42],[5,.45],[7,.60],[9,.55],[10.5,.30],[12,.13],[14,.15],[15.5,.30],
               [17,.55],[18.5,.88],[19.5,1],[21,.94],[22.5,.70],[24,.52]];
   function level(h) {
@@ -779,54 +742,79 @@ h3 {
     }
     return keys[keys.length - 1][1];
   }
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
   function el(name, attrs) {
     var n = document.createElementNS(NS, name);
     for (var k in attrs) n.setAttribute(k, attrs[k]);
     return n;
   }
-  var css = getComputedStyle(document.documentElement);
-  var c = {
-    bar: css.getPropertyValue("--bar").trim(),
-    low: css.getPropertyValue("--bar-low").trim(),
-    high: css.getPropertyValue("--accent").trim(),
-    line: css.getPropertyValue("--line").trim(),
-    fg: css.getPropertyValue("--fg").trim(),
-    bg: css.getPropertyValue("--surface").trim()
-  };
-  var step = W / 96, gap = 2, minV = 1, maxV = 0, vals = [];
-  for (var i = 0; i < 96; i++) {
-    var h = (i + 0.5) / 4;
-    var v = level(h) + 0.025 * Math.sin(i * 1.7) + 0.015 * Math.sin(i * 0.45);
-    v = Math.max(0.06, Math.min(1, v));
-    vals.push(v);
-    if (v < minV) minV = v;
-    if (v > maxV) maxV = v;
+
+  // Hero heatmap: 7 days x 96 blocks, grayscale (white = cheaper, black = dearer).
+  var heat = document.getElementById("heat");
+  if (heat) {
+    var cw = 960 / 96, ch = 210 / 7;
+    for (var d = 0; d < 7; d++) {
+      var weekend = d >= 5 ? 0.1 : 0, sun = 0.06 * Math.sin(d * 2.1);
+      for (var i = 0; i < 96; i++) {
+        var h = (i + 0.5) / 4;
+        var v = level(h) - weekend - (h > 9 && h < 16 ? sun : 0)
+              + 0.05 * Math.sin(i * 1.3 + d * 2.7) + 0.03 * Math.sin(i * 0.37 + d);
+        v = clamp(v, 0, 1);
+        var g = Math.round(241 - v * 230);
+        heat.appendChild(el("rect", { x: (i * cw).toFixed(2), y: (d * ch).toFixed(2),
+          width: (cw - 1).toFixed(2), height: (ch - 2).toFixed(2), fill: "rgb(" + g + "," + g + "," + (g + 1) + ")" }));
+      }
+    }
   }
-  // Hour gridlines
-  for (var g = 0; g <= 24; g += 6) {
-    svg.appendChild(el("line", { x1: g * W / 24, x2: g * W / 24, y1: TOP, y2: BASE,
-      stroke: c.line, "stroke-width": 1, "stroke-dasharray": g === 0 || g === 24 ? "" : "3 5" }));
+
+  // Why-now chart: one day as a stepped line, 96 blocks.
+  var svg = document.getElementById("swing");
+  if (svg) {
+    var W = 900, TOP = 14, BASE = 326, span = BASE - TOP, step = W / 96;
+    var vals = [], minV = 1, maxV = 0;
+    for (var j = 0; j < 96; j++) {
+      var v2 = clamp(level((j + 0.5) / 4) + 0.025 * Math.sin(j * 1.7) + 0.015 * Math.sin(j * 0.45), 0.06, 1);
+      vals.push(v2); minV = Math.min(minV, v2); maxV = Math.max(maxV, v2);
+    }
+    function y(v) { return BASE - v * span; }
+
+    var defs = el("defs", {});
+    var pat = el("pattern", { id: "hatch", width: 7, height: 7, patternUnits: "userSpaceOnUse", patternTransform: "rotate(45)" });
+    pat.appendChild(el("line", { x1: 0, y1: 0, x2: 0, y2: 7, stroke: "#ffffff", "stroke-width": 1.5 }));
+    defs.appendChild(pat);
+    svg.appendChild(defs);
+
+    for (var g2 = 0; g2 <= 24; g2 += 6) {
+      svg.appendChild(el("line", { x1: g2 * W / 24, x2: g2 * W / 24, y1: TOP, y2: BASE,
+        stroke: "#3a3a40", "stroke-width": 1, "stroke-dasharray": "2 6" }));
+    }
+    // Filled regions: midday dip (10:00-16:00, hatched) and evening peak (18:00-22:00, solid).
+    function region(from, to, fill) {
+      var p = "M" + (from * step).toFixed(1) + " " + BASE;
+      for (var k = from; k < to; k++) p += "V" + y(vals[k]).toFixed(1) + "H" + ((k + 1) * step).toFixed(1);
+      p += "V" + BASE + "Z";
+      svg.appendChild(el("path", { d: p, fill: fill }));
+    }
+    region(40, 64, "url(#hatch)");
+    region(72, 88, "#ffffff");
+
+    var line = "M0 " + y(vals[0]).toFixed(1);
+    for (var m = 0; m < 96; m++) {
+      if (m) line += "V" + y(vals[m]).toFixed(1);
+      line += "H" + ((m + 1) * step).toFixed(1);
+    }
+    svg.appendChild(el("path", { d: line, fill: "none", stroke: "#ffffff", "stroke-width": 1.75 }));
+    svg.appendChild(el("line", { x1: 0, x2: W, y1: BASE, y2: BASE, stroke: "#ffffff", "stroke-width": 1 }));
+
+    // Spread marker in the right margin, with guides at the day's low and high.
+    var yHi = y(maxV), yLo = y(minV), xm = 935;
+    [yHi, yLo].forEach(function (yy) {
+      svg.appendChild(el("line", { x1: 0, x2: xm + 8, y1: yy, y2: yy, stroke: "#9a9aa0", "stroke-width": 1, "stroke-dasharray": "3 5" }));
+    });
+    svg.appendChild(el("line", { x1: xm, x2: xm, y1: yHi, y2: yLo, stroke: "#ffffff", "stroke-width": 2 }));
+    svg.appendChild(el("path", { d: "M" + (xm - 6) + " " + (yHi + 8) + "L" + xm + " " + yHi + "L" + (xm + 6) + " " + (yHi + 8), fill: "none", stroke: "#ffffff", "stroke-width": 2 }));
+    svg.appendChild(el("path", { d: "M" + (xm - 6) + " " + (yLo - 8) + "L" + xm + " " + yLo + "L" + (xm + 6) + " " + (yLo - 8), fill: "none", stroke: "#ffffff", "stroke-width": 2 }));
   }
-  var span = BASE - TOP;
-  for (var j = 0; j < 96; j++) {
-    var hr = j / 4, val = vals[j];
-    var fill = (hr >= 10 && hr < 16) ? c.low : (hr >= 18 && hr < 22) ? c.high : c.bar;
-    var bh = val * span;
-    svg.appendChild(el("rect", { x: (j * step + gap / 2).toFixed(2), y: (BASE - bh).toFixed(2),
-      width: (step - gap).toFixed(2), height: bh.toFixed(2), rx: 1.5, fill: fill }));
-  }
-  svg.appendChild(el("line", { x1: 0, x2: W, y1: BASE, y2: BASE, stroke: c.line, "stroke-width": 1.5 }));
-  // Spread marker: dashed guides at the day's low and high, joined by a bracket in the right margin
-  var yHi = BASE - maxV * span, yLo = BASE - minV * span, xm = 932;
-  [yHi, yLo].forEach(function (y) {
-    svg.appendChild(el("line", { x1: 0, x2: xm, y1: y, y2: y, stroke: c.fg, "stroke-opacity": .55,
-      "stroke-width": 1.25, "stroke-dasharray": "4 5" }));
-  });
-  svg.appendChild(el("line", { x1: xm, x2: xm, y1: yHi, y2: yLo, stroke: c.fg, "stroke-width": 2 }));
-  svg.appendChild(el("path", { d: "M" + (xm - 7) + " " + (yHi + 9) + "L" + xm + " " + yHi + "L" + (xm + 7) + " " + (yHi + 9),
-    fill: "none", stroke: c.fg, "stroke-width": 2 }));
-  svg.appendChild(el("path", { d: "M" + (xm - 7) + " " + (yLo - 9) + "L" + xm + " " + yLo + "L" + (xm + 7) + " " + (yLo - 9),
-    fill: "none", stroke: c.fg, "stroke-width": 2 }));
 })();
 </script>
 </body>
