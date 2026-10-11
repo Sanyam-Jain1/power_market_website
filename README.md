@@ -8,10 +8,12 @@ Everything lives in `index.html` (inline CSS and a small script that draws the "
 
 The site is served at https://zoltiq.in. The `CNAME` file tells GitHub Pages which domain to answer on.
 
-## Before going live
+## Contact form
 
-- Set up email for `hello@zoltiq.in` (the Contact section links to it).
-- Create the LinkedIn company page with the URL `linkedin.com/company/zoltiq`.
+"Talk to us", "Send us a message" and the floating "Contact us" button open a contact dialog.
+Messages are delivered to zolteqenergy@gmail.com by FormSubmit (formsubmit.co), a free form-to-email service.
+The first message ever sent triggers an activation email from FormSubmit to that inbox; click "Activate Form" once.
+To change the address, edit `CONTACT_EMAIL` and the `mailto:` link in `index.html`.
 
 ## Content rules
 
