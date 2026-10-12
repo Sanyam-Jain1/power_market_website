@@ -11,7 +11,7 @@ The site is served at https://zoltiq.in. The `CNAME` file tells GitHub Pages whi
 ## Contact form
 
 "Talk to us", "Send us a message" and the floating "Contact us" button open a contact dialog.
-Messages are delivered to zolteqenergy@gmail.com by FormSubmit (formsubmit.co), a free form-to-email service.
+Messages are delivered to zoltiqenergy@gmail.com by FormSubmit (formsubmit.co), a free form-to-email service.
 The first message ever sent triggers an activation email from FormSubmit to that inbox; click "Activate Form" once.
 To change the address, edit `CONTACT_EMAIL` and the `mailto:` link in `index.html`.
 
