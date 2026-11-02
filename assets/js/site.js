@@ -17,6 +17,40 @@
     if (el.tagName === "A") el.href = "mailto:" + CONFIG.contactEmail;
   });
 
+  /* ---- Theme: light (paper and ink) or dark (night and gold) -------------
+     Follows the device setting until the visitor picks one, then remembers it.
+     Pictures carry data-light / data-dark sources and follow the theme. */
+  var root = document.documentElement;
+  var mq = window.matchMedia ? matchMedia("(prefers-color-scheme: dark)") : null;
+  function currentTheme() {
+    var t = root.getAttribute("data-theme");
+    return t === "dark" || t === "light" ? t : (mq && mq.matches ? "dark" : "light");
+  }
+  function applyTheme() {
+    var t = currentTheme();
+    [].forEach.call(document.querySelectorAll("img[data-light][data-dark]"), function (img) {
+      var src = img.getAttribute("data-" + t);
+      if (img.getAttribute("src") !== src) img.setAttribute("src", src);
+    });
+    var btn = document.querySelector(".theme-toggle");
+    if (btn) {
+      btn.setAttribute("data-mode", t);
+      btn.setAttribute("aria-pressed", t === "dark" ? "true" : "false");
+      btn.setAttribute("aria-label", t === "dark" ? "Switch to light mode" : "Switch to dark mode");
+    }
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", t === "dark" ? "#0b0d12" : "#f4f3ee");
+  }
+  var toggle = document.querySelector(".theme-toggle");
+  if (toggle) toggle.addEventListener("click", function () {
+    var next = currentTheme() === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("theme", next); } catch (e) {}
+    applyTheme();
+  });
+  if (mq && mq.addEventListener) mq.addEventListener("change", applyTheme);
+  applyTheme();
+
   /* ---- Mobile menu ------------------------------------------------------ */
   var menuBtn = document.querySelector(".menu-btn");
   var nav = document.getElementById("site-nav");

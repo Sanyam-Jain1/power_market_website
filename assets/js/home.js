@@ -6,12 +6,6 @@
   /* ---- Now trading: the current 15-minute block in India (IST = UTC+5:30) ---- */
   function istMinutes(d) { return (d.getUTCHours() * 60 + d.getUTCMinutes() + 330) % 1440; }
   function hhmm(m) { m = (m + 1440) % 1440; var h = Math.floor(m / 60), mm = m % 60; return (h < 10 ? "0" : "") + h + ":" + (mm < 10 ? "0" : "") + mm; }
-  function phaseFor(m) {
-    if (m >= 600 && m < 900) return "noon";
-    if ((m >= 360 && m < 600) || (m >= 900 && m < 1050)) return "day";
-    if (m >= 1050 && m < 1170) return "sunset";
-    return "night";
-  }
   var blockEl = document.getElementById("now-block");
   var timeEl = document.getElementById("now-time");
   function tick() {
@@ -24,36 +18,6 @@
   }
   tick();
   setInterval(tick, 30000);
-
-  /* ---- Hero: the same view at four times of day, crossfading slowly ---- */
-  var hero = document.querySelector(".hero");
-  var slides = hero ? [].slice.call(hero.querySelectorAll(".hero-slide")) : [];
-  if (slides.length) {
-    var order = ["noon", "day", "sunset", "night"];
-    var current = order.indexOf(phaseFor(istMinutes(new Date())));
-    function show(i) {
-      slides.forEach(function (s) {
-        var on = s.getAttribute("data-phase") === order[i];
-        s.classList.toggle("is-on", on);
-        if (on && s.dataset.src && !s.getAttribute("src")) s.setAttribute("src", s.dataset.src);
-      });
-      hero.setAttribute("data-phase", order[i]);
-      if (header) header.classList.toggle("on-dark", order[i] === "night");
-    }
-    var header = document.querySelector(".site-header");
-    show(current);
-    if (!reduce) {
-      // Load the other three views after the page is ready, then cycle every 6 seconds.
-      addEventListener("load", function () {
-        slides.forEach(function (s) { if (s.dataset.src && !s.getAttribute("src")) s.setAttribute("src", s.dataset.src); });
-      });
-      var timer = setInterval(function () {
-        if (document.hidden || scrollY > innerHeight) return;
-        current = (current + 1) % order.length;
-        show(current);
-      }, 6000);
-    }
-  }
 
   /* ---- Sheets: choose a document, see it on the stage ---- */
   var tabs = [].slice.call(document.querySelectorAll("[data-sheet-tab]"));

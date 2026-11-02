@@ -41,6 +41,9 @@ const PAL={
  noon:{sky:'#ff8a2a',dots:'#ffd34d',sun:'#fff3c4',ink:'#141414',ground:'#e0611a',far:'#b8471a',sunX:0.64,sunY:0.17},
  day:{sky:'#5bbcff',dots:'#ffffff',sun:'#ffe27a',ink:'#101828',ground:'#2f7fd1',far:'#4a9ae8',sunX:0.58,sunY:0.26},
  sunset:{sky:'#e8314f',dots:'#ff9a3c',sun:'#ffd06a',ink:'#14070c',ground:'#8f1734',far:'#b9203f',sunX:0.56,sunY:0.6},
+ mono:{sky:'#f4f3ee',dots:'#ddd9cc',sun:'#ff7a1a',ink:'#141414',ground:'#e9e7df',far:'#d6d3c7',sunX:0.64,sunY:0.2},
+ gold:{sky:'#0b0d12',dots:'#3b2a0e',sun:'#ffb238',ink:'#ffb238',ground:'#0d1016',far:'#161b25',sunX:0.6,sunY:0.6},
+ blue:{sky:'#123f94',dots:'#1f57bd',sun:'#ffffff',ink:'#eaf1ff',ground:'#0e3480',far:'#1a4ca8',sunX:0.64,sunY:0.2},
  night:{sky:'#141d3d',dots:'#2a3d7c',sun:'#e8edff',ink:'#9fb2ff',ground:'#0b1122',far:'#1b2852',sunX:0.80,sunY:0.18,moon:true}
 };
 
@@ -76,73 +79,63 @@ function landscape(w,h,p,seed){
   return c;
 }
 
-function closeTower(w,h,seed){ // looking up a pylon against the noon sky
+
+const THEME={
+ light:{bg:'#f4f3ee',dots:'#d9d5c8',ink:'#141414',accent:'#ff7a1a',soft:'#e8e6dd',mid:'#cfcbbf',box:'#fbfaf6'},
+ dark:{bg:'#0b0d12',dots:'#3a2b10',ink:'#ffb238',accent:'#ffb238',soft:'#10141c',mid:'#1a202c',box:'#161b25'}
+};
+function closeTower(w,h,seed,P){
   const c=mk(w,h), x=c.getContext('2d');
-  x.fillStyle='#4db3ff'; x.fillRect(0,0,w,h);
-  halftone(x,w,h,(X,Y)=>Math.max(0,1-Math.hypot(X-w*0.78,Y-h*0.16)/(w*0.7))*0.9,'#ffffff',Math.round(w/70));
-  x.fillStyle='#ffe27a'; x.beginPath(); x.arc(w*0.78,h*0.16,w*0.12,0,6.283); x.fill();
-  x.strokeStyle='#111'; tower(x,w*0.45,h*1.25,h*1.35,w/170);
+  x.fillStyle=P.bg; x.fillRect(0,0,w,h);
+  halftone(x,w,h,(X,Y)=>Math.max(0,1-Math.hypot(X-w*0.78,Y-h*0.16)/(w*0.75))*0.9,P.dots,Math.round(w/70));
+  x.fillStyle=P.accent; x.beginPath(); x.arc(w*0.78,h*0.16,w*0.12,0,6.283); x.fill();
+  x.strokeStyle=P.ink; tower(x,w*0.45,h*1.25,h*1.35,w/170);
   [[w*0.02,h*0.31],[w*0.05,h*0.20]].forEach(a=>wire(x,[-20,a[1]+40],[w+20,a[1]],h*0.06,w/400));
-  grain(x,w,h,seed,0.04,'#111');
-  return c;
+  grain(x,w,h,seed,0.03,P.ink); return c;
 }
-
-function solarField(w,h,seed){
-  const c=mk(w,h), x=c.getContext('2d'), r=rng(seed);
-  x.fillStyle='#ff8126'; x.fillRect(0,0,w,h);
-  const hz=h*0.34;
-  halftone(x,w,h,(X,Y)=>Y<hz?Math.max(0,1-Math.hypot(X-w*0.5,Y-h*0.12)/(w*0.45)):0,'#ffd34d',Math.round(w/90));
-  x.fillStyle='#fff3c4'; x.beginPath(); x.arc(w*0.5,h*0.12,h*0.08,0,6.283); x.fill();
-  x.fillStyle='#e0611a'; x.fillRect(0,hz,w,h-hz);
-  // rows of panels in perspective
-  for(let i=0;i<14;i++){ const t=i/13, y=hz+ (h-hz)*Math.pow(t,1.7), hh=(h-hz)*0.05*(0.3+t*1.4);
-    x.fillStyle='#1a3f8f'; x.beginPath(); x.moveTo(0,y); x.lineTo(w,y); x.lineTo(w,y+hh); x.lineTo(0,y+hh); x.fill();
-    x.strokeStyle='#4db3ff'; x.lineWidth=Math.max(1,t*3); x.globalAlpha=0.6; for(let k=0;k<w;k+=20+t*90){ x.beginPath(); x.moveTo(k,y); x.lineTo(k+hh*0.4,y+hh); x.stroke(); } x.globalAlpha=1;
-    x.fillStyle='#111'; x.fillRect(0,y+hh,w,Math.max(1,hh*0.25)); }
-  grain(x,w,h,seed,0.04,'#111');
-  return c;
+function solarField(w,h,seed,P){
+  const c=mk(w,h), x=c.getContext('2d'); const hz=h*0.36;
+  x.fillStyle=P.bg; x.fillRect(0,0,w,h);
+  halftone(x,w,h,(X,Y)=>Y<hz?Math.max(0,1-Math.hypot(X-w*0.5,Y-h*0.13)/(w*0.5)):0,P.dots,Math.round(w/90));
+  x.fillStyle=P.accent; x.beginPath(); x.arc(w*0.5,h*0.13,h*0.08,0,6.283); x.fill();
+  x.fillStyle=P.soft; x.fillRect(0,hz,w,h-hz);
+  for(let i=0;i<14;i++){ const t=i/13, y=hz+(h-hz)*Math.pow(t,1.7), hh=(h-hz)*0.05*(0.3+t*1.4);
+    x.fillStyle=P.mid; x.fillRect(0,y,w,hh);
+    x.strokeStyle=P.ink; x.lineWidth=Math.max(1,t*2.5); x.globalAlpha=0.5; for(let k=0;k<w;k+=20+t*90){ x.beginPath(); x.moveTo(k,y); x.lineTo(k+hh*0.4,y+hh); x.stroke(); } x.globalAlpha=1;
+    x.fillStyle=P.ink; x.fillRect(0,y+hh,w,Math.max(1,hh*0.22)); }
+  grain(x,w,h,seed,0.03,P.ink); return c;
 }
-
-function batteryYard(w,h,seed){
-  const c=mk(w,h), x=c.getContext('2d');
-  x.fillStyle='#c5f53d'; x.fillRect(0,0,w,h);
-  const hz=h*0.42;
-  halftone(x,w,h,(X,Y)=>Y<hz?0.15+Y/hz*0.45:0,'#7cc21a',Math.round(w/110));
-  x.fillStyle='#5f9a12'; x.fillRect(0,hz,w,h-hz);
-  // containers in two rows
+function batteryYard(w,h,seed,P){
+  const c=mk(w,h), x=c.getContext('2d'); const hz=h*0.42;
+  x.fillStyle=P.bg; x.fillRect(0,0,w,h);
+  halftone(x,w,h,(X,Y)=>Y<hz?0.12+Y/hz*0.5:0,P.dots,Math.round(w/110));
+  x.fillStyle=P.accent; x.beginPath(); x.arc(w*0.8,h*0.16,h*0.07,0,6.283); x.fill();
+  x.fillStyle=P.soft; x.fillRect(0,hz,w,h-hz);
   [[hz+h*0.05,0.62],[hz+h*0.24,1]].forEach(([y,s])=>{ const cw=w*0.2*s, ch=h*0.17*s;
-    for(let X=-cw*0.3;X<w;X+=cw*1.12){ x.fillStyle='#f4f4ef'; x.fillRect(X,y,cw,ch);
-      x.fillStyle='#111'; for(let v=0;v<6;v++) x.fillRect(X+cw*0.08+v*cw*0.14,y+ch*0.18,cw*0.06,ch*0.5);
-      x.fillStyle='#de194b'; x.fillRect(X+cw*0.86,y+ch*0.22,cw*0.06,cw*0.06);
-      x.fillStyle='#111'; x.fillRect(X,y+ch,cw,ch*0.08); } });
-  // fence
-  x.strokeStyle='#111'; x.lineWidth=2; const fy=h*0.92; x.beginPath(); x.moveTo(0,fy-h*0.08); x.lineTo(w,fy-h*0.08); x.stroke();
+    for(let X=-cw*0.3;X<w;X+=cw*1.12){ x.fillStyle=P.box; x.fillRect(X,y,cw,ch); x.strokeStyle=P.ink; x.lineWidth=2; x.strokeRect(X,y,cw,ch);
+      x.fillStyle=P.ink; for(let v=0;v<6;v++) x.fillRect(X+cw*0.08+v*cw*0.14,y+ch*0.18,cw*0.06,ch*0.5);
+      x.fillStyle=P.accent; x.fillRect(X+cw*0.86,y+ch*0.22,cw*0.06,cw*0.06); } });
+  x.strokeStyle=P.ink; x.lineWidth=2; const fy=h*0.94; x.beginPath(); x.moveTo(0,fy-h*0.08); x.lineTo(w,fy-h*0.08); x.stroke();
   for(let X=0;X<w;X+=w/22){ x.beginPath(); x.moveTo(X,fy); x.lineTo(X,fy-h*0.1); x.stroke(); }
-  grain(x,w,h,seed,0.04,'#111');
-  return c;
+  grain(x,w,h,seed,0.03,P.ink); return c;
 }
-
-function windRidge(w,h,seed){
+function windRidge(w,h,seed,P){
   const c=mk(w,h), x=c.getContext('2d');
-  x.fillStyle='#161615'; x.fillRect(0,0,w,h);
-  halftone(x,w,h,(X,Y)=>Math.max(0,(Y/h)-0.25)*0.8,'#2a3f80',Math.round(w/100));
-  x.fillStyle='#4db3ff'; x.beginPath(); x.moveTo(0,h*0.72); for(let X=0;X<=w;X+=w/40) x.lineTo(X,h*0.66+Math.sin(X/w*5+1)*h*0.05); x.lineTo(w,h); x.lineTo(0,h); x.fill();
-  [[0.22,0.62,1],[0.55,0.6,0.8],[0.8,0.66,0.6]].forEach(([fx,fy,s],i)=>{ const X=w*fx, base=h*fy, th=h*0.5*s;
-    x.fillStyle='#f2f2f2'; x.beginPath(); x.moveTo(X-4*s,base); x.lineTo(X-1.5*s,base-th); x.lineTo(X+1.5*s,base-th); x.lineTo(X+4*s,base); x.fill();
-    const hx=X, hy=base-th; for(let b=0;b<3;b++){ const a=b*2.094+i*0.7; x.beginPath(); x.moveTo(hx,hy); x.lineTo(hx+Math.cos(a)*th*0.42,hy+Math.sin(a)*th*0.42); x.lineWidth=7*s; x.strokeStyle='#f2f2f2'; x.lineCap='round'; x.stroke(); }
-    x.fillStyle='#de194b'; x.beginPath(); x.arc(hx,hy,5*s,0,6.283); x.fill(); });
-  for(let i=0;i<160;i++){ x.fillStyle='#ffcf66'; x.globalAlpha=Math.random(); x.fillRect(Math.random()*w,h*0.8+Math.random()*h*0.15,2,2);} x.globalAlpha=1;
-  grain(x,w,h,seed,0.03,'#f2f2f2');
-  return c;
+  x.fillStyle=P.bg; x.fillRect(0,0,w,h);
+  halftone(x,w,h,(X,Y)=>Math.max(0,(Y/h)-0.2)*0.7,P.dots,Math.round(w/100));
+  x.fillStyle=P.accent; x.beginPath(); x.arc(w*0.12,h*0.2,h*0.06,0,6.283); x.fill();
+  x.fillStyle=P.soft; x.beginPath(); x.moveTo(0,h*0.74); for(let X=0;X<=w;X+=w/40) x.lineTo(X,h*0.7+Math.sin(X/w*5+1)*h*0.05); x.lineTo(w,h); x.lineTo(0,h); x.fill();
+  [[0.3,0.67,1],[0.6,0.66,0.8],[0.84,0.7,0.6]].forEach(([fx,fy,s],i)=>{ const X=w*fx, base=h*fy, th=h*0.52*s;
+    x.fillStyle=P.ink; x.beginPath(); x.moveTo(X-4*s,base); x.lineTo(X-1.5*s,base-th); x.lineTo(X+1.5*s,base-th); x.lineTo(X+4*s,base); x.fill();
+    const hy=base-th; for(let b=0;b<3;b++){ const a=b*2.094+i*0.7; x.beginPath(); x.moveTo(X,hy); x.lineTo(X+Math.cos(a)*th*0.42,hy+Math.sin(a)*th*0.42); x.lineWidth=7*s; x.strokeStyle=P.ink; x.lineCap='round'; x.stroke(); }
+    x.fillStyle=P.accent; x.beginPath(); x.arc(X,hy,6*s,0,6.283); x.fill(); });
+  grain(x,w,h,seed,0.03,P.ink); return c;
 }
-
 window.render=function(name,w,h){
-  let c;
-  if(name.startsWith('hero-')) c=landscape(w,h,PAL[name.slice(5)],11);
-  if(name==='tower') c=closeTower(w,h,5);
-  if(name==='solar') c=solarField(w,h,3);
-  if(name==='battery') c=batteryYard(w,h,9);
-  if(name==='wind') c=windRidge(w,h,4);
-  return c.toDataURL('image/jpeg',0.84);
+  const [subject,mode]=name.split('-');
+  const P=THEME[mode];
+  if(subject==='hero') return landscape(w,h,PAL[mode==='light'?'mono':'gold'],11).toDataURL('image/jpeg',0.8);
+  const f={tower:closeTower,solar:solarField,battery:batteryYard,wind:windRidge}[subject];
+  return f(w,h,{tower:5,solar:3,battery:9,wind:4}[subject],P).toDataURL('image/jpeg',0.8);
 };
 </script></body></html>

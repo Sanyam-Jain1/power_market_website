@@ -1,4 +1,4 @@
-/* Zoltiq — small SVG chart helpers, drawn in the site's print inks.
+/* Zoltiq — small SVG chart helpers, drawn for the white document sheets.
    Values are drawn relative to their own min/max, so the same code draws sample shapes now and real ₹/MWh later. */
 (function () {
   "use strict";
@@ -17,7 +17,7 @@
   }
 
   /* One day of 96 fifteen-minute blocks: day-ahead as a heavy step line, real-time dashed,
-     solar hours printed in saffron and the evening peak in crimson. */
+     solar hours tinted saffron and the evening peak in grey. */
   function dayCurve(svg, data) {
     var W = 960, H = 340, top = 14, base = 320;
     svg.setAttribute("viewBox", "0 0 " + W + " " + H);
@@ -25,14 +25,14 @@
     var ex = extent([data.dam].concat(data.rtm ? [data.rtm] : []));
     var x = function (i) { return (i / 96) * W; };
     var y = function (v) { return base - ((v - ex[0]) / (ex[1] - ex[0])) * (base - top) * 0.9 - (base - top) * 0.05; };
-    el("rect", { x: x(36), y: 0, width: x(64) - x(36), height: base, fill: "#ffb37a" }, svg);
-    el("rect", { x: x(72), y: 0, width: x(88) - x(72), height: base, fill: "#f7a3b8" }, svg);
+    el("rect", { x: x(36), y: 0, width: x(64) - x(36), height: base, fill: "#ffd2ad" }, svg);
+    el("rect", { x: x(72), y: 0, width: x(88) - x(72), height: base, fill: "#e4e1d8" }, svg);
     function stepPath(vals) {
       var d = "M0 " + y(vals[0]).toFixed(1);
       vals.forEach(function (v, i) { if (i) d += "V" + y(v).toFixed(1); d += "H" + x(i + 1).toFixed(1); });
       return d;
     }
-    if (data.rtm) el("path", { d: stepPath(data.rtm), fill: "none", stroke: "#1b6fd0", "stroke-width": 2, "stroke-dasharray": "6 5" }, svg);
+    if (data.rtm) el("path", { d: stepPath(data.rtm), fill: "none", stroke: "#8a877e", "stroke-width": 2, "stroke-dasharray": "6 5" }, svg);
     el("path", { d: stepPath(data.dam), fill: "none", stroke: "#111", "stroke-width": 3 }, svg);
     el("rect", { x: 0, y: base, width: W, height: 3, fill: "#111" }, svg);
   }

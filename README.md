@@ -5,10 +5,11 @@ Live at https://zoltiq.in (GitHub Pages, served from `master`; the `CNAME` file 
 
 Plain HTML, CSS and JavaScript. No build step.
 
-Design: "the printed annual". Young Serif headlines over Source Serif 4 text, whole sections in solid colour fields
-(saffron noon, afternoon sky, lime, sunset crimson, night), and halftone illustrations of India's grid.
-The page reads as one trading day; the hero shows the same view at noon, afternoon, sunset and night and
-marks the 15-minute block India is trading right now (IST).
+Design: "the printed annual", in black and white. Young Serif headlines over Source Serif 4 text.
+Light mode is paper and ink with one saffron accent; dark mode is night and gold. The site follows the
+visitor's device setting and the header button switches it (remembered per browser). Sections alternate
+plain and banded. Illustrations of India's grid come in a light and a dark version (`*-light.jpg`,
+`*-dark.jpg`) and swap with the theme. The hero marks the 15-minute block India is trading right now (IST).
 
 ## Structure
 
@@ -29,7 +30,7 @@ data/*.json                 Data the charts read
 
 ## Updating styles or scripts
 
-Pages link to `assets/...?v=<number>`. After changing any file in `assets/`, bump that number in every page so browsers fetch the new file instead of a cached copy.
+Pages link to `assets/...?v=<number>` (currently `v=3`). After changing any file in `assets/`, bump that number in every page so browsers fetch the new file instead of a cached copy.
 
 ## Data
 

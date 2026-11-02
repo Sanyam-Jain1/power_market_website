@@ -1,27 +1,37 @@
-/* Zoltiq — shared design system: "the printed annual".
+/* Zoltiq — shared design system: "the printed annual", in paper and ink (light) or night and gold (dark).
    The site reads like a well-edited report on India's power market. Serif type, solid fields of colour
    the way a print job uses spot inks, and pictures printed in halftone.
-   The colours are the sky over one trading day: saffron noon, afternoon blue, sunset crimson, night. */
+   One accent only: saffron in light mode, gold in dark mode. Sections alternate plain and banded. */
 
 :root {
-  /* Inks and fields */
-  --paper: #f5f5f1;
-  --paper-2: #ebebe5;
+  /* Light: paper and ink, one saffron. */
+  --bg: #f4f3ee;
+  --bg-2: #e8e6dd;
   --ink: #111111;
-  --ink-soft: #4a4a45;
-  --saffron: #ff8126;
-  --saffron-2: #ff9a4f;
-  --saffron-3: #ffb37a;
-  --saffron-ink-soft: #5c2a05;
-  --sky: #4db3ff;
-  --sky-ink-soft: #0c3a63;
-  --lime: #c5f53d;
-  --lime-ink-soft: #2f4a00;
-  --crimson: #de194b;
-  --night: #161615;
-  --night-2: #0d0d0c;
-  --night-ink: #f2f2ee;
-  --night-ink-soft: #b9b9b0;
+  --ink-soft: #55534c;
+  --band: #111111;
+  --band-ink: #f4f3ee;
+  --band-soft: #b5b2a8;
+  --accent: #ff7a1a;
+  --accent-ink: #111111;
+  --accent-soft: #ffd2ad;
+  --bar: #c6c2b6;
+  --card-1: #e8e6dd;
+  --card-2: #dddace;
+  --card-3: #d2cec1;
+  --card-ink: #111111;
+  --footer: #0b0b0b;
+  --footer-ink: #f4f3ee;
+  --footer-soft: #a9a69c;
+
+  /* Older names, kept as aliases of the roles above. */
+  --paper: var(--bg);
+  --paper-2: var(--bg-2);
+  --crimson: var(--accent);
+  --night: var(--band);
+  --night-2: var(--footer);
+  --night-ink: var(--footer-ink);
+  --night-ink-soft: var(--footer-soft);
 
   /* Type: Young Serif for display, Source Serif 4 for reading */
   --font-display: "Young Serif", Georgia, "Times New Roman", serif;
@@ -39,6 +49,25 @@
 
   color-scheme: light;
 }
+/* Dark: night and gold. Follows the device setting unless the visitor picks a theme. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0b0d12; --bg-2: #151922; --ink: #f2efe8; --ink-soft: #a8a59c;
+    --band: #14171f; --band-ink: #f2efe8; --band-soft: #a8a59c;
+    --accent: #ffb238; --accent-ink: #111111; --accent-soft: #4a3714; --bar: #2b3140;
+    --card-1: #1b1f28; --card-2: #222733; --card-3: #2a3040; --card-ink: #f2efe8;
+    --footer: #06070a; --footer-ink: #f2efe8; --footer-soft: #9a978e;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0b0d12; --bg-2: #151922; --ink: #f2efe8; --ink-soft: #a8a59c;
+  --band: #14171f; --band-ink: #f2efe8; --band-soft: #a8a59c;
+  --accent: #ffb238; --accent-ink: #111111; --accent-soft: #4a3714; --bar: #2b3140;
+  --card-1: #1b1f28; --card-2: #222733; --card-3: #2a3040; --card-ink: #f2efe8;
+  --footer: #06070a; --footer-ink: #f2efe8; --footer-soft: #9a978e;
+  color-scheme: dark;
+}
 
 *, *::before, *::after { box-sizing: border-box; }
 [hidden] { display: none !important; }
@@ -55,7 +84,7 @@ body {
 }
 img, svg, canvas, video { max-width: 100%; height: auto; display: block; }
 a { color: inherit; }
-:focus-visible { outline: 3px solid var(--crimson); outline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
 ::selection { background: var(--ink); color: var(--paper); }
 
 h1, h2, h3 {
@@ -103,7 +132,6 @@ p { margin: 0; }
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 .site-header.is-solid { background: var(--paper); }
-.site-header.on-dark:not(.is-solid) { color: var(--night-ink); }
 .site-header .frame {
   display: flex;
   align-items: center;
@@ -128,6 +156,18 @@ p { margin: 0; }
   transition: text-decoration-color 0.2s ease, text-underline-offset 0.2s ease;
 }
 .nav a:not(.btn):hover, .nav a[aria-current="page"] { text-decoration-color: currentColor; text-underline-offset: 4px; }
+.theme-toggle {
+  display: inline-grid; place-items: center;
+  width: 40px; height: 40px; padding: 0;
+  background: transparent; color: inherit;
+  border: 2px solid currentColor; cursor: pointer;
+}
+.theme-toggle svg { width: 18px; height: 18px; }
+.theme-toggle .sun, .theme-toggle[data-mode="dark"] .moon { display: none; }
+.theme-toggle[data-mode="dark"] .sun { display: block; }
+.header-tools { display: flex; align-items: center; gap: 0.75rem; order: 2; }
+.nav { order: 1; }
+.site-header .frame > .nav { margin-left: auto; }
 .menu-btn {
   display: none;
   padding: 0.6rem 1rem;
@@ -162,8 +202,8 @@ p { margin: 0; }
   align-items: center;
   gap: 0.75rem;
   padding: 1rem 1.4rem;
-  background: var(--crimson);
-  color: #fff;
+  background: var(--accent);
+  color: var(--accent-ink);
   border: 0;
   font: 600 1.0625rem/1 var(--font-text);
   text-decoration: none;
@@ -171,15 +211,15 @@ p { margin: 0; }
   cursor: pointer;
   transition: transform 0.18s ease, background-color 0.18s ease;
 }
-.btn:hover { background: #b8103b; transform: translateY(-2px); }
+.btn:hover { filter: brightness(1.08); transform: translateY(-2px); }
 .btn:active { transform: translateY(0); }
 .btn:disabled { opacity: 0.6; cursor: progress; transform: none; }
 .btn svg { width: 18px; height: 18px; transition: transform 0.18s ease; }
 .btn:hover svg { transform: translateX(4px); }
 .btn.paper { background: var(--paper); color: var(--ink); }
-.btn.paper:hover { background: #fff; }
+.btn.paper:hover { background: var(--bg-2); }
 .btn.ink { background: var(--ink); color: var(--paper); }
-.btn.ink:hover { background: #000; }
+.btn.ink:hover { filter: brightness(1.2); }
 .btn.small { padding: 0.7rem 1rem; font-size: 1rem; }
 .text-link {
   font-weight: 600;
@@ -191,11 +231,9 @@ p { margin: 0; }
 .text-link:hover { text-underline-offset: 8px; }
 
 /* ---------- Fields: whole sections in one flat colour ---------- */
-.field-saffron { background: var(--saffron); color: var(--ink); --soft: var(--saffron-ink-soft); }
-.field-sky { background: var(--sky); color: var(--ink); --soft: var(--sky-ink-soft); }
-.field-lime { background: var(--lime); color: var(--ink); --soft: var(--lime-ink-soft); }
-.field-crimson { background: var(--crimson); color: #fff; --soft: #ffd9e1; }
-.field-night { background: var(--night); color: var(--night-ink); --soft: var(--night-ink-soft); }
+.field-plain { background: var(--bg); color: var(--ink); --soft: var(--ink-soft); }
+.field-band { background: var(--band); color: var(--band-ink); --soft: var(--band-soft); }
+.field-band .btn.ink { background: var(--band-ink); color: var(--band); }
 .soft { color: var(--soft, var(--ink-soft)); }
 
 .section { padding-block: var(--gap-section); }
@@ -228,7 +266,7 @@ p { margin: 0; }
   font-size: 1.0625rem;
 }
 .field-input input::placeholder { color: #8a8a82; }
-.field-input input:focus, .field-input select:focus, .field-input textarea:focus { outline: 3px solid var(--crimson); outline-offset: 0; }
+.field-input input:focus, .field-input select:focus, .field-input textarea:focus { outline: 3px solid var(--accent); outline-offset: 0; }
 .form-status { margin: 0; min-height: 1.5em; font-size: 1rem; }
 
 /* ---------- Footer: the address is the headline ---------- */
@@ -261,11 +299,11 @@ p { margin: 0; }
   line-height: 0.92;
   letter-spacing: -0.03em;
   text-decoration: none;
-  color: var(--lime);
+  color: var(--accent);
   overflow-wrap: anywhere;
   transition: color 0.2s ease;
 }
-.footer-mail:hover { color: var(--night-ink); }
+.footer-mail:hover { color: var(--footer-ink); }
 .footer-meta {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
