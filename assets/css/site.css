@@ -1,28 +1,30 @@
-/* Zoltiq — shared design system: "the printed annual", in paper and ink (light) or night and gold (dark).
-   The site reads like a well-edited report on India's power market. Serif type, solid fields of colour
-   the way a print job uses spot inks, and pictures printed in halftone.
-   One accent only: saffron in light mode, gold in dark mode. Sections alternate plain and banded. */
+/* Zoltiq — shared design system: an energy control room.
+   A strong, slightly wide grotesk (Archivo) for headings and text, monospace for data labels,
+   crisp cool-white (light) or near-black (dark) grounds, rounded app-style panels, and halftone
+   illustrations of India's grid. One accent: saffron in light mode, gold in dark mode. */
 
 :root {
-  /* Light: paper and ink, one saffron. */
-  --bg: #f4f3ee;
-  --bg-2: #e8e6dd;
-  --ink: #111111;
-  --ink-soft: #55534c;
-  --band: #111111;
-  --band-ink: #f4f3ee;
-  --band-soft: #b5b2a8;
+  /* Light: cool white and ink, one saffron. */
+  --bg: #f6f7f9;
+  --bg-2: #eceef2;
+  --ink: #0d0f12;
+  --ink-soft: #565d69;
+  --line: rgba(13, 15, 18, 0.12);
+  --band: #0d0f12;
+  --band-ink: #f6f7f9;
+  --band-soft: #a9afba;
+  --band-line: rgba(255, 255, 255, 0.14);
   --accent: #ff7a1a;
-  --accent-ink: #111111;
-  --accent-soft: #ffd2ad;
-  --bar: #c6c2b6;
-  --card-1: #e8e6dd;
-  --card-2: #dddace;
-  --card-3: #d2cec1;
-  --card-ink: #111111;
-  --footer: #0b0b0b;
-  --footer-ink: #f4f3ee;
-  --footer-soft: #a9a69c;
+  --accent-ink: #0d0f12;
+  --accent-soft: #ffd8b8;
+  --bar: #cfd3da;
+  --card-1: #eceef2;
+  --card-2: #e3e6eb;
+  --card-3: #d9dde4;
+  --card-ink: #0d0f12;
+  --footer: #08090b;
+  --footer-ink: #f6f7f9;
+  --footer-soft: #9aa0aa;
 
   /* Older names, kept as aliases of the roles above. */
   --paper: var(--bg);
@@ -33,9 +35,11 @@
   --night-ink: var(--footer-ink);
   --night-ink-soft: var(--footer-soft);
 
-  /* Type: Young Serif for display, Source Serif 4 for reading */
-  --font-display: "Young Serif", Georgia, "Times New Roman", serif;
-  --font-text: "Source Serif 4", Georgia, "Times New Roman", serif;
+  /* Type: Archivo (wide cut for headings), JetBrains Mono for data labels */
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-text: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius: 14px;
 
   --step-small: 0.875rem;
   --step-body: clamp(1.125rem, 1.05rem + 0.3vw, 1.3125rem);
@@ -52,20 +56,20 @@
 /* Dark: night and gold. Follows the device setting unless the visitor picks a theme. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0b0d12; --bg-2: #151922; --ink: #f2efe8; --ink-soft: #a8a59c;
-    --band: #14171f; --band-ink: #f2efe8; --band-soft: #a8a59c;
-    --accent: #ffb238; --accent-ink: #111111; --accent-soft: #4a3714; --bar: #2b3140;
-    --card-1: #1b1f28; --card-2: #222733; --card-3: #2a3040; --card-ink: #f2efe8;
-    --footer: #06070a; --footer-ink: #f2efe8; --footer-soft: #9a978e;
+    --bg: #0b0d12; --bg-2: #151922; --ink: #eef0f4; --ink-soft: #9aa1ad; --line: rgba(255, 255, 255, 0.12);
+    --band: #12151c; --band-ink: #eef0f4; --band-soft: #9aa1ad; --band-line: rgba(255, 255, 255, 0.12);
+    --accent: #ffb238; --accent-ink: #0d0f12; --accent-soft: #4a3714; --bar: #2b3140;
+    --card-1: #1a1e27; --card-2: #212632; --card-3: #282e3c; --card-ink: #eef0f4;
+    --footer: #06070a; --footer-ink: #eef0f4; --footer-soft: #8d94a0;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0b0d12; --bg-2: #151922; --ink: #f2efe8; --ink-soft: #a8a59c;
-  --band: #14171f; --band-ink: #f2efe8; --band-soft: #a8a59c;
-  --accent: #ffb238; --accent-ink: #111111; --accent-soft: #4a3714; --bar: #2b3140;
-  --card-1: #1b1f28; --card-2: #222733; --card-3: #2a3040; --card-ink: #f2efe8;
-  --footer: #06070a; --footer-ink: #f2efe8; --footer-soft: #9a978e;
+  --bg: #0b0d12; --bg-2: #151922; --ink: #eef0f4; --ink-soft: #9aa1ad; --line: rgba(255, 255, 255, 0.12);
+  --band: #12151c; --band-ink: #eef0f4; --band-soft: #9aa1ad; --band-line: rgba(255, 255, 255, 0.12);
+  --accent: #ffb238; --accent-ink: #0d0f12; --accent-soft: #4a3714; --bar: #2b3140;
+  --card-1: #1a1e27; --card-2: #212632; --card-3: #282e3c; --card-ink: #eef0f4;
+  --footer: #06070a; --footer-ink: #eef0f4; --footer-soft: #8d94a0;
   color-scheme: dark;
 }
 
@@ -90,9 +94,10 @@ a { color: inherit; }
 h1, h2, h3 {
   margin: 0;
   font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 0.98;
+  font-weight: 700;
+  font-stretch: 112%;
+  letter-spacing: -0.035em;
+  line-height: 1;
   text-wrap: balance;
 }
 h2 { font-size: var(--step-head); }
@@ -141,8 +146,10 @@ p { margin: 0; }
 }
 .brand {
   font-family: var(--font-display);
-  font-size: 1.75rem;
-  letter-spacing: -0.03em;
+  font-weight: 800;
+  font-stretch: 118%;
+  font-size: 1.6rem;
+  letter-spacing: -0.04em;
   text-decoration: none;
   line-height: 1;
 }
@@ -160,7 +167,7 @@ p { margin: 0; }
   display: inline-grid; place-items: center;
   width: 40px; height: 40px; padding: 0;
   background: transparent; color: inherit;
-  border: 2px solid currentColor; cursor: pointer;
+  border: 1.5px solid currentColor; border-radius: 10px; cursor: pointer;
 }
 .theme-toggle svg { width: 18px; height: 18px; }
 .theme-toggle .sun, .theme-toggle[data-mode="dark"] .moon { display: none; }
@@ -174,6 +181,7 @@ p { margin: 0; }
   background: var(--ink);
   color: var(--paper);
   border: 0;
+  border-radius: 10px;
   font: 600 1rem var(--font-text);
   cursor: pointer;
 }
@@ -205,6 +213,7 @@ p { margin: 0; }
   background: var(--accent);
   color: var(--accent-ink);
   border: 0;
+  border-radius: 10px;
   font: 600 1.0625rem/1 var(--font-text);
   text-decoration: none;
   white-space: nowrap;
@@ -241,16 +250,24 @@ p { margin: 0; }
 .placeholder { opacity: 0.7; }
 
 /* Sample label: a printer's proof stamp on anything drawn from sample data. */
+/* Sample badge: marks anything drawn from sample data. */
 .proof {
-  display: inline-block;
-  padding: 0.3rem 0.6rem;
-  border: 2px solid currentColor;
-  font-family: var(--font-text);
-  font-size: var(--step-small);
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px dashed currentColor;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   line-height: 1.2;
-  transform: rotate(-2deg);
+  opacity: 0.85;
 }
+.proof::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.mono { font-family: var(--font-mono); font-size: 0.8125rem; letter-spacing: 0.04em; text-transform: uppercase; }
 
 /* ---------- Forms ---------- */
 .field-input { display: grid; gap: 0.45rem; min-width: 0; }
@@ -260,8 +277,8 @@ p { margin: 0; }
   padding: 0.9rem 1rem;
   background: var(--paper);
   color: var(--ink);
-  border: 2px solid var(--ink);
-  border-radius: 0;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
   font: inherit;
   font-size: 1.0625rem;
 }
@@ -295,7 +312,9 @@ p { margin: 0; }
 .footer-mail {
   margin-top: auto;
   font-family: var(--font-display);
-  font-size: clamp(2.6rem, 11.4vw, 12.5rem);
+  font-weight: 800;
+  font-stretch: 112%;
+  font-size: clamp(2.4rem, 10.2vw, 11rem);
   line-height: 0.92;
   letter-spacing: -0.03em;
   text-decoration: none;

@@ -10,8 +10,8 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Ctext x='16' y='24' font-family='Georgia' font-size='22' text-anchor='middle' fill='%23ff7a1a'%3EZ%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif:wght@400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
-<link rel="stylesheet" href="assets/css/site.css?v=3">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/css/site.css?v=4">
 <style>
 /* ================= Home ================= */
 
@@ -36,18 +36,14 @@
 }
 @keyframes drift { from { transform: scale(1.02); } to { transform: scale(1.08) translateX(-1%); } }
 .hero-copy { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-block: clamp(2rem, 6vh, 4rem); }
-.hero-label { font-size: var(--step-lead); margin-bottom: 1.25rem; }
+.hero-label { font-family: var(--font-mono); font-size: 0.875rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.5rem; }
 .hero h1 {
   font-size: clamp(2.75rem, 1.1rem + 4.7vw, 6.25rem);
   line-height: 0.96;
   max-width: 12.5ch;
 }
 .hero .lede { margin-top: 1.5rem; max-width: 36ch; }
-.hero .lede span, .now p span.strip-label {
-  background: var(--paper); color: var(--ink);
-  padding: 0.15em 0.4em; line-height: 1.75;
-  -webkit-box-decoration-break: clone; box-decoration-break: clone;
-}
+.now p { font-family: var(--font-mono); font-size: 0.875rem; font-weight: 500; letter-spacing: 0.02em; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
 
 .hero-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; padding-bottom: 1.25rem; }
@@ -60,7 +56,7 @@
 .daybar i:nth-child(n+73):nth-child(-n+88) { opacity: 0.9; }
 #now-marker { position: absolute; top: -10px; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: var(--accent); transition: left 0.6s ease; }
 .hero-cards { display: grid; grid-template-columns: repeat(2, 230px); gap: 16px; }
-.hero-card { display: block; text-decoration: none; background: var(--paper); color: var(--ink); transition: transform 0.2s ease; }
+.hero-card { display: block; text-decoration: none; background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; transition: transform 0.2s ease; }
 .hero-card:hover { transform: translateY(-4px); }
 .hero-card img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
 .hero-card span { display: flex; justify-content: space-between; gap: 0.5rem; padding: 0.7rem 0.8rem; font-size: 1rem; font-weight: 600; line-height: 1.25; }
@@ -82,11 +78,11 @@
 .intro { position: relative; padding-block: var(--gap-section) 0; }
 .intro-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: clamp(1.5rem, 3vw, 3rem); }
 .intro h2 { grid-column: 1 / -1; grid-row: 1; position: relative; z-index: 2; font-size: clamp(2.75rem, 1.4rem + 5vw, 6.25rem); max-width: 21ch; align-self: start; }
-.intro-pic { grid-column: 2; grid-row: 1 / span 3; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; margin-top: clamp(3rem, 5.5vw, 5rem); }
+.intro-pic { grid-column: 2; grid-row: 1 / span 3; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); margin-top: clamp(3rem, 5.5vw, 5rem); }
 .intro-body { grid-column: 1; grid-row: 2; padding-top: 2.5rem; display: grid; gap: 2.5rem; align-content: start; }
 .intro-body > p { font-size: var(--step-lead); line-height: 1.38; max-width: 30ch; }
 .offer { display: grid; gap: 0; margin: 0; }
-.offer a { display: grid; grid-template-columns: minmax(0, 12rem) minmax(0, 1fr); gap: 0.25rem 1.5rem; padding: 1.25rem 0; text-decoration: none; border-top: 3px solid var(--ink); transition: padding 0.2s ease; }
+.offer a { display: grid; grid-template-columns: minmax(0, 12rem) minmax(0, 1fr); gap: 0.25rem 1.5rem; padding: 1.25rem 0; text-decoration: none; border-top: 1px solid var(--line); transition: padding 0.2s ease; }
 .offer a:hover { padding-left: 0.75rem; }
 .offer dt { font-family: var(--font-display); font-size: var(--step-lead); }
 .offer dd { margin: 0; color: var(--ink-soft); }
@@ -105,12 +101,12 @@
 .tabs { display: grid; gap: 0.25rem; margin-top: 0.5rem; }
 .tabs button {
   text-align: left; background: none; border: 0; padding: 0.15rem 0; cursor: pointer;
-  font-family: var(--font-display); font-size: clamp(1.75rem, 1.1rem + 2vw, 3rem); line-height: 1.12; letter-spacing: -0.02em;
+  font-family: var(--font-display); font-weight: 600; font-size: clamp(1.75rem, 1.1rem + 2vw, 3rem); line-height: 1.12; letter-spacing: -0.03em;
   color: var(--ink-soft); transition: color 0.2s ease, transform 0.2s ease;
 }
 .tabs button:hover { color: var(--ink); transform: translateX(6px); }
 .tabs button[aria-pressed="true"] { color: var(--ink); }
-.stage { background: var(--band); min-height: 88svh; position: relative; overflow: hidden; padding: 72px 0 0 clamp(1rem, 4vw, 64px); }
+.stage { background: var(--band); border-radius: var(--radius); min-height: 88svh; position: relative; overflow: hidden; padding: 72px 0 0 clamp(1rem, 4vw, 64px); }
 @media (max-width: 860px) {
   .showcase { grid-template-columns: minmax(0, 1fr); row-gap: 2rem; }
   .tabs { grid-auto-flow: column; grid-auto-columns: max-content; overflow-x: auto; gap: 1.25rem; scroll-snap-type: x mandatory; padding-bottom: 0.5rem; }
@@ -118,38 +114,40 @@
   .stage { min-height: 70svh; padding: 16px 0 0 16px; margin-inline: calc(-1 * var(--margin)); }
 }
 
-/* The document on the stage: a real page of the product, at true size. */
+/* The product on the stage: a panel from the Zoltiq app, at true size. */
 .sheet {
   width: 560px; max-width: none;
-  background: #fff; color: #111;
-  padding: 28px 30px 40px;
-  font-family: var(--font-text);
+  background: var(--bg); color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px 26px 32px;
   font-size: 15px; line-height: 1.45;
-  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.55);
 }
 .sheet.swap { animation: sheet-in 0.35s ease; }
 @keyframes sheet-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-.sheet header { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-bottom: 12px; border-bottom: 3px solid #111; }
-.sheet header b { font-family: var(--font-display); font-weight: 400; font-size: 22px; letter-spacing: -0.02em; }
-.sheet header span { font-size: 14px; color: #555; }
-.sheet h3 { font-size: 28px; margin: 18px 0 6px; }
-.sheet .meta { font-size: 14px; color: #555; margin-bottom: 14px; }
-.sheet svg { width: 100%; height: auto; margin: 6px 0 4px; }
-.sheet .axis-row { display: flex; justify-content: space-between; font-size: 13px; color: #555; }
-.sheet .key { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; margin: 10px 0 14px; }
-.sheet .key i { display: inline-block; width: 14px; height: 10px; margin-right: 6px; vertical-align: -1px; }
+.sheet header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.sheet header b { font-family: var(--font-display); font-weight: 800; font-stretch: 112%; font-size: 18px; letter-spacing: -0.03em; }
+.sheet header span { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--ink-soft); text-transform: uppercase; }
+.sheet h3 { font-size: 22px; margin: 18px 0 6px; }
+.sheet .meta { font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); margin-bottom: 14px; }
+.sheet svg { width: 100%; height: auto; margin: 6px 0 4px; color: var(--ink); }
+.sheet .axis-row { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; color: var(--ink-soft); }
+.sheet .key { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; margin: 10px 0 14px; color: var(--ink-soft); }
+.sheet .key i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.sheet .key .k-dam { background: var(--ink); } .sheet .key .k-rtm { background: var(--ink-soft); }
+.sheet .key .k-sun { background: var(--accent-soft); } .sheet .key .k-eve { background: var(--bg-2); }
 .sheet table { width: 100%; border-collapse: collapse; font-size: 15px; }
-.sheet td { padding: 9px 0; border-top: 1px solid #ddd; }
-.sheet td:last-child { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+.sheet td { padding: 10px 0; border-top: 1px solid var(--line); }
+.sheet td:last-child { text-align: right; font-family: var(--font-mono); font-size: 14px; font-weight: 500; }
 .sheet .stamp-wrap { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-.sheet .proof { color: #111; flex: none; margin-top: 18px; background: #fff; }
+.sheet .proof { flex: none; margin-top: 18px; }
 .sheet p + p { margin-top: 10px; }
-.sheet .big { font-family: var(--font-display); font-size: 64px; line-height: 1; letter-spacing: -0.03em; margin: 16px 0 4px; }
-.sheet .note-body { font-size: 16px; line-height: 1.6; }
-.sheet .note-body p:first-child::first-letter { font-family: var(--font-display); float: left; font-size: 56px; line-height: 0.85; padding: 4px 8px 0 0; }
+.sheet .big { font-family: var(--font-display); font-weight: 800; font-stretch: 112%; font-size: 56px; line-height: 1; letter-spacing: -0.04em; margin: 16px 0 4px; }
+.sheet .note-body { font-size: 16px; line-height: 1.6; color: var(--ink-soft); }
 .sheet .mini-bars { display: grid; grid-template-columns: repeat(12, 1fr); gap: 4px; align-items: end; height: 110px; margin: 14px 0; }
-.sheet .mini-bars i { background: #111; }
-.sheet .mini-bars i:last-child { background: #ff7a1a; }
+.sheet .mini-bars i { background: var(--bar); border-radius: 3px 3px 0 0; }
+.sheet .mini-bars i:last-child { background: var(--accent); }
 .sheet .open { display: inline-block; margin-top: 16px; font-weight: 600; }
 
 /* ---- Research: cards that fold into spines ---- */
@@ -157,7 +155,7 @@
 .research-head { display: flex; justify-content: space-between; align-items: end; gap: 1rem 2rem; flex-wrap: wrap; margin-bottom: 3rem; }
 .deck { display: flex; gap: 0; height: 380px; overflow: hidden; }
 .deck-card {
-  position: relative; flex: none; width: 620px; height: 100%;
+  position: relative; flex: none; width: 620px; height: 100%; border-radius: var(--radius); margin-right: 8px;
   padding: 32px; display: flex; flex-direction: column; gap: 1rem;
   transition: width 0.55s cubic-bezier(.3,.7,.2,1);
   overflow: hidden;
@@ -166,7 +164,7 @@
 .deck-card:nth-child(3n+1) { background: var(--card-1); }
 .deck-card:nth-child(3n+2) { background: var(--card-2); }
 .deck-card:nth-child(3n+3) { background: var(--card-3); }
-.deck-card .tag { font-weight: 600; }
+.deck-card .tag { font-family: var(--font-mono); font-size: 0.8125rem; letter-spacing: 0.06em; text-transform: uppercase; }
 .deck-card h3 { font-size: clamp(1.75rem, 1.2rem + 1vw, 2.125rem); line-height: 1.1; max-width: 18ch; }
 .deck-card p { max-width: 44ch; }
 .deck-card .foot { margin-top: auto; display: flex; justify-content: space-between; gap: 1rem; font-size: 1rem; }
@@ -191,13 +189,13 @@
 /* ---- Index: bars standing on the edge ---- */
 .index { min-height: 90svh; position: relative; display: flex; flex-direction: column; padding-top: clamp(3rem, 7vw, 5rem); overflow: hidden; }
 .index-top { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: clamp(1.5rem, 3vw, 3rem); align-items: start; }
-.index-figure { font-family: var(--font-display); font-size: var(--step-display); line-height: 0.85; letter-spacing: -0.04em; }
+.index-figure { font-family: var(--font-display); font-weight: 800; font-stretch: 112%; font-size: var(--step-display); line-height: 0.85; letter-spacing: -0.05em; }
 .index-claim { font-size: var(--step-lead); margin-top: 0.75rem; }
 .index-text { display: grid; gap: 1.25rem; align-content: start; }
 .index-text h2 { font-size: var(--step-head); }
 .index-text .proof { justify-self: start; }
 #index-bars { margin-top: auto; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 8px; align-items: end; height: 58vh; padding-top: 4rem; }
-.edge-bar { position: relative; height: calc(var(--h) * 100%); background: var(--bar); border: 0; padding: 0; cursor: pointer; transition: background-color 0.2s ease, transform 0.6s cubic-bezier(.3,.7,.2,1); transform-origin: bottom; }
+.edge-bar { position: relative; height: calc(var(--h) * 100%); background: var(--bar); border: 0; border-radius: 6px 6px 0 0; padding: 0; cursor: pointer; transition: background-color 0.2s ease, transform 0.6s cubic-bezier(.3,.7,.2,1); transform-origin: bottom; }
 .js .index:not(.in) .edge-bar { transform: scaleY(0.05); }
 .edge-bar:hover, .edge-bar:focus-visible { background: var(--ink); }
 .edge-bar.is-latest { background: var(--accent); }
@@ -221,7 +219,7 @@
 .compare h3 { font-size: var(--step-lead); }
 .cbar { display: grid; gap: 0.4rem; }
 .cbar div { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; font-weight: 600; }
-.cbar i { display: block; height: 3rem; background: var(--band-soft); }
+.cbar i { display: block; height: 2.75rem; border-radius: 8px; background: var(--band-soft); }
 .cbar.opt i { background: var(--accent); }
 .strat { display: grid; gap: 1.25rem; }
 .strat h3 { font-size: clamp(1.75rem, 1.2rem + 1.2vw, 2.25rem); }
@@ -240,8 +238,8 @@
   .strat.flip .sched { order: 0; }
 }
 /* A day's schedule, hour by hour: the strategy's own output. */
-.sched { background: var(--bg); color: var(--ink); padding: 12px 14px; font-size: 13px; aspect-ratio: 3 / 4; display: grid; grid-template-rows: auto 1fr; gap: 8px; }
-.sched header { display: flex; justify-content: space-between; font-weight: 600; }
+.sched { background: var(--bg); color: var(--ink); border-radius: 12px; font-family: var(--font-mono); font-size: 11px; padding: 12px 14px; font-size: 13px; aspect-ratio: 3 / 4; display: grid; grid-template-rows: auto 1fr; gap: 8px; }
+.sched header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 10px; font-weight: 500; }
 .sched ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-rows: repeat(24, 1fr); gap: 2px; }
 .sched li { display: grid; grid-template-columns: 34px 1fr; align-items: center; gap: 6px; font-variant-numeric: tabular-nums; line-height: 1; }
 .sched li span { height: 100%; min-height: 6px; background: var(--bg-2); }
@@ -250,7 +248,8 @@
 @media (max-width: 860px) { .sched { aspect-ratio: auto; } .sched ol { grid-template-rows: none; } .sched li span { min-height: 10px; } }
 
 /* ---- Asset owners: three pictures, then the evening ---- */
-.strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 0 var(--margin); }
+.strip img { border-radius: var(--radius); }
 .strip img { width: 100%; height: 40svh; min-height: 220px; object-fit: cover; }
 @media (max-width: 760px) {
   .strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -264,7 +263,7 @@
 .owners h2 a:hover { text-underline-offset: 14px; }
 .owners .small { margin-top: 2rem; display: grid; gap: 0.25rem; font-size: 1.0625rem; max-width: 40ch; }
 .answered { justify-self: end; text-align: right; display: grid; gap: 0.25rem; font-size: 1.0625rem; }
-.answered b { font-family: var(--font-display); font-weight: 400; font-size: var(--step-lead); }
+.answered b { font-family: var(--font-display); font-weight: 700; font-size: var(--step-lead); }
 @media (max-width: 860px) { .owners-grid { grid-template-columns: minmax(0, 1fr); } .answered { justify-self: start; text-align: left; } }
 
 /* ---- About: side facts, wide paragraph ---- */
@@ -390,7 +389,7 @@
         <div class="stamp-wrap"><h3>96 blocks, day-ahead and real-time</h3><span class="proof">Sample shape</span></div>
         <svg id="day-curve" role="img" aria-label="Price across yesterday's 96 blocks on the day-ahead (solid) and real-time (dashed) markets. Sample shape: low through the solar hours, highest in the evening."></svg>
         <div class="axis-row" aria-hidden="true"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
-        <div class="key" aria-hidden="true"><span><i style="background:#111"></i>Day-ahead</span><span><i style="background:#8a877e"></i>Real-time</span><span><i style="background:#ffd2ad"></i>Solar hours</span><span><i style="background:#e4e1d8"></i>Evening peak</span></div>
+        <div class="key" aria-hidden="true"><span><i class="k-dam"></i>Day-ahead</span><span><i class="k-rtm"></i>Real-time</span><span><i class="k-sun"></i>Solar hours</span><span><i class="k-eve"></i>Evening peak</span></div>
         <table>
           <tr><td>Midday-to-evening spread</td><td>₹[X] / MWh</td></tr>
           <tr><td>Real-time vs day-ahead, daily average</td><td>₹[X] / MWh</td></tr>
@@ -560,10 +559,13 @@
     <div class="owners field-plain">
       <div class="frame owners-grid">
         <div>
-          <h2 id="owners-title" class="rise">Own a plant or a battery? <a href="asset-owners/#estimate">See what it could earn.</a></h2>
+          <h2 id="owners-title" class="rise">Own a plant or a battery? See what it could earn.</h2>
           <div class="small rise d1">
             <p>A free estimate from your asset's type, size and state.</p>
             <p>We run the numbers on India's exchanges and reply by email.</p>
+            <a class="btn" href="asset-owners/#estimate" style="justify-self:start;margin-top:1.25rem">Get a free estimate
+              <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg>
+            </a>
           </div>
         </div>
         <div class="answered rise d2">
@@ -655,9 +657,9 @@
   </div>
 </footer>
 
-<script src="assets/js/site.js?v=3"></script>
-<script src="assets/js/charts.js?v=3"></script>
-<script src="assets/js/home.js?v=3"></script>
+<script src="assets/js/site.js?v=4"></script>
+<script src="assets/js/charts.js?v=4"></script>
+<script src="assets/js/home.js?v=4"></script>
 <script>
   /* The two strategy schedules: a sample day, hour by hour (c = charge, s = sell). */
   (function () {

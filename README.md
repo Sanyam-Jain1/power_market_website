@@ -5,7 +5,8 @@ Live at https://zoltiq.in (GitHub Pages, served from `master`; the `CNAME` file 
 
 Plain HTML, CSS and JavaScript. No build step.
 
-Design: "the printed annual", in black and white. Young Serif headlines over Source Serif 4 text.
+Design: an energy control room, in black and white. Archivo (wide cut for headings) with JetBrains Mono for data labels,
+rounded app-style panels and halftone illustrations of India's grid.
 Light mode is paper and ink with one saffron accent; dark mode is night and gold. The site follows the
 visitor's device setting and the header button switches it (remembered per browser). Sections alternate
 plain and banded. Illustrations of India's grid come in a light and a dark version (`*-light.jpg`,
@@ -30,7 +31,7 @@ data/*.json                 Data the charts read
 
 ## Updating styles or scripts
 
-Pages link to `assets/...?v=<number>` (currently `v=3`). After changing any file in `assets/`, bump that number in every page so browsers fetch the new file instead of a cached copy.
+Pages link to `assets/...?v=<number>` (currently `v=4`). After changing any file in `assets/`, bump that number in every page so browsers fetch the new file instead of a cached copy.
 
 ## Data
 
