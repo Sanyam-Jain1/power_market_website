@@ -3,833 +3,350 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Zoltiq | Decision intelligence for India's electricity markets</title>
-<meta name="description" content="Decision intelligence for India's electricity markets: weather-driven forecasting, optimisation and algorithmic trading. We help battery owners, traders and large power consumers decide when to buy, store, sell or trade electricity.">
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
-<script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0c'/%3E%3Crect x='7' y='17' width='4' height='8' fill='%23fff'/%3E%3Crect x='14' y='11' width='4' height='14' fill='%23fff'/%3E%3Crect x='21' y='6' width='4' height='19' fill='%23fff'/%3E%3C/svg%3E">
+<title>Zoltiq | Energy Intelligence for India</title>
+<meta name="description" content="Market data, research and strategies for India's power exchanges, and the tools to turn them into returns for your plant or battery.">
+<meta name="theme-color" content="#07090f">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2307090f'/%3E%3Ctext x='16' y='23' font-family='Arial' font-weight='700' font-size='20' text-anchor='middle' fill='%23f3f2ef'%3EZ%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
 <style>
-/* Layout: monochrome, Swiss-style. One 1240px column, hairline rules between sections,
-   mono labels for data and market codes, one inverted (black) band for "Why now". */
-:root {
-  --paper: #ffffff;
-  --ink: #0b0b0c;
-  --ink-2: #3b3b3f;
-  --muted: #6c6c72;
-  --rule: #e2e2e5;
-  --hover-muted: #a9a9ae;   /* secondary text on an inverted (hovered) tile */
+/* ---------- Home only ---------- */
 
-  /* "Why now" band: inverted in light mode, a raised surface in dark mode */
-  --band-bg: #0b0b0c;
-  --band-fg: #ffffff;
-  --band-muted: #9a9aa0;
-  --band-rule: #2b2b30;
-  --band-ink-2: #c9c9cd;
-  --band-grid: #3a3a40;
-
-  --font-sans: "Geist", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-
-  --step--1: 0.75rem;
-  --step-0: 1rem;
-  --step-1: 1.1875rem;
-  --step-2: clamp(1.375rem, 1.1rem + 1vw, 1.75rem);
-  --step-3: clamp(2rem, 1.2rem + 3vw, 3.5rem);
-  --step-4: clamp(2.75rem, 1rem + 7.4vw, 7.25rem);
-
-  --gutter: clamp(1rem, 4vw, 2.5rem);
-  --max: 1240px;
-
-  color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #0b0b0c; --ink: #f2f2f3; --ink-2: #c4c4c9; --muted: #8e8e95; --rule: #26262a; --hover-muted: #55555b;
-    --band-bg: #161618; --band-fg: #f2f2f3; --band-muted: #9a9aa0; --band-rule: #2e2e33; --band-ink-2: #c9c9cd; --band-grid: #3a3a40;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --paper: #0b0b0c; --ink: #f2f2f3; --ink-2: #c4c4c9; --muted: #8e8e95; --rule: #26262a; --hover-muted: #55555b;
-  --band-bg: #161618; --band-fg: #f2f2f3; --band-muted: #9a9aa0; --band-rule: #2e2e33; --band-ink-2: #c9c9cd; --band-grid: #3a3a40;
-  color-scheme: dark;
-}
-
-*, *::before, *::after { box-sizing: border-box; }
-[hidden] { display: none !important; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-body {
-  margin: 0;
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-sans);
-  font-size: var(--step-0);
-  line-height: 1.55;
-  -webkit-font-smoothing: antialiased;
-}
-img, svg { max-width: 100%; }
-a { color: inherit; }
-:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
-::selection { background: var(--ink); color: var(--paper); }
-
-.wrap {
-  width: 100%;
-  max-width: calc(var(--max) + 2 * var(--gutter));
-  margin-inline: auto;
-  padding-inline: var(--gutter);
-}
-.mono {
-  font-family: var(--font-mono);
-  font-size: var(--step--1);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-/* ---------- Header ---------- */
-.site-header {
-  position: sticky;
-  top: env(safe-area-inset-top, 0px);
-  z-index: 10;
-  background: color-mix(in srgb, var(--paper) 90%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--rule);
-}
-.site-header .wrap {
+/* Hero: full-bleed. Words first, then the animated day in its own band along the bottom. */
+.hero {
+  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding-block: 0.875rem;
+  flex-direction: column;
+  min-height: max(100svh, 620px);
+  margin-top: -4.25rem;               /* run under the transparent header */
+  padding: calc(4.25rem + clamp(1.75rem, 6vh, 5rem)) 0 1.25rem;
+  overflow: hidden;
+  isolation: isolate;
 }
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.625rem;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1.0625rem;
-  letter-spacing: -0.02em;
+#hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+.hero-label { margin: 0 0 1.5rem; color: var(--ink-2); font-size: var(--step-0); }
+.hero h1 {
+  font-size: min(var(--step-4), 10.5vh);
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+  max-width: 15ch;
 }
-.brand svg { width: 22px; height: 22px; flex: none; }
-.nav { display: flex; align-items: center; gap: 2rem; }
-.nav a.link { text-decoration: none; color: var(--muted); font-size: 0.9375rem; }
-.nav a.link:hover { color: var(--ink); }
-.theme-toggle {
-  display: inline-grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  background: transparent;
-  color: var(--ink);
-  border: 1px solid var(--rule);
-  cursor: pointer;
-  transition: border-color 0.15s ease;
-}
-.theme-toggle:hover { border-color: var(--ink); }
-.theme-toggle svg { width: 18px; height: 18px; }
-.theme-toggle .sun, .theme-toggle[data-mode="dark"] .moon { display: none; }
-.theme-toggle[data-mode="dark"] .sun { display: block; }
-@media (max-width: 800px) { .nav a.link { display: none; } }
+.hero .lede { margin-top: 1.75rem; max-width: 46ch; color: var(--ink); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.25rem; }
+.hero-meta { padding-top: 2rem; display: flex; justify-content: flex-end; }
+.hero-clock { display: flex; align-items: baseline; gap: 0.75rem; }
+.hero-clock .time { font-size: clamp(1.5rem, 1rem + 2vw, 2.5rem); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.hero-clock .mono { color: var(--ink-2); }
+.hero-band { flex: 1 1 auto; min-height: 110px; max-height: 300px; margin-top: 0.75rem; }
+.hero > .wrap:first-of-type { flex: none; }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
+/* What we do: one glass strip, three parts. */
+.what { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.what a {
+  display: grid;
+  gap: 0.6rem;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+.what a + a { border-left: 1px solid var(--glass-edge); }
+.what a:hover { background: var(--glass-2); }
+.what h3 { font-size: var(--step-2); letter-spacing: -0.035em; }
+.what p { margin: 0; color: var(--ink-2); }
+.what .go { color: var(--muted); font-size: 0.9375rem; margin-top: 0.5rem; transition: color 0.2s ease; }
+.what a:hover .go { color: var(--ink); }
+@media (max-width: 760px) {
+  .what { grid-template-columns: minmax(0, 1fr); }
+  .what a + a { border-left: 0; border-top: 1px solid var(--glass-edge); }
+}
+
+/* Market snapshot. */
+.snapshot { display: grid; grid-template-columns: minmax(0, 2.1fr) minmax(0, 1fr); }
+.snap-chart { padding: clamp(1.25rem, 3vw, 2rem); min-width: 0; }
+.snap-chart .meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1rem; margin-bottom: 1.25rem; color: var(--muted); }
+#day-curve { display: block; width: 100%; height: auto; }
+.axis { display: flex; justify-content: space-between; margin-top: 0.5rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.key { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin-top: 1rem; color: var(--ink-2); font-size: 0.9375rem; }
+.key span { display: inline-flex; align-items: center; gap: 0.5rem; }
+.key i { display: inline-block; width: 18px; height: 0; border-top: 2px solid var(--ink); }
+.key i.rt { border-top: 2px dashed var(--dusk); }
+.key i.sun { height: 10px; border: 0; background: rgba(255, 182, 92, 0.35); }
+.key i.eve { height: 10px; border: 0; background: rgba(143, 176, 255, 0.4); }
+.snap-stats { display: grid; align-content: start; margin: 0; border-left: 1px solid var(--glass-edge); }
+.stat { padding: clamp(1.25rem, 3vw, 2rem); display: grid; gap: 0.35rem; }
+.stat + .stat { border-top: 1px solid var(--glass-edge); }
+.stat dt { color: var(--ink-2); font-size: 0.9375rem; }
+.stat dd { margin: 0; font-size: var(--step-2); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.stat dd small { font-size: 0.9375rem; color: var(--muted); letter-spacing: 0; }
+@media (max-width: 900px) {
+  .snapshot { grid-template-columns: minmax(0, 1fr); }
+  .snap-stats { border-left: 0; border-top: 1px solid var(--glass-edge); grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .stat + .stat { border-top: 0; border-left: 1px solid var(--glass-edge); }
+}
+@media (max-width: 560px) {
+  .snap-stats { grid-template-columns: minmax(0, 1fr); }
+  .stat + .stat { border-left: 0; border-top: 1px solid var(--glass-edge); }
+}
+
+/* Latest research. */
+.notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.note {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   gap: 1.5rem;
-  padding: 0.875rem 1.125rem;
-  background: var(--ink);
-  color: var(--paper);
-  border: 1px solid var(--ink);
-  font-weight: 500;
-  font-size: 0.9375rem;
+  min-height: 15rem;
+  padding: clamp(1.25rem, 2.5vw, 1.75rem);
   text-decoration: none;
-  white-space: nowrap;
-  font-family: inherit;
-  cursor: pointer;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
-.btn:hover { background: var(--paper); color: var(--ink); }
-.btn:disabled { opacity: 0.6; cursor: progress; }
-.btn svg { width: 16px; height: 16px; transition: transform 0.15s ease; }
-.btn:hover svg { transform: translateX(3px); }
-.btn.small { padding: 0.5rem 0.875rem; gap: 0.75rem; font-size: 0.875rem; }
-.btn.outline { background: transparent; color: var(--ink); border-color: var(--rule); }
-.btn.outline:hover { border-color: var(--ink); }
+.note:hover { background: var(--glass-2); transform: translateY(-2px); }
+.note .tag { color: var(--sun); font-size: 0.9375rem; }
+.note h3 { font-size: 1.375rem; line-height: 1.25; }
+.note .when { display: flex; gap: 1rem; color: var(--muted); font-size: 0.875rem; }
+@media (max-width: 900px) { .notes { grid-template-columns: minmax(0, 1fr); } .note { min-height: 0; } }
 
-/* ---------- Hero ---------- */
-.hero { padding-block: clamp(3.5rem, 9vw, 7.5rem) clamp(3rem, 6vw, 5rem); }
-.eyebrow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 1rem;
-  color: var(--muted);
-  margin: 0 0 clamp(1.5rem, 3vw, 2.5rem);
-}
-.eyebrow span + span::before { content: "/"; margin-right: 1rem; color: var(--rule); }
-@media (max-width: 600px) { .eyebrow { flex-direction: column; } .eyebrow span + span::before { content: none; } }
-h1 {
-  font-weight: 500;
-  font-size: var(--step-4);
-  line-height: 0.96;
-  letter-spacing: -0.055em;
-  margin: 0;
-  max-width: 13ch;
-  text-wrap: balance;
-}
-h1 .soft { color: var(--muted); }
-.hero-row {
+/* Index + strategies pair. */
+.pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); gap: 1rem; }
+@media (max-width: 900px) { .pair { grid-template-columns: minmax(0, 1fr); } }
+.card { padding: clamp(1.5rem, 3vw, 2.25rem); display: grid; gap: 1.25rem; align-content: start; min-width: 0; }
+.card-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.5rem 1rem; }
+.card h2 { font-size: var(--step-2); letter-spacing: -0.035em; }
+.index-value { display: grid; gap: 0.2rem; }
+.index-value strong { font-size: clamp(2.5rem, 1.6rem + 3vw, 4rem); font-weight: 500; letter-spacing: -0.04em; line-height: 1; }
+.index-value span { color: var(--muted); }
+#index-spark { display: block; width: 100%; height: auto; }
+.bars { display: grid; gap: 1.25rem; }
+.bar-row { display: grid; gap: 0.5rem; }
+.bar-label { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.bar-label span:last-child { color: var(--muted); font-variant-numeric: tabular-nums; }
+.bar-track { height: 2.5rem; background: rgba(255, 255, 255, 0.05); }
+.bar-fill { height: 100%; background: var(--ink-2); }
+.bar-fill.opt { background: var(--sun); }
+.card p { margin: 0; color: var(--ink-2); }
+
+/* Asset-owner band. */
+.owners {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 2rem;
+  grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr);
+  gap: 2rem 4rem;
   align-items: end;
-  margin-top: clamp(2rem, 4vw, 3rem);
+  padding: clamp(2rem, 6vw, 5rem);
+  background: rgba(143, 176, 255, 0.10);
+  border: 1px solid rgba(143, 176, 255, 0.25);
+  border-radius: var(--radius);
 }
-@media (min-width: 900px) { .hero-row { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); } }
-.hero .lead {
-  font-size: var(--step-1);
-  line-height: 1.5;
-  color: var(--ink-2);
-  max-width: 52ch;
-  margin: 0;
-}
-.hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-@media (min-width: 900px) { .hero-actions { justify-content: flex-end; } }
+.owners h2 { font-size: var(--step-3); max-width: 19ch; }
+.owners p { margin: 0 0 1.5rem; color: var(--ink-2); font-size: var(--step-1); }
+@media (max-width: 860px) { .owners { grid-template-columns: minmax(0, 1fr); } }
 
-/* Hero board: a week of 15-minute blocks as a grayscale heatmap */
-.board {
-  margin-top: clamp(3rem, 7vw, 5rem);
-  border: 1px solid var(--ink);
-}
-.board-head {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.5rem 1.5rem;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--ink);
-}
-.board-head span:first-child { color: var(--ink); }
-.board-head span { color: var(--muted); }
-.board-body {
-  display: grid;
-  grid-template-columns: 2.75rem minmax(0, 1fr);
-  gap: 0.75rem;
-  padding: 1rem 1rem 0;
-}
-.board-days {
-  display: grid;
-  grid-template-rows: repeat(7, 1fr);
-  color: var(--muted);
-  font-size: 0.6875rem;
-}
-.board-days span { display: flex; align-items: center; }
-#heat { display: block; width: 100%; height: clamp(150px, 22vw, 260px); }
-.board-axis {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.5rem 1rem 0.75rem calc(1rem + 2.75rem + 0.75rem);
-  color: var(--muted);
-  font-size: 0.6875rem;
-  font-variant-numeric: tabular-nums;
-}
-.board-foot {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.75rem 1.5rem;
-  padding: 0.75rem 1rem;
-  border-top: 1px solid var(--rule);
-  color: var(--muted);
-}
-.scale { display: inline-flex; align-items: center; gap: 0.625rem; }
-.scale i {
-  display: block;
-  width: 120px;
-  height: 8px;
-  background: linear-gradient(to right, color-mix(in srgb, var(--ink) 6%, var(--paper)), var(--ink));
-  border: 1px solid var(--rule);
-}
-
-/* ---------- Sections ---------- */
-section { scroll-margin-top: 4.5rem; }
-.section { padding-block: clamp(4rem, 9vw, 7.5rem); border-top: 1px solid var(--rule); }
-.section-head {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 1rem;
-  margin-bottom: clamp(2.5rem, 5vw, 4rem);
-}
-@media (min-width: 900px) {
-  .section-head { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 2rem; }
-}
-.label { color: var(--muted); margin: 0.75rem 0 0; }
-.label b { color: var(--ink); font-weight: 500; }
-h2 {
-  font-weight: 500;
-  font-size: var(--step-3);
-  line-height: 1.02;
-  letter-spacing: -0.045em;
-  margin: 0;
-  max-width: 18ch;
-  text-wrap: balance;
-}
-.section-head .sub { color: var(--muted); margin: 1.25rem 0 0; max-width: 56ch; font-size: var(--step-1); }
-h3 {
-  font-weight: 500;
-  font-size: var(--step-1);
-  line-height: 1.25;
-  letter-spacing: -0.02em;
-  margin: 0;
-  text-wrap: balance;
-}
-
-/* Who we help: four columns divided by hairlines */
-.audiences {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-top: 1px solid var(--ink);
-}
-@media (max-width: 1000px) { .audiences { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .audiences { grid-template-columns: minmax(0, 1fr); } }
-.audience {
-  display: flex;
-  flex-direction: column;
-  gap: 0.875rem;
-  min-width: 0;
-  padding: 1.5rem 1.5rem 2rem 0;
-  border-bottom: 1px solid var(--rule);
-}
-@media (min-width: 561px) {
-  .audience { padding-left: 1.5rem; border-left: 1px solid var(--rule); }
-  .audience:nth-child(odd) { padding-left: 0; border-left: 0; }
-}
-@media (min-width: 1001px) {
-  .audience:nth-child(odd) { padding-left: 1.5rem; border-left: 1px solid var(--rule); }
-  .audience:first-child { padding-left: 0; border-left: 0; }
-}
-.audience .glyph { width: 40px; height: 40px; color: var(--ink); margin-bottom: 1rem; }
-.audience .tag { color: var(--muted); }
-.audience p { margin: 0; color: var(--ink-2); }
-
-/* Markets: tile grid with shared hairlines */
-.markets {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-top: 1px solid var(--ink);
-  border-left: 1px solid var(--rule);
-}
-@media (max-width: 900px) { .markets { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .markets { grid-template-columns: minmax(0, 1fr); } }
-.market {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  min-width: 0;
-  padding: 1.5rem 1.5rem 1.75rem;
-  border-right: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-.market:hover { background: var(--ink); color: var(--paper); }
-.market:hover p, .market:hover .horizon { color: var(--hover-muted); }
-.market .code-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-}
-.market .code {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: 1.5rem;
-  letter-spacing: -0.02em;
-}
-.market .horizon { color: var(--muted); text-align: right; font-size: 0.6875rem; }
-.market h3 { font-size: 1rem; letter-spacing: -0.01em; }
-.market p { margin: 0; color: var(--muted); font-size: 0.9375rem; }
-
-/* Capabilities */
-.capabilities {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 2.5rem 2rem;
-}
-@media (max-width: 1000px) { .capabilities { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .capabilities { grid-template-columns: minmax(0, 1fr); } }
-.capability {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  min-width: 0;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--ink);
-}
-.capability .icon { width: 36px; height: 36px; margin-bottom: 0.75rem; }
-.capability p { margin: 0; color: var(--ink-2); }
-
-/* Why now: inverted band */
-.band {
-  background: var(--band-bg);
-  color: var(--band-fg);
-  border-top: 0;
-  --muted: var(--band-muted);
-  --rule: var(--band-rule);
-  --ink-2: var(--band-ink-2);
-}
-.band .label b { color: var(--band-fg); }
-.why-text {
-  font-size: var(--step-2);
-  line-height: 1.4;
-  letter-spacing: -0.02em;
-  color: var(--ink-2);
-  max-width: 36ch;
-  margin: 0;
-  text-wrap: pretty;
-}
-.why-text strong { color: var(--band-fg); font-weight: 500; }
-.chart-wrap { margin-top: clamp(2.5rem, 6vw, 4rem); border-top: 1px solid var(--band-fg); padding-top: 1rem; }
-.chart-head {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.5rem 1.5rem;
-  margin-bottom: 1.5rem;
-}
-.chart-head span:last-child { color: var(--muted); }
-#swing { display: block; width: 100%; height: auto; }
-#swing .fg { stroke: var(--band-fg); }
-#swing .fill { fill: var(--band-fg); }
-#swing .grid { stroke: var(--band-grid); }
-#swing .guide { stroke: var(--band-muted); }
-#heat rect { fill: var(--ink); }
-.chart-axis {
-  display: flex;
-  justify-content: space-between;
-  width: calc(100% * 900 / 960);
-  margin-top: 0.625rem;
-  color: var(--muted);
-  font-size: 0.6875rem;
-  font-variant-numeric: tabular-nums;
-}
-.chart-legend {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.25rem 2rem;
-  margin: 2rem 0 0;
-  padding: 0;
-  list-style: none;
-}
-@media (max-width: 760px) { .chart-legend { grid-template-columns: minmax(0, 1fr); } }
-.chart-legend li {
-  display: grid;
-  grid-template-columns: 18px minmax(0, 1fr);
-  gap: 0.875rem;
-  color: var(--muted);
-  font-size: 0.9375rem;
-}
-.chart-legend strong { color: var(--band-fg); font-weight: 500; }
-.swatch { width: 18px; height: 18px; margin-top: 0.15rem; border: 1px solid var(--band-fg); }
-.swatch.low { background: repeating-linear-gradient(135deg, var(--band-fg) 0 1.5px, transparent 1.5px 5px); }
-.swatch.high { background: var(--band-fg); }
-.swatch.gap { border: 0; border-left: 2px solid var(--band-fg); width: 2px; margin-left: 8px; }
-
-/* Contact */
-.contact-big {
-  font-weight: 500;
-  font-size: var(--step-4);
-  line-height: 0.96;
-  letter-spacing: -0.055em;
-  margin: 0;
-}
-.contact-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1rem 2rem;
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--ink);
-}
-.contact-mail { margin: 0; color: var(--muted); overflow-wrap: anywhere; }
-.contact-mail a { color: var(--ink); text-underline-offset: 4px; }
-
-/* Floating "Contact us" button */
-.fab {
-  position: fixed;
-  right: 16px;
-  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-  z-index: 20;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.625rem;
-  padding: 0.75rem 1.125rem;
-  background: var(--ink);
-  color: var(--paper);
-  border: 1px solid var(--ink);
-  font: 500 0.9375rem/1 var(--font-sans);
-  cursor: pointer;
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.45);
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-.fab svg { width: 16px; height: 16px; }
-.fab.is-hidden { opacity: 0; transform: translateY(10px); pointer-events: none; }
-
-/* Contact dialog */
-.dialog {
-  width: min(560px, calc(100% - 32px));
-  max-height: calc(100% - 32px);
-  padding: 0;
-  border: 1px solid var(--ink);
-  background: var(--paper);
-  color: var(--ink);
-  overflow: auto;
-}
-.dialog::backdrop { background: rgba(0, 0, 0, 0.55); }
-.dlg-inner { display: grid; gap: 1.25rem; padding: clamp(1.25rem, 4vw, 2rem); }
-.dlg-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
-.dlg-head h2 { font-size: var(--step-2); letter-spacing: -0.03em; max-width: none; }
-.dlg-sub { margin: -0.5rem 0 0; color: var(--muted); }
-.dlg-close {
-  display: inline-grid;
-  place-items: center;
-  flex: none;
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  background: transparent;
-  color: var(--ink);
-  border: 1px solid var(--rule);
-  cursor: pointer;
-}
-.dlg-close:hover { border-color: var(--ink); }
-.dlg-close svg { width: 16px; height: 16px; }
-.fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-@media (max-width: 520px) { .fields { grid-template-columns: minmax(0, 1fr); } }
-.field { display: grid; gap: 0.4rem; min-width: 0; }
-.field.full { grid-column: 1 / -1; }
-.field label { color: var(--muted); }
-.field input, .field select, .field textarea {
-  width: 100%;
-  padding: 0.7rem 0.8rem;
-  background: var(--paper);
-  color: var(--ink);
-  border: 1px solid var(--rule);
-  border-radius: 0;
-  font: inherit;
-  font-size: 1rem;
-}
-.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--ink); outline: none; }
-.field textarea { min-height: 7.5rem; resize: vertical; }
-.hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
-.dlg-foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.75rem 1rem; }
-.dlg-status { margin: 0; color: var(--muted); font-size: 0.875rem; flex: 1 1 14rem; }
-.dlg-status.is-error { color: var(--ink); }
-.dlg-done { display: grid; gap: 1rem; justify-items: start; }
-.dlg-done p { margin: 0; color: var(--muted); }
-
-/* Footer */
-.site-footer { border-top: 1px solid var(--ink); }
-.site-footer .wrap {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.5rem 2rem;
-  padding-block: 1.5rem;
-  color: var(--muted);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after { transition: none !important; animation: none !important; }
-}
+/* About. */
+.about { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 2rem 5rem; }
+.about p { margin: 0 0 1.25rem; font-size: var(--step-1); line-height: 1.55; color: var(--ink-2); max-width: 56ch; }
+.about p.founder { color: var(--ink); }
+@media (max-width: 860px) { .about { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </head>
 <body>
+<div class="sky" aria-hidden="true"></div>
+<a class="skip" href="#main">Skip to content</a>
 
 <header class="site-header">
   <div class="wrap">
-    
-    <a class="brand" href="#top" aria-label="Zoltiq home">
-      <svg viewBox="0 0 22 22" aria-hidden="true">
-        <rect x="1" y="12" width="5" height="9" fill="currentColor"/>
-        <rect x="8.5" y="7" width="5" height="14" fill="currentColor"/>
-        <rect x="16" y="1" width="5" height="20" fill="currentColor"/>
-      </svg>
-      <span>Zoltiq</span>
-    </a>
-    <nav class="nav" aria-label="Main">
-      <a class="link" href="#who">Who we help</a>
-      <a class="link" href="#markets">Markets</a>
-      <a class="link" href="#what">What we do</a>
-      <a class="link" href="#why">Why now</a>
-      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
-        <svg class="moon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 10.5A6.5 6.5 0 1 1 7.5 3a5 5 0 0 0 7.5 7.5z"/></svg>
-        <svg class="sun" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="9" cy="9" r="3.5"/><path d="M9 1v2M9 15v2M1 9h2M15 9h2M3.3 3.3l1.4 1.4M13.3 13.3l1.4 1.4M3.3 14.7l1.4-1.4M13.3 4.7l1.4-1.4"/></svg>
-      </button>
-      <a class="btn small" href="#contact" data-open-contact>Talk to us
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-      </a>
+    <a class="brand" href="./">Zoltiq</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <a href="battery-index/">Index</a>
+      <a href="markets/">Markets</a>
+      <a href="research/">Research</a>
+      <a href="strategies/">Strategies</a>
+      <a href="asset-owners/">For asset owners</a>
+      <a class="btn small" href="#subscribe">Subscribe</a>
     </nav>
   </div>
 </header>
 
-<main id="top">
+<main id="main">
 
   <!-- 1. Hero -->
   <section class="hero" aria-labelledby="hero-title">
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
     <div class="wrap">
-      <p class="eyebrow mono"><span>Decision intelligence</span><span>India's power markets</span><span>Weather-driven forecasting</span><span>Algorithmic trading</span></p>
-      <h1 id="hero-title">Smarter decisions for every <span class="soft">unit of power.</span></h1>
-      <div class="hero-row">
-        <p class="lead">Whether you own a battery, trade power or buy it for your business, we help you buy, sell and trade electricity at the right time, across every market.</p>
-        <div class="hero-actions">
-          <a class="btn" href="#contact" data-open-contact>Talk to us
+      <p class="hero-label">Energy Intelligence for India</p>
+      <h1 id="hero-title">Every unit of power has a best time to sell. We find it.</h1>
+      <p class="lede">Market data, research and strategies for India's power exchanges, and the tools to turn them into returns for your plant or battery.</p>
+      <div class="hero-actions">
+        <a class="btn" href="markets/">Explore the market
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+        <a class="btn ghost" href="asset-owners/">See what your asset could earn</a>
+      </div>
+    </div>
+    <div class="wrap hero-meta" aria-hidden="true">
+      <div class="hero-clock">
+        <span class="mono"><span id="hero-phase">Morning ramp</span> · one day, 96 blocks</span>
+        <span class="time" id="hero-clock">07:00</span>
+      </div>
+    </div>
+    <div class="hero-band" aria-hidden="true"></div>
+  </section>
+
+  <!-- 2. What we do -->
+  <section class="section" aria-labelledby="what-title">
+    <div class="wrap reveal">
+      <h2 id="what-title" class="section-head">What we do</h2>
+      <div class="what glass">
+        <a href="markets/">
+          <h3>Market data</h3>
+          <p>Daily prices across India's power exchanges, block by block.</p>
+          <span class="go">Markets →</span>
+        </a>
+        <a href="research/">
+          <h3>Research</h3>
+          <p>Short notes on what the numbers mean for batteries, plants and buyers.</p>
+          <span class="go">Research →</span>
+        </a>
+        <a href="strategies/">
+          <h3>Strategies</h3>
+          <p>Backtested schedules, published as results rather than rules.</p>
+          <span class="go">Strategies →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Market snapshot -->
+  <section class="section" aria-labelledby="snap-title">
+    <div class="wrap reveal">
+      <div class="section-head">
+        <div>
+          <h2 id="snap-title">Yesterday on the exchange</h2>
+          <p class="lede">The day-ahead price across all 96 blocks, with real-time on top and the spread from the midday low to the evening high.</p>
+        </div>
+        <a class="link-arrow" href="markets/">Open Markets →</a>
+      </div>
+      <div class="snapshot glass">
+        <div class="snap-chart">
+          <div class="meta mono">
+            <span>IEX day-ahead and real-time · <span class="placeholder">[date]</span></span>
+            <span class="sample-tag" data-sample-tag>Sample data</span>
+          </div>
+          <svg id="day-curve" role="img" aria-label="Price across the 96 blocks of yesterday on the day-ahead and real-time markets. Currently a sample shape: low through the solar hours, highest in the evening."></svg>
+          <div class="axis mono" aria-hidden="true"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+          <div class="key" aria-hidden="true">
+            <span><i></i>Day-ahead</span>
+            <span><i class="rt"></i>Real-time</span>
+            <span><i class="sun"></i>Solar hours</span>
+            <span><i class="eve"></i>Evening peak</span>
+          </div>
+        </div>
+        <dl class="snap-stats">
+          <div class="stat">
+            <dt>Midday-to-evening spread</dt>
+            <dd>₹[X] <small>/ MWh</small></dd>
+          </div>
+          <div class="stat">
+            <dt>Real-time vs day-ahead, daily average</dt>
+            <dd>₹[X] <small>/ MWh</small></dd>
+          </div>
+          <div class="stat">
+            <dt>Highest block</dt>
+            <dd>[HH:MM]</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Latest research -->
+  <section class="section" aria-labelledby="research-title">
+    <div class="wrap reveal">
+      <div class="section-head">
+        <h2 id="research-title">Latest research</h2>
+        <a class="link-arrow" href="research/">All research →</a>
+      </div>
+      <div class="notes">
+        <a class="note glass" href="research/">
+          <span class="tag">Batteries</span>
+          <h3>The 1pm / 10pm rule: how much of a battery's value one simple schedule captures</h3>
+          <span class="when"><span>[Date]</span><span>[X] min read</span></span>
+        </a>
+        <a class="note glass" href="research/">
+          <span class="tag">Exchanges</span>
+          <h3>Will the spread survive? What more batteries do to the evening peak</h3>
+          <span class="when"><span>[Date]</span><span>[X] min read</span></span>
+        </a>
+        <a class="note glass" href="research/">
+          <span class="tag">Renewables</span>
+          <h3>What a solar plant gives up by selling at noon</h3>
+          <span class="when"><span>[Date]</span><span>[X] min read</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 + 6. Battery Index and strategies -->
+  <section class="section" aria-label="Battery Index and strategies">
+    <div class="wrap pair reveal">
+      <article class="card glass">
+        <div class="card-top">
+          <h2>Zoltiq Battery Index</h2>
+          <span class="sample-tag">Sample shape</span>
+        </div>
+        <div class="index-value">
+          <strong>₹[X]</strong>
+          <span>per MW, <span class="placeholder">[Month YYYY]</span></span>
+        </div>
+        <svg id="index-spark" role="img" aria-label="Monthly Battery Index over recent months. Currently a sample shape."></svg>
+        <p>What a standard battery earned each month on the day-ahead and real-time markets.</p>
+        <a class="link-arrow" href="battery-index/">See the Index →</a>
+      </article>
+
+      <article class="card glass">
+        <div class="card-top">
+          <h2>Simple schedule vs optimised</h2>
+          <span class="sample-tag">Sample proportions</span>
+        </div>
+        <p>A battery that charges at 1pm and sells at 10pm every day, against one scheduled block by block across day-ahead and real-time.</p>
+        <div class="bars">
+          <div class="bar-row">
+            <div class="bar-label"><span>Simple 1pm / 10pm schedule</span><span>₹[X] per MW-year</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:64%"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>Optimised schedule</span><span>₹[X] per MW-year</span></div>
+            <div class="bar-track"><div class="bar-fill opt" style="width:92%"></div></div>
+          </div>
+        </div>
+        <a class="link-arrow" href="strategies/">See all strategies →</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- 7. Asset owners -->
+  <section class="section" aria-labelledby="owners-title">
+    <div class="wrap reveal">
+      <div class="owners">
+        <h2 id="owners-title">Own a plant or a battery? See what it could earn.</h2>
+        <div>
+          <p>Tell us about your asset and we'll show you what it could have earned on India's power exchanges.</p>
+          <a class="btn" href="asset-owners/#estimate">Get a free estimate
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
           </a>
-          <a class="btn outline" href="#markets">Markets we cover</a>
-        </div>
-      </div>
-
-      <div class="board" role="img" aria-label="Illustrative heatmap of one week of electricity prices in 15-minute blocks. Prices are low in the middle of each day and high in the evening.">
-        <div class="board-head mono" aria-hidden="true">
-          <span>One week, 96 blocks a day</span>
-          <span>Illustrative pattern</span>
-        </div>
-        <div class="board-body" aria-hidden="true">
-          <div class="board-days mono">
-            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
-          </div>
-          <svg id="heat" viewBox="0 0 960 210" preserveAspectRatio="none"></svg>
-        </div>
-        <div class="board-axis mono" aria-hidden="true">
-          <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span>
-        </div>
-        <div class="board-foot mono" aria-hidden="true">
-          <span>Every block is a decision: buy, store, sell or hold</span>
-          <span class="scale">Lower <i></i> Higher price</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 2. Who we help -->
-  <section class="section" id="who" aria-labelledby="who-title">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="label mono"><b>Who we help</b></p>
-        <h2 id="who-title">For everyone who buys, stores, sells or trades power.</h2>
-      </div>
-      <div class="audiences">
-        <article class="audience">
-          <svg class="glyph" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <rect x="6" y="11" width="25" height="18"/><path d="M31 17h3v6h-3"/>
-            <rect x="9" y="14" width="5" height="12" fill="currentColor"/><rect x="16" y="14" width="5" height="12" fill="currentColor"/>
-          </svg>
-          <span class="tag mono">Storage</span>
-          <h3>Battery (BESS) owners</h3>
-          <p>When to charge, when to discharge, and which market to sell in.</p>
-        </article>
-        <article class="audience">
-          <svg class="glyph" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path d="M5 30h6v-8h6v-6h6v4h6v-10h6"/><path d="M5 35h30"/>
-          </svg>
-          <span class="tag mono">Trading</span>
-          <h3>Traders</h3>
-          <p>Sharper price views and algorithmic strategies across exchange markets.</p>
-        </article>
-        <article class="audience">
-          <svg class="glyph" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path d="M5 34V18l8 5v-5l8 5v-5l8 5V8h6v26z"/><path d="M5 34h30"/>
-          </svg>
-          <span class="tag mono">Industry</span>
-          <h3>Large consumers</h3>
-          <p>Factories, data centres and campuses: when and where to buy power to cut costs.</p>
-        </article>
-        <article class="audience">
-          <svg class="glyph" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <circle cx="20" cy="12" r="5"/><path d="M20 3v2M20 19v2M11 12H9M31 12h-2M13.6 5.6l1.4 1.4M25 17l1.4 1.4M26.4 5.6L25 7M15 17l-1.4 1.4"/>
-            <path d="M6 35l4-10h20l4 10z"/><path d="M20 25v10M8 30h24"/>
-          </svg>
-          <span class="tag mono">Renewables</span>
-          <h3>Renewable developers</h3>
-          <p>How to sell green power, and combine it with storage for the best return.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- 3. Markets we cover -->
-  <section class="section" id="markets" aria-labelledby="markets-title">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="label mono"><b>Markets we cover</b></p>
-        <div>
-          <h2 id="markets-title">Every market where a unit of power is bought or sold.</h2>
-          <p class="sub">Exchange markets, green markets, grid services, certificates and contracts, in one view.</p>
-        </div>
-      </div>
-      <div class="markets">
-        <article class="market">
-          <div class="code-row"><span class="code">DAM</span><span class="horizon mono">Next day</span></div>
-          <h3>Day-Ahead Market</h3>
-          <p>Next-day power in 15-minute blocks.</p>
-        </article>
-        <article class="market">
-          <div class="code-row"><span class="code">RTM</span><span class="horizon mono">Same day</span></div>
-          <h3>Real-Time Market</h3>
-          <p>Power traded every half hour, close to delivery.</p>
-        </article>
-        <article class="market">
-          <div class="code-row"><span class="code">G-DAM</span><span class="horizon mono">Next day</span></div>
-          <h3>Green Day-Ahead Market</h3>
-          <p>Next-day renewable power.</p>
-        </article>
-        <article class="market">
-          <div class="code-row"><span class="code">G-TAM</span><span class="horizon mono">Days to weeks</span></div>
-          <h3>Green Term-Ahead Market</h3>
-          <p>Renewable power for days to weeks ahead.</p>
-        </article>
-        <article class="market">
-          <div class="code-row"><span class="code">TAM</span><span class="horizon mono">Same day to weekly</span></div>
-          <h3>Term-Ahead Market</h3>
-          <p>Contracts from same-day to weekly.</p>
-        </article>
-        <article class="market">
-          <div class="code-row"><span class="code">HP-DAM</span><span class="horizon mono">Next day</span></div>
-          <h3>High-Price Day-Ahead Market</h3>
-          <p>For costlier sources such as batteries and gas.</p>
-        </article>
-        <article class="market">
-          <div class="code-row"><span class="code">AS</span><span class="horizon mono">Grid support</span></div>
-          <h3>Ancillary services</h3>
-          <p>Paid support that keeps the grid stable.</p>
-        </article>
-        <article class="market">
-          <div class="code-row"><span class="code">REC</span><span class="horizon mono">Certificates</span></div>
-          <h3>Renewable Energy Certificates</h3>
-          <p>Certificates for the green attributes of renewable power.</p>
-        </article>
-        <article class="market">
-          <div class="code-row"><span class="code">Bilateral</span><span class="horizon mono">Contracts</span></div>
-          <h3>Short-term bilateral contracts</h3>
-          <p>Direct deals between buyers and sellers, outside the exchange.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4. What we do -->
-  <section class="section" id="what" aria-labelledby="what-title">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="label mono"><b>What we do</b></p>
-        <div>
-          <h2 id="what-title">From weather to price to trade, for every unit.</h2>
-          <p class="sub">We forecast the weather, forecast the price, choose the best trade, then run it automatically.</p>
-        </div>
-      </div>
-      <div class="capabilities">
-        <div class="capability">
-          <svg class="icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <circle cx="13" cy="12" r="5"/><path d="M13 3v2M4 12h2M6.6 5.6L8 7M19.4 5.6L18 7"/>
-            <path d="M11 31h16a5.5 5.5 0 0 0 0-11 7.5 7.5 0 0 0-14 1.5A4.75 4.75 0 0 0 11 31z" style="fill: var(--paper)"/>
-          </svg>
-          <h3>Weather forecasting</h3>
-          <p>High-resolution solar, wind and temperature forecasts, turned into expected generation and demand for every 15-minute block.</p>
-        </div>
-        <div class="capability">
-          <svg class="icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path d="M3 28l8-9 6 4 7-10"/><path d="M24 13l9-6" stroke-dasharray="2.5 3"/><path d="M3 33h30"/>
-          </svg>
-          <h3>Price forecasting</h3>
-          <p>Machine-learning models trained on weather, demand and market data. Probabilistic forecasts for every market we cover, from day-ahead to real time.</p>
-        </div>
-        <div class="capability">
-          <svg class="icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <rect x="3" y="15" width="6" height="6" fill="currentColor"/>
-            <path d="M9 18h7m0 0l10-10h5m-15 10h15m-15 0l10 10h5"/>
-            <rect x="29" y="15" width="5" height="6" fill="currentColor"/>
-          </svg>
-          <h3>Decision optimisation</h3>
-          <p>Optimisation of what to buy, sell or store and when, including the best market for each unit and the battery's state of charge.</p>
-        </div>
-        <div class="capability">
-          <svg class="icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path d="M11 9l-8 9 8 9M25 9l8 9-8 9M20 6l-4 24"/>
-          </svg>
-          <h3>Algorithmic trading</h3>
-          <p>Automated bidding strategies that turn forecasts into orders, block by block, within each market's gate closures.</p>
-        </div>
-        <div class="capability">
-          <svg class="icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path d="M6 10a13 13 0 1 1-2 8"/><path d="M5 4v6h6"/><path d="M18 11v7l5 3"/>
-          </svg>
-          <h3>Backtesting</h3>
-          <p>Test every strategy on years of historical market data before anything goes live.</p>
-        </div>
-        <div class="capability">
-          <svg class="icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <rect x="4" y="6" width="28" height="26"/><path d="M4 13h28M11 3v6M25 3v6"/><path d="M12 22l4 4 8-8"/>
-          </svg>
-          <h3>Built for India</h3>
-          <p>Designed around India's market rules, bidding windows and timelines.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5. Why now -->
-  <section class="section band" id="why" aria-labelledby="why-title">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="label mono"><b>Why now</b></p>
-        <div>
-          <h2 id="why-title">The gap between a good decision and an average one has never been wider.</h2>
-          <p class="why-text" style="margin-top:2rem">India is adding solar, wind and battery storage faster than ever. <strong>Prices now swing sharply within a single day</strong> and differ across markets, so when you act and where you trade matter more than they ever have.</p>
-        </div>
-      </div>
-
-      <div class="chart-wrap">
-        <div class="chart-head mono">
-          <span>A day's price swing</span>
-          <span>Illustrative shape, 15-minute blocks</span>
-        </div>
-        <svg id="swing" viewBox="0 0 960 340" role="img" aria-label="Illustrative price curve over one day: moderate overnight, a deep dip in the middle of the day when solar output is high, and a sharp peak in the evening as solar fades and demand rises."></svg>
-        <div class="chart-axis mono" aria-hidden="true">
-          <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span>
-        </div>
-        <ul class="chart-legend">
-          <li><span class="swatch low" aria-hidden="true"></span><span><strong>Midday dip.</strong> Solar floods the grid and prices fall. A time to buy or charge.</span></li>
-          <li><span class="swatch high" aria-hidden="true"></span><span><strong>Evening peak.</strong> Solar fades, demand climbs and prices jump. A time to sell or discharge.</span></li>
-          <li><span class="swatch gap" aria-hidden="true"></span><span><strong>The spread.</strong> The distance between the two is where good decisions pay.</span></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- 6. Contact -->
-  <section class="section contact" id="contact" aria-labelledby="contact-title">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="label mono"><b>Contact</b></p>
-        <div>
-          <h2 id="contact-title" class="contact-big">Talk to us.</h2>
-          <p class="sub">Tell us what you own, trade or buy, and we will show you how we can help.</p>
-          <div class="contact-row">
-            <button class="btn" type="button" data-open-contact>Send us a message
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-            </button>
-            <p class="contact-mail">Or email <a href="mailto:zoltiqenergy@gmail.com">zoltiqenergy@gmail.com</a></p>
-          </div>
-        </div>
+  <!-- 8. About -->
+  <section class="section" id="about" aria-labelledby="about-title">
+    <div class="wrap about reveal">
+      <h2 id="about-title">Why Zoltiq exists</h2>
+      <div>
+        <p>India's power is now traded in 15-minute blocks, and prices swing hard between the solar hours and the evening. The data is public, but turning it into a decision takes time most owners and buyers don't have.</p>
+        <p>Zoltiq publishes what the market is doing, tests what works, and helps owners act on it.</p>
+        <p class="founder">Founded by <span class="placeholder">[Founder name]</span>, <span class="placeholder">[one line on background]</span>.</p>
       </div>
     </div>
   </section>
@@ -837,257 +354,67 @@ h3 {
 </main>
 
 <footer class="site-footer">
-  <div class="wrap mono">
-    <span>&copy; 2026 Zoltiq</span>
-    <span>Decision intelligence for India's electricity markets</span>
+  <div class="wrap">
+    <div class="subscribe" id="subscribe">
+      <h2>New research and market notes, by email.</h2>
+      <form class="subscribe-form" data-form="Newsletter signup" data-success="You're subscribed. Watch your inbox for the next note.">
+        <div class="field">
+          <label for="sub-email">Email address</label>
+          <div class="subscribe-row">
+            <input id="sub-email" name="email" type="email" autocomplete="email" required placeholder="you@company.in">
+            <button class="btn" type="submit">Subscribe</button>
+          </div>
+        </div>
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-10000px">
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+    <div class="footer-grid">
+      <div>
+        <p class="footer-name" aria-hidden="true">Zoltiq</p>
+        <p style="margin:0;color:var(--ink-2)">Energy Intelligence for India.<br>Contact: <a data-contact-email href="mailto:hello@zoltiq.in">hello@zoltiq.in</a></p>
+      </div>
+      <nav aria-label="Platform">
+        <h3>Platform</h3>
+        <ul>
+          <li><a href="battery-index/">Battery Index</a></li>
+          <li><a href="markets/">Markets</a></li>
+          <li><a href="research/">Research</a></li>
+          <li><a href="strategies/">Strategies</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Company">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="asset-owners/">For asset owners</a></li>
+          <li><a href="asset-owners/#estimate">Free estimate</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-legal">
+      <span>© 2026 Zoltiq</span>
+      <span>Backtested results are not a guarantee of future returns.</span>
+    </div>
   </div>
 </footer>
 
-<button class="fab" type="button" data-open-contact aria-haspopup="dialog">
-  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5h12v8H6l-4 3z"/></svg>
-  Contact us
-</button>
-
-<dialog class="dialog" id="contact-dialog" aria-labelledby="dlg-title">
-  <div class="dlg-inner">
-    <div class="dlg-head">
-      <h2 id="dlg-title">Talk to us</h2>
-      <button class="dlg-close" type="button" data-close-contact aria-label="Close">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13"/></svg>
-      </button>
-    </div>
-
-    <form id="contact-form" class="dlg-inner" style="padding:0">
-      <p class="dlg-sub">Tell us what you own, trade or buy. We reply by email.</p>
-      <div class="fields">
-        <div class="field">
-          <label class="mono" for="cf-name">Name</label>
-          <input id="cf-name" name="name" type="text" autocomplete="name" required>
-        </div>
-        <div class="field">
-          <label class="mono" for="cf-email">Email</label>
-          <input id="cf-email" name="email" type="email" autocomplete="email" required>
-        </div>
-        <div class="field">
-          <label class="mono" for="cf-company">Company</label>
-          <input id="cf-company" name="company" type="text" autocomplete="organization">
-        </div>
-        <div class="field">
-          <label class="mono" for="cf-role">You are</label>
-          <select id="cf-role" name="role">
-            <option>Battery (BESS) owner</option>
-            <option>Trader</option>
-            <option>Large consumer</option>
-            <option>Renewable developer</option>
-            <option>Something else</option>
-          </select>
-        </div>
-        <div class="field full">
-          <label class="mono" for="cf-message">Message</label>
-          <textarea id="cf-message" name="message" required></textarea>
-        </div>
-        <div class="hp" aria-hidden="true">
-          <label for="cf-honey">Leave this empty</label>
-          <input id="cf-honey" name="_honey" type="text" tabindex="-1" autocomplete="off">
-        </div>
-      </div>
-      <div class="dlg-foot">
-        <p class="dlg-status" id="cf-status" role="status" aria-live="polite"></p>
-        <button class="btn" type="submit" id="cf-submit">Send message
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-        </button>
-      </div>
-    </form>
-
-    <div class="dlg-done" id="cf-done" hidden>
-      <p><strong style="color:var(--ink);font-weight:500">Message sent.</strong> Thanks for getting in touch. We will reply to you by email.</p>
-      <button class="btn outline" type="button" data-close-contact>Close</button>
-    </div>
-  </div>
-</dialog>
-
+<script src="assets/js/site.js"></script>
+<script src="assets/js/charts.js"></script>
+<script src="assets/js/hero.js"></script>
 <script>
-/* Both charts are stylised examples, not market data, and carry no price values. */
-(function () {
-  var NS = "http://www.w3.org/2000/svg";
-  // Typical intraday shape: overnight plateau, morning ramp, solar dip, evening peak.
-  var keys = [[0,.50],[3,.42],[5,.45],[7,.60],[9,.55],[10.5,.30],[12,.13],[14,.15],[15.5,.30],
-              [17,.55],[18.5,.88],[19.5,1],[21,.94],[22.5,.70],[24,.52]];
-  function level(h) {
-    for (var i = 1; i < keys.length; i++) {
-      if (h <= keys[i][0]) {
-        var a = keys[i - 1], b = keys[i], t = (h - a[0]) / (b[0] - a[0]);
-        return a[1] + (b[1] - a[1]) * t;
-      }
-    }
-    return keys[keys.length - 1][1];
-  }
-  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
-  function el(name, attrs) {
-    var n = document.createElementNS(NS, name);
-    for (var k in attrs) n.setAttribute(k, attrs[k]);
-    return n;
-  }
-
-  // Hero heatmap: 7 days x 96 blocks; stronger ink = higher price.
-  var heat = document.getElementById("heat");
-  if (heat) {
-    var cw = 960 / 96, ch = 210 / 7;
-    for (var d = 0; d < 7; d++) {
-      var weekend = d >= 5 ? 0.1 : 0, sun = 0.06 * Math.sin(d * 2.1);
-      for (var i = 0; i < 96; i++) {
-        var h = (i + 0.5) / 4;
-        var v = level(h) - weekend - (h > 9 && h < 16 ? sun : 0)
-              + 0.05 * Math.sin(i * 1.3 + d * 2.7) + 0.03 * Math.sin(i * 0.37 + d);
-        v = clamp(v, 0, 1);
-        heat.appendChild(el("rect", { x: (i * cw).toFixed(2), y: (d * ch).toFixed(2),
-          width: (cw - 1).toFixed(2), height: (ch - 2).toFixed(2), "fill-opacity": (0.05 + v * 0.95).toFixed(3) }));
-      }
-    }
-  }
-
-  // Why-now chart: one day as a stepped line, 96 blocks.
-  var svg = document.getElementById("swing");
-  if (svg) {
-    var W = 900, TOP = 14, BASE = 326, span = BASE - TOP, step = W / 96;
-    var vals = [], minV = 1, maxV = 0;
-    for (var j = 0; j < 96; j++) {
-      var v2 = clamp(level((j + 0.5) / 4) + 0.025 * Math.sin(j * 1.7) + 0.015 * Math.sin(j * 0.45), 0.06, 1);
-      vals.push(v2); minV = Math.min(minV, v2); maxV = Math.max(maxV, v2);
-    }
-    function y(v) { return BASE - v * span; }
-
-    var defs = el("defs", {});
-    var pat = el("pattern", { id: "hatch", width: 7, height: 7, patternUnits: "userSpaceOnUse", patternTransform: "rotate(45)" });
-    pat.appendChild(el("line", { x1: 0, y1: 0, x2: 0, y2: 7, "class": "fg", "stroke-width": 1.5 }));
-    defs.appendChild(pat);
-    svg.appendChild(defs);
-
-    for (var g2 = 0; g2 <= 24; g2 += 6) {
-      svg.appendChild(el("line", { x1: g2 * W / 24, x2: g2 * W / 24, y1: TOP, y2: BASE,
-        "class": "grid", "stroke-width": 1, "stroke-dasharray": "2 6" }));
-    }
-    // Filled regions: midday dip (10:00-16:00, hatched) and evening peak (18:00-22:00, solid).
-    function region(from, to, cls, fill) {
-      var p = "M" + (from * step).toFixed(1) + " " + BASE;
-      for (var k = from; k < to; k++) p += "V" + y(vals[k]).toFixed(1) + "H" + ((k + 1) * step).toFixed(1);
-      p += "V" + BASE + "Z";
-      var a = { d: p, "class": cls };
-      if (fill) a.fill = fill;
-      svg.appendChild(el("path", a));
-    }
-    region(40, 64, "", "url(#hatch)");
-    region(72, 88, "fill");
-
-    var line = "M0 " + y(vals[0]).toFixed(1);
-    for (var m = 0; m < 96; m++) {
-      if (m) line += "V" + y(vals[m]).toFixed(1);
-      line += "H" + ((m + 1) * step).toFixed(1);
-    }
-    svg.appendChild(el("path", { d: line, fill: "none", "class": "fg", "stroke-width": 1.75 }));
-    svg.appendChild(el("line", { x1: 0, x2: W, y1: BASE, y2: BASE, "class": "fg", "stroke-width": 1 }));
-
-    // Spread marker in the right margin, with guides at the day's low and high.
-    var yHi = y(maxV), yLo = y(minV), xm = 935;
-    [yHi, yLo].forEach(function (yy) {
-      svg.appendChild(el("line", { x1: 0, x2: xm + 8, y1: yy, y2: yy, "class": "guide", "stroke-width": 1, "stroke-dasharray": "3 5" }));
-    });
-    svg.appendChild(el("line", { x1: xm, x2: xm, y1: yHi, y2: yLo, "class": "fg", "stroke-width": 2 }));
-    svg.appendChild(el("path", { d: "M" + (xm - 6) + " " + (yHi + 8) + "L" + xm + " " + yHi + "L" + (xm + 6) + " " + (yHi + 8), fill: "none", "class": "fg", "stroke-width": 2 }));
-    svg.appendChild(el("path", { d: "M" + (xm - 6) + " " + (yLo - 8) + "L" + xm + " " + yLo + "L" + (xm + 6) + " " + (yLo - 8), fill: "none", "class": "fg", "stroke-width": 2 }));
-  }
-
-  // Contact dialog. Messages are delivered to the inbox below by FormSubmit (formsubmit.co).
-  var CONTACT_EMAIL = "zoltiqenergy@gmail.com";
-  var dlg = document.getElementById("contact-dialog");
-  var form = document.getElementById("contact-form");
-  var done = document.getElementById("cf-done");
-  var statusEl = document.getElementById("cf-status");
-  var submitBtn = document.getElementById("cf-submit");
-  var fab = document.querySelector(".fab");
-  function openContact(e) {
-    if (!dlg || typeof dlg.showModal !== "function") {
-      if (e.currentTarget.tagName === "BUTTON") location.href = "mailto:" + CONTACT_EMAIL;
-      return;
-    }
-    e.preventDefault();
-    form.hidden = false;
-    done.hidden = true;
-    statusEl.textContent = "";
-    statusEl.className = "dlg-status";
-    dlg.showModal();
-    document.getElementById("cf-name").focus();
-  }
-  [].forEach.call(document.querySelectorAll("[data-open-contact]"), function (el) {
-    el.addEventListener("click", openContact);
-  });
-  [].forEach.call(document.querySelectorAll("[data-close-contact]"), function (el) {
-    el.addEventListener("click", function () { dlg.close(); });
-  });
-  if (dlg) dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
-
-  if (form) form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    if (!form.reportValidity()) return;
-    var data = {};
-    [].forEach.call(form.elements, function (el) { if (el.name) data[el.name] = el.value.trim(); });
-    if (data._honey) { form.hidden = true; done.hidden = false; return; }  // likely a bot
-    data._subject = "New enquiry from zoltiq.in: " + (data.name || "website visitor");
-    data._template = "table";
-    submitBtn.disabled = true;
-    statusEl.className = "dlg-status";
-    statusEl.textContent = "Sending\u2026";
-    fetch("https://formsubmit.co/ajax/" + CONTACT_EMAIL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Accept": "application/json" },
-      body: JSON.stringify(data)
-    }).then(function (res) {
-      return res.json().then(function (body) { return { ok: res.ok, body: body }; });
-    }).then(function (r) {
-      if (!r.ok || String(r.body.success) !== "true") throw new Error(r.body.message || "Not sent");
-      form.reset();
-      statusEl.textContent = "";
-      form.hidden = true;
-      done.hidden = false;
-    }).catch(function () {
-      statusEl.className = "dlg-status is-error";
-      statusEl.textContent = "Your message didn\u2019t send. Please email us at " + CONTACT_EMAIL + ".";
-    }).then(function () { submitBtn.disabled = false; });
-  });
-
-  // Hide the floating button while the contact section is on screen.
-  var contactSection = document.getElementById("contact");
-  if (fab && contactSection && "IntersectionObserver" in window) {
-    new IntersectionObserver(function (entries) {
-      fab.classList.toggle("is-hidden", entries[0].isIntersecting);
-    }, { threshold: 0.2 }).observe(contactSection);
-  }
-
-  // Theme toggle: follows the system setting until the visitor picks one, then remembers it.
-  var root = document.documentElement, btn = document.getElementById("theme-toggle");
-  var mq = window.matchMedia ? matchMedia("(prefers-color-scheme: dark)") : null;
-  function current() {
-    var t = root.getAttribute("data-theme");
-    return t === "dark" || t === "light" ? t : (mq && mq.matches ? "dark" : "light");
-  }
-  function sync() {
-    var dark = current() === "dark";
-    btn.setAttribute("data-mode", dark ? "dark" : "light");
-    btn.setAttribute("aria-pressed", dark ? "true" : "false");
-    btn.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
-  }
-  if (btn) {
-    btn.addEventListener("click", function () {
-      var next = current() === "dark" ? "light" : "dark";
-      root.setAttribute("data-theme", next);
-      try { localStorage.setItem("theme", next); } catch (e) {}
-      sync();
-    });
-    if (mq && mq.addEventListener) mq.addEventListener("change", sync);
-    new MutationObserver(sync).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
-    sync();
-  }
-})();
+  /* Home: draw the market snapshot and the Index sparkline from data/. */
+  (function () {
+    var curve = document.getElementById("day-curve");
+    var spark = document.getElementById("index-spark");
+    ZOLTIQ.loadJSON("data/market-snapshot.json").then(function (d) {
+      ZoltiqCharts.dayCurve(curve, d);
+      if (!d.sample) [].forEach.call(document.querySelectorAll("[data-sample-tag]"), function (t) { t.hidden = true; });
+    }).catch(function () { curve.outerHTML = "<p class='placeholder'>Market data is unavailable right now.</p>"; });
+    ZOLTIQ.loadJSON("data/battery-index.json").then(function (d) {
+      ZoltiqCharts.sparkline(spark, d.values.slice(-24));
+    }).catch(function () { spark.remove(); });
+  })();
 </script>
 </body>
 </html>
