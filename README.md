@@ -25,14 +25,14 @@ assets/css/site.css         Shared design system
 assets/js/site.js           Shared behaviour and site settings (contact email, form endpoint)
 assets/js/charts.js         Small SVG chart helpers
 assets/js/home.js           Home page behaviour (live IST block, document switcher, research deck, charts)
-assets/js/hero.js           Hero animation: the sun crosses the sky behind the pylons while the day's 96 blocks light up
+assets/js/hero.js           Hero animation: the sky changes colour through one day (night, dawn, midday, golden hour, sunset), with sun, moon, stars and city lights, while the day's 96 blocks light up
 assets/img/                 Illustrations (risograph style). `_source-illustrations.html` draws them; open it in a browser and call render(name, w, h) to redraw.
 data/*.json                 Data the charts read
 ```
 
 ## Updating styles or scripts
 
-Pages link to `assets/...?v=<number>` (currently `v=5`). After changing any file in `assets/`, bump that number in every page so browsers fetch the new file instead of a cached copy.
+Pages link to `assets/...?v=<number>` (currently `v=7`). After changing any file in `assets/`, bump that number in every page so browsers fetch the new file instead of a cached copy.
 
 ## Data
 

@@ -151,6 +151,21 @@ function landscapeLayer(w,h,p,seed){
   const g=rng(seed+7); x.fillStyle=p.ink; for(let i=0;i<w*h*0.01;i++){ x.globalAlpha=g()*0.5; x.fillRect(g()*w,hz+g()*(h-hz),1.2,1.2);} x.globalAlpha=1;
   return c;
 }
+/* Pylons only: towers, wires and field furrows on a fully see-through background.
+   The page paints the sky, sun and ground behind this, changing with the time of day. */
+function pylonsLayer(w,h,ink){
+  const c=mk(w,h), x=c.getContext('2d');
+  const hz=h*0.72;
+  x.strokeStyle=ink; x.globalAlpha=0.18; x.lineWidth=Math.max(1,w/900);
+  for(let i=-40;i<=40;i++){ x.beginPath(); x.moveTo(w/2+i*w*0.004,hz); x.lineTo(w/2+i*w*0.06,h); x.stroke(); }
+  x.globalAlpha=1; x.strokeStyle=ink; const towers=[];
+  const xs=[0.08,0.33,0.52,0.66,0.76,0.83,0.88,0.915,0.94];
+  xs.forEach((f,i)=>{ const scale=Math.pow(0.66,i); const th=h*0.62*scale; const base=hz+h*0.2*scale; towers.push(tower(x,w*(1-f*0.6),base,th,Math.max(1,w/520*scale))); });
+  for(let i=0;i<towers.length-1;i++){ const A=towers[i],B=towers[i+1]; for(let k=0;k<A.length;k++){ wire(x,A[k],B[k],h*0.05*Math.pow(0.66,i),Math.max(0.8,w/1400)); } }
+  towers[0].forEach(t=>wire(x,t,[w+40,t[1]-h*0.02],h*0.06,w/1400));
+  return c;
+}
+window.renderPylons=function(ink,w,h){ return pylonsLayer(w,h,ink).toDataURL('image/webp',0.9); };
 window.renderLayer=function(mode,w,h){ return landscapeLayer(w,h,PAL[mode==='light'?'mono':'gold'],11).toDataURL('image/webp',0.85); };
 window.render=function(name,w,h){
   const [subject,mode]=name.split('-');

@@ -42,10 +42,10 @@
   --radius: 14px;
 
   --step-small: 0.875rem;
-  --step-body: clamp(1.125rem, 1.05rem + 0.3vw, 1.3125rem);
-  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
-  --step-head: clamp(2.25rem, 1.3rem + 3.4vw, 4.5rem);
-  --step-display: clamp(3.5rem, 1.5rem + 8vw, 10rem);
+  --step-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --step-lead: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
+  --step-head: clamp(1.875rem, 1.25rem + 2vw, 3.25rem);
+  --step-display: clamp(3rem, 1.6rem + 4.6vw, 6.5rem);
 
   --margin: clamp(1rem, 3vw, 2rem);
   --max: 1440px;
@@ -82,7 +82,7 @@ body {
   color: var(--ink);
   font-family: var(--font-text);
   font-size: var(--step-body);
-  line-height: 1.55;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -95,9 +95,9 @@ h1, h2, h3 {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 700;
-  font-stretch: 112%;
-  letter-spacing: -0.035em;
-  line-height: 1;
+  font-stretch: 104%;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
   text-wrap: balance;
 }
 h2 { font-size: var(--step-head); }
@@ -155,7 +155,7 @@ p { margin: 0; }
 }
 .nav { display: flex; align-items: center; gap: clamp(1rem, 2vw, 2rem); }
 .nav a:not(.btn) {
-  font-size: 1.0625rem;
+  font-size: 0.9375rem;
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 6px;
@@ -209,12 +209,12 @@ p { margin: 0; }
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 1rem 1.4rem;
+  padding: 0.85rem 1.2rem;
   background: var(--accent);
   color: var(--accent-ink);
   border: 0;
   border-radius: 10px;
-  font: 600 1.0625rem/1 var(--font-text);
+  font: 600 0.9375rem/1 var(--font-text);
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
@@ -246,7 +246,7 @@ p { margin: 0; }
 .soft { color: var(--soft, var(--ink-soft)); }
 
 .section { padding-block: var(--gap-section); }
-.lede { font-size: var(--step-lead); line-height: 1.38; max-width: 34ch; }
+.lede { font-size: var(--step-lead); line-height: 1.55; max-width: 42ch; }
 .placeholder { opacity: 0.7; }
 
 /* Sample label: a printer's proof stamp on anything drawn from sample data. */
@@ -312,9 +312,9 @@ p { margin: 0; }
 .footer-mail {
   margin-top: auto;
   font-family: var(--font-display);
-  font-weight: 800;
-  font-stretch: 112%;
-  font-size: clamp(2.4rem, 10.2vw, 11rem);
+  font-weight: 700;
+  font-stretch: 104%;
+  font-size: clamp(2rem, 6.2vw, 6.5rem);
   line-height: 0.92;
   letter-spacing: -0.03em;
   text-decoration: none;

@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/site.css?v=5">
+<link rel="stylesheet" href="assets/css/site.css?v=7">
 <style>
 /* ================= Home ================= */
 
@@ -25,9 +25,15 @@
   flex-direction: column;
   overflow: hidden;
   isolation: isolate;
-  background: var(--bg);
-  color: var(--ink);
+  /* The sky behind the words changes with the hour, so the hero sets its own text colours. */
+  background: #0b1230;
+  color: #0d0f12;
+  transition: color 0.6s ease;
 }
+.hero.is-night { color: #f2f4f8; }
+.hero .btn.paper { background: #ffffff; color: #0d0f12; }
+.home .site-header:not(.is-solid) { color: #0d0f12; transition: color 0.6s ease; }
+.home .site-header.over-night:not(.is-solid) { color: #f2f4f8; }
 .hero-sky { position: absolute; inset: 0; z-index: -3; width: 100%; height: 100%; }
 .hero-slide {
   position: absolute; inset: 0; z-index: -2;
@@ -37,9 +43,9 @@
 .hero-copy { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-block: clamp(2rem, 6vh, 4rem); }
 .hero-label { font-family: var(--font-mono); font-size: 0.875rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.5rem; }
 .hero h1 {
-  font-size: clamp(2.75rem, 1.1rem + 4.7vw, 6.25rem);
-  line-height: 0.96;
-  max-width: 12.5ch;
+  font-size: clamp(2.25rem, 1.2rem + 2.8vw, 4.25rem);
+  line-height: 1.02;
+  max-width: 14ch;
 }
 .hero .lede { margin-top: 1.5rem; max-width: 36ch; }
 .now p { font-family: var(--font-mono); font-size: 0.875rem; font-weight: 500; letter-spacing: 0.02em; }
@@ -49,7 +55,7 @@
 .now { display: grid; gap: 0.75rem; width: min(30rem, 100%); }
 .now p span { font-variant-numeric: tabular-nums; }
 /* The day's 96 blocks, lighting up in step with the sun. */
-.day-anim { display: grid; gap: 0.5rem; padding: 0.9rem 1rem 0.8rem; background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); }
+.day-anim { display: grid; gap: 0.5rem; padding: 0.9rem 1rem 0.8rem; background: #f6f7f9; color: #0d0f12; border: 1px solid rgba(13,15,18,0.12); border-radius: var(--radius); --ink: #0d0f12; --ink-soft: #565d69; }
 .day-anim-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; font-family: var(--font-mono); font-size: 0.8125rem; letter-spacing: 0.04em; text-transform: uppercase; }
 #hero-clock { font-size: 1.375rem; letter-spacing: 0; font-variant-numeric: tabular-nums; }
 .daybars { height: 64px; display: grid; grid-template-columns: repeat(96, 1fr); gap: 1px; align-items: end; }
@@ -79,10 +85,10 @@
 /* ---- Intro: the heading runs onto the picture ---- */
 .intro { position: relative; padding-block: var(--gap-section) 0; }
 .intro-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: clamp(1.5rem, 3vw, 3rem); }
-.intro h2 { grid-column: 1 / -1; grid-row: 1; position: relative; z-index: 2; font-size: clamp(2.75rem, 1.4rem + 5vw, 6.25rem); max-width: 21ch; align-self: start; }
+.intro h2 { grid-column: 1 / -1; grid-row: 1; position: relative; z-index: 2; font-size: clamp(2rem, 1.2rem + 2.6vw, 3.75rem); max-width: 21ch; align-self: start; }
 .intro-pic { grid-column: 2; grid-row: 1 / span 3; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); margin-top: clamp(3rem, 5.5vw, 5rem); }
 .intro-body { grid-column: 1; grid-row: 2; padding-top: 2.5rem; display: grid; gap: 2.5rem; align-content: start; }
-.intro-body > p { font-size: var(--step-lead); line-height: 1.38; max-width: 30ch; }
+.intro-body > p { font-size: var(--step-lead); line-height: 1.5; max-width: 40ch; }
 .offer { display: grid; gap: 0; margin: 0; }
 .offer a { display: grid; grid-template-columns: minmax(0, 12rem) minmax(0, 1fr); gap: 0.25rem 1.5rem; padding: 1.25rem 0; text-decoration: none; border-top: 1px solid var(--line); transition: padding 0.2s ease; }
 .offer a:hover { padding-left: 0.75rem; }
@@ -103,7 +109,7 @@
 .tabs { display: grid; gap: 0.25rem; margin-top: 0.5rem; }
 .tabs button {
   text-align: left; background: none; border: 0; padding: 0.15rem 0; cursor: pointer;
-  font-family: var(--font-display); font-weight: 600; font-size: clamp(1.75rem, 1.1rem + 2vw, 3rem); line-height: 1.12; letter-spacing: -0.03em;
+  font-family: var(--font-display); font-weight: 600; font-size: clamp(1.375rem, 1rem + 1.1vw, 2rem); line-height: 1.2; letter-spacing: -0.02em;
   color: var(--ink-soft); transition: color 0.2s ease, transform 0.2s ease;
 }
 .tabs button:hover { color: var(--ink); transform: translateX(6px); }
@@ -167,7 +173,7 @@
 .deck-card:nth-child(3n+2) { background: var(--card-2); }
 .deck-card:nth-child(3n+3) { background: var(--card-3); }
 .deck-card .tag { font-family: var(--font-mono); font-size: 0.8125rem; letter-spacing: 0.06em; text-transform: uppercase; }
-.deck-card h3 { font-size: clamp(1.75rem, 1.2rem + 1vw, 2.125rem); line-height: 1.1; max-width: 18ch; }
+.deck-card h3 { font-size: clamp(1.375rem, 1.1rem + 0.6vw, 1.75rem); line-height: 1.15; max-width: 22ch; }
 .deck-card p { max-width: 44ch; }
 .deck-card .foot { margin-top: auto; display: flex; justify-content: space-between; gap: 1rem; font-size: 1rem; }
 .deck-card .foot a { font-weight: 600; }
@@ -214,8 +220,8 @@
 .strategies { padding-block: var(--gap-section); }
 .strat-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: clamp(1.5rem, 3vw, 3rem); }
 .strat-head { position: sticky; top: 6rem; align-self: start; display: grid; gap: 1.5rem; }
-.strat-head h2 { font-size: clamp(3rem, 1.4rem + 5.4vw, 6.5rem); line-height: 0.92; }
-.strat-head p { max-width: 30ch; font-size: var(--step-lead); line-height: 1.38; }
+.strat-head h2 { font-size: clamp(2.25rem, 1.3rem + 3vw, 4rem); line-height: 1; }
+.strat-head p { max-width: 34ch; font-size: var(--step-lead); line-height: 1.5; }
 .strat-list { display: grid; gap: 120px; }
 .compare { display: grid; gap: 1.25rem; }
 .compare h3 { font-size: var(--step-lead); }
@@ -224,7 +230,7 @@
 .cbar i { display: block; height: 2.75rem; border-radius: 8px; background: var(--band-soft); }
 .cbar.opt i { background: var(--accent); }
 .strat { display: grid; gap: 1.25rem; }
-.strat h3 { font-size: clamp(1.75rem, 1.2rem + 1.2vw, 2.25rem); }
+.strat h3 { font-size: clamp(1.375rem, 1.1rem + 0.7vw, 1.75rem); }
 .strat-row { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 2rem; align-items: start; }
 .strat.flip .strat-row { grid-template-columns: minmax(0, 1fr) 210px; }
 .strat.flip .sched { order: 2; }
@@ -260,7 +266,7 @@
 }
 .owners { min-height: 44svh; padding-block: clamp(3rem, 7vw, 5rem); position: relative; }
 .owners-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 2rem clamp(1.5rem, 3vw, 3rem); align-items: end; }
-.owners h2 { font-size: clamp(2.25rem, 1.2rem + 3.6vw, 4.75rem); line-height: 1; max-width: 18ch; }
+.owners h2 { font-size: clamp(1.875rem, 1.2rem + 2vw, 3.25rem); line-height: 1.05; max-width: 20ch; }
 .owners h2 a { text-decoration: underline; text-decoration-thickness: 6px; text-underline-offset: 8px; transition: text-underline-offset 0.2s ease; }
 .owners h2 a:hover { text-underline-offset: 14px; }
 .owners .small { margin-top: 2rem; display: grid; gap: 0.25rem; font-size: 1.0625rem; max-width: 40ch; }
@@ -276,7 +282,7 @@
 .facts dt { color: var(--soft); }
 .facts dd { margin: 0; }
 .about h2 { font-size: var(--step-head); margin-bottom: 1.75rem; }
-.about-text { display: grid; gap: 1.25rem; font-size: clamp(1.25rem, 1rem + 0.8vw, 1.625rem); line-height: 1.4; max-width: 46ch; }
+.about-text { display: grid; gap: 1.25rem; font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.3125rem); line-height: 1.6; max-width: 58ch; }
 .about-text .founder { font-size: var(--step-body); color: var(--soft); }
 .coverage { margin-top: 120px; }
 .coverage-lists { display: grid; grid-template-columns: repeat(2, minmax(0, 16rem)); gap: 2rem 4rem; }
@@ -292,7 +298,7 @@
 }
 </style>
 </head>
-<body>
+<body class="home">
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="site-header">
@@ -321,7 +327,8 @@
   <!-- 1. Hero: the sun crosses the sky over a line of pylons while the day's 96 blocks light up -->
   <section class="hero" aria-labelledby="hero-title">
     <canvas class="hero-sky" id="hero-sky" aria-hidden="true"></canvas>
-    <img class="hero-slide" src="assets/img/hero-layer-light.webp" data-light="assets/img/hero-layer-light.webp" data-dark="assets/img/hero-layer-dark.webp" width="2000" height="1170" alt="">
+    <img class="hero-slide hero-pylons day" src="assets/img/pylons-dark.webp" width="2000" height="1170" alt="">
+    <img class="hero-slide hero-pylons night" src="assets/img/pylons-light.webp" width="2000" height="1170" alt="" style="opacity:0">
 
     <div class="frame hero-copy">
       <p class="hero-label">Energy Intelligence for India</p>
@@ -661,10 +668,10 @@
   </div>
 </footer>
 
-<script src="assets/js/site.js?v=5"></script>
-<script src="assets/js/charts.js?v=5"></script>
-<script src="assets/js/home.js?v=5"></script>
-<script src="assets/js/hero.js?v=5"></script>
+<script src="assets/js/site.js?v=7"></script>
+<script src="assets/js/charts.js?v=7"></script>
+<script src="assets/js/home.js?v=7"></script>
+<script src="assets/js/hero.js?v=7"></script>
 <script>
   /* The two strategy schedules: a sample day, hour by hour (c = charge, s = sell). */
   (function () {
