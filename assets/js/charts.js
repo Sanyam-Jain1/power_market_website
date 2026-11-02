@@ -28,8 +28,8 @@
     var x = function (i) { return (i / 96) * W; };
     var y = function (v) { return base - ((v - ex[0]) / span) * (base - top) * 0.92 - (base - top) * 0.04; };
 
-    el("rect", { x: x(36), y: 0, width: x(64) - x(36), height: base, fill: "rgba(255,182,92,0.10)" }, svg);
-    el("rect", { x: x(72), y: 0, width: x(88) - x(72), height: base, fill: "rgba(143,176,255,0.12)" }, svg);
+    el("rect", { x: x(36), y: 0, width: x(64) - x(36), height: base, fill: "rgba(255,195,90,0.13)" }, svg);
+    el("rect", { x: x(72), y: 0, width: x(88) - x(72), height: base, fill: "rgba(255,138,106,0.16)" }, svg);
     for (var g = 0; g <= 24; g += 6) {
       el("line", { x1: x(g * 4), x2: x(g * 4), y1: 0, y2: base, stroke: "rgba(255,255,255,0.10)", "stroke-dasharray": g % 24 ? "2 6" : "" }, svg);
     }
@@ -43,7 +43,7 @@
     }
     var dam = stepPath(data.dam);
     el("path", { d: dam + "V" + base + "H0Z", fill: "rgba(243,242,239,0.08)" }, svg);
-    if (data.rtm) el("path", { d: stepPath(data.rtm), fill: "none", stroke: "#8fb0ff", "stroke-width": 1.6, "stroke-dasharray": "5 4" }, svg);
+    if (data.rtm) el("path", { d: stepPath(data.rtm), fill: "none", stroke: "#6fe3ff", "stroke-width": 1.6, "stroke-dasharray": "5 4" }, svg);
     el("path", { d: dam, fill: "none", stroke: "#f3f2ef", "stroke-width": 2 }, svg);
     el("line", { x1: 0, x2: W, y1: base, y2: base, stroke: "rgba(255,255,255,0.35)" }, svg);
   }
@@ -57,10 +57,10 @@
     var x = function (i) { return pad + (i / (values.length - 1)) * (W - pad * 2); };
     var y = function (v) { return H - pad - ((v - ex[0]) / (ex[1] - ex[0])) * (H - pad * 2); };
     var d = values.map(function (v, i) { return (i ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1); }).join("");
-    el("path", { d: d + "L" + x(values.length - 1) + " " + H + "L" + x(0) + " " + H + "Z", fill: "rgba(255,182,92,0.12)" }, svg);
-    el("path", { d: d, fill: "none", stroke: "#ffb65c", "stroke-width": 2, "stroke-linejoin": "round" }, svg);
+    el("path", { d: d + "L" + x(values.length - 1) + " " + H + "L" + x(0) + " " + H + "Z", fill: "rgba(255,195,90,0.14)" }, svg);
+    el("path", { d: d, fill: "none", stroke: "#ffc35a", "stroke-width": 2, "stroke-linejoin": "round" }, svg);
     var last = values.length - 1;
-    el("circle", { cx: x(last), cy: y(values[last]), r: 4.5, fill: "#ffb65c", stroke: "#07090f", "stroke-width": 2 }, svg);
+    el("circle", { cx: x(last), cy: y(values[last]), r: 4.5, fill: "#ffc35a", stroke: "#07090f", "stroke-width": 2 }, svg);
   }
 
   window.ZoltiqCharts = { dayCurve: dayCurve, sparkline: sparkline };

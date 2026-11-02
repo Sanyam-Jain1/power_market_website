@@ -61,14 +61,14 @@
       var sy = bandTop - Math.sin(Math.PI * dayT) * bandTop * 0.8;
       var elev = Math.sin(Math.PI * dayT);
       var glow = ctx.createRadialGradient(sx, sy, 0, sx, sy, Math.max(W, H) * 0.55);
-      glow.addColorStop(0, "rgba(255,200,130," + (0.42 * elev + 0.05).toFixed(3) + ")");
-      glow.addColorStop(0.35, "rgba(255,150,80," + (0.14 * elev).toFixed(3) + ")");
-      glow.addColorStop(1, "rgba(255,150,80,0)");
+      glow.addColorStop(0, "rgba(200,232,255," + (0.30 * elev + 0.04).toFixed(3) + ")");
+      glow.addColorStop(0.35, "rgba(150,205,255," + (0.10 * elev).toFixed(3) + ")");
+      glow.addColorStop(1, "rgba(150,205,255,0)");
       ctx.fillStyle = glow;
       ctx.fillRect(0, 0, W, H);
       var core = ctx.createRadialGradient(sx, sy, 0, sx, sy, narrow ? 34 : 56);
-      core.addColorStop(0, "rgba(255,232,190," + (0.55 * elev + 0.1).toFixed(3) + ")");
-      core.addColorStop(1, "rgba(255,232,190,0)");
+      core.addColorStop(0, "rgba(255,246,220," + (0.75 * elev + 0.1).toFixed(3) + ")");
+      core.addColorStop(1, "rgba(255,246,220,0)");
       ctx.fillStyle = core;
       ctx.fillRect(sx - 60, sy - 60, 120, 120);
     }
@@ -89,8 +89,8 @@
       var passed = i <= current;
       var color;
       if (!passed) color = "rgba(255,255,255,0.09)";
-      else if (bh >= 9 && bh < 16.5) color = "rgba(255,182,92,0.78)";
-      else if (bh >= 17.5 && bh < 23) color = "rgba(143,176,255,0.85)";
+      else if (bh >= 9 && bh < 16.5) color = "rgba(255,195,90,0.88)";
+      else if (bh >= 17.5 && bh < 23) color = "rgba(255,138,106,0.92)";
       else color = "rgba(243,242,239,0.45)";
       if (i === current) color = "#fff";
       ctx.fillStyle = color;

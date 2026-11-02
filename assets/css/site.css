@@ -1,7 +1,8 @@
 /* Zoltiq — shared design system.
    Dark, cinematic ground with a sky that moves from midday to night as the page scrolls.
    Type: Geist for text and display, Geist Mono for data labels. Square buttons, glass panels for content.
-   Colour: near-white ink; sun amber marks solar/midday hours, dusk blue marks the evening. */
+   Colour: near-white ink on a sky that runs clear blue -> dusk violet -> night navy.
+   Data colours: gold = solar/midday hours, coral = evening peak, cyan = real-time. */
 
 :root {
   --bg: #07090f;
@@ -13,8 +14,9 @@
   --glass: rgba(255, 255, 255, 0.055);
   --glass-2: rgba(255, 255, 255, 0.09);
   --glass-edge: rgba(255, 255, 255, 0.13);
-  --sun: #ffb65c;
-  --dusk: #8fb0ff;
+  --sun: #ffc35a;
+  --eve: #ff8a6a;
+  --rt: #6fe3ff;
   --on-ink: #0b0b0c;
 
   --font-sans: "Geist", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -33,9 +35,9 @@
   --section-gap: clamp(5rem, 9vw, 8.5rem);
 
   /* Sky, updated by site.js as the page scrolls (midday -> dusk -> night). */
-  --sky-top: #24160d;
-  --sky-bottom: #5f3415;
-  --sky-glow: rgba(255, 186, 110, 0.5);
+  --sky-top: #081c38;
+  --sky-bottom: #175270;
+  --sky-glow: rgba(140, 200, 255, 0.34);
   --sun-x: 72%;
   --sun-y: 8%;
 
