@@ -11,11 +11,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/site.css?v=4">
+<link rel="stylesheet" href="assets/css/site.css?v=5">
 <style>
 /* ================= Home ================= */
 
-/* ---- Hero: one view of the grid, at four times of day ---- */
+/* ---- Hero: a day on the grid. The sun (canvas) moves behind the pylon picture. ---- */
 .hero {
   position: relative;
   min-height: max(100svh, 640px);
@@ -28,13 +28,12 @@
   background: var(--bg);
   color: var(--ink);
 }
+.hero-sky { position: absolute; inset: 0; z-index: -3; width: 100%; height: 100%; }
 .hero-slide {
   position: absolute; inset: 0; z-index: -2;
   width: 100%; height: 100%;
   object-fit: cover; object-position: 70% 50%;
-  animation: drift 40s ease-in-out infinite alternate;
 }
-@keyframes drift { from { transform: scale(1.02); } to { transform: scale(1.08) translateX(-1%); } }
 .hero-copy { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-block: clamp(2rem, 6vh, 4rem); }
 .hero-label { font-family: var(--font-mono); font-size: 0.875rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.5rem; }
 .hero h1 {
@@ -47,14 +46,19 @@
 .hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
 
 .hero-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; padding-bottom: 1.25rem; }
-.now { display: grid; gap: 0.6rem; max-width: 30rem; }
-.now p { font-size: 1.0625rem; font-weight: 600; }
+.now { display: grid; gap: 0.75rem; width: min(30rem, 100%); }
 .now p span { font-variant-numeric: tabular-nums; }
-.daybar { position: relative; height: 26px; width: min(30rem, 80vw); display: grid; grid-template-columns: repeat(96, 1fr); gap: 1px; }
-.daybar i { background: currentColor; opacity: 0.35; }
-.daybar i:nth-child(n+37):nth-child(-n+64) { opacity: 0.7; }
-.daybar i:nth-child(n+73):nth-child(-n+88) { opacity: 0.9; }
-#now-marker { position: absolute; top: -10px; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: var(--accent); transition: left 0.6s ease; }
+/* The day's 96 blocks, lighting up in step with the sun. */
+.day-anim { display: grid; gap: 0.5rem; padding: 0.9rem 1rem 0.8rem; background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); }
+.day-anim-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; font-family: var(--font-mono); font-size: 0.8125rem; letter-spacing: 0.04em; text-transform: uppercase; }
+#hero-clock { font-size: 1.375rem; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+.daybars { height: 64px; display: grid; grid-template-columns: repeat(96, 1fr); gap: 1px; align-items: end; }
+.daybars i { height: calc(var(--h) * 100%); background: var(--ink); opacity: 0.14; border-radius: 1px 1px 0 0; transition: opacity 0.3s ease, background-color 0.3s ease; }
+.daybars i.on { opacity: 0.5; }
+.daybars i.on.sun { background: var(--accent); opacity: 1; }
+.daybars i.on.eve { opacity: 0.95; }
+.daybars i.cur { background: var(--accent); opacity: 1; box-shadow: 0 0 0 1px var(--accent); }
+.day-anim .note { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.04em; color: var(--ink-soft); }
 .hero-cards { display: grid; grid-template-columns: repeat(2, 230px); gap: 16px; }
 .hero-card { display: block; text-decoration: none; background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; transition: transform 0.2s ease; }
 .hero-card:hover { transform: translateY(-4px); }
@@ -70,8 +74,6 @@
   .hero-copy { justify-content: flex-start; }
   .hero-foot { flex-direction: column; align-items: stretch; gap: 1rem; }
   .hero-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .daybar { width: 100%; }
-  .daybar i { opacity: 0.6; }
 }
 
 /* ---- Intro: the heading runs onto the picture ---- */
@@ -316,14 +318,15 @@
 
 <main id="main">
 
-  <!-- 1. Hero: noon, afternoon, sunset and night over the same line of pylons -->
+  <!-- 1. Hero: the sun crosses the sky over a line of pylons while the day's 96 blocks light up -->
   <section class="hero" aria-labelledby="hero-title">
-    <img class="hero-slide" src="assets/img/hero-light.jpg" data-light="assets/img/hero-light.jpg" data-dark="assets/img/hero-dark.jpg" width="2000" height="1170" alt="">
+    <canvas class="hero-sky" id="hero-sky" aria-hidden="true"></canvas>
+    <img class="hero-slide" src="assets/img/hero-layer-light.webp" data-light="assets/img/hero-layer-light.webp" data-dark="assets/img/hero-layer-dark.webp" width="2000" height="1170" alt="">
 
     <div class="frame hero-copy">
       <p class="hero-label">Energy Intelligence for India</p>
       <h1 id="hero-title">Smarter decisions for every unit of power.</h1>
-      <p class="lede"><span>Market data, research and strategies for India's power exchanges, and the tools to turn them into returns for your plant or battery.</span></p>
+      <p class="lede">Market data, research and strategies for India's power exchanges, and the tools to turn them into returns for your plant or battery.</p>
       <div class="hero-actions">
         <a class="btn" href="markets/">Explore the market
           <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg>
@@ -333,12 +336,13 @@
     </div>
 
     <div class="frame hero-foot">
-      <div class="now" aria-live="off">
-        <p><span class="strip-label">Now trading in India: block <span id="now-block">–</span> of 96 · <span id="now-time">IST</span></span></p>
-        <div class="daybar" aria-hidden="true">
-          <span id="now-marker"></span>
-          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      <div class="now">
+        <div class="day-anim" aria-hidden="true">
+          <div class="day-anim-head"><span id="hero-phase">Morning ramp</span><span id="hero-clock">06:00</span></div>
+          <div class="daybars" id="daybars"></div>
+          <p class="note">A day on the exchange, 96 blocks · sample shape</p>
         </div>
+        <p>Now trading in India: block <span id="now-block">–</span> of 96 · <span id="now-time">IST</span></p>
       </div>
       <div class="hero-cards">
         <a class="hero-card" href="research/">
@@ -657,9 +661,10 @@
   </div>
 </footer>
 
-<script src="assets/js/site.js?v=4"></script>
-<script src="assets/js/charts.js?v=4"></script>
-<script src="assets/js/home.js?v=4"></script>
+<script src="assets/js/site.js?v=5"></script>
+<script src="assets/js/charts.js?v=5"></script>
+<script src="assets/js/home.js?v=5"></script>
+<script src="assets/js/hero.js?v=5"></script>
 <script>
   /* The two strategy schedules: a sample day, hour by hour (c = charge, s = sell). */
   (function () {
