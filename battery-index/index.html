@@ -11,20 +11,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/site.css?v=8">
+<link rel="stylesheet" href="../assets/css/site.css?v=9">
 <style>
 .page-hero { min-height: max(100svh, 600px); }
 .page-hero .page-copy { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-block: clamp(2rem, 8vh, 5rem) clamp(9rem, 22vh, 14rem); }
 .page-hero h1 { font-size: clamp(2.25rem, 1.2rem + 2.8vw, 4.25rem); line-height: 1.02; max-width: 15ch; }
 .page-hero .lede { margin-top: 1.25rem; max-width: 42ch; }
 .page-hero .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
-.coming { padding-block: var(--gap-section); }
-.coming-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 2rem clamp(1.5rem, 3vw, 3rem); }
-.coming-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
-.coming-list li { display: grid; gap: 0.35rem; padding: 1.1rem 1.25rem; background: color-mix(in srgb, var(--bg) 70%, transparent); border: 1px solid var(--line); border-radius: var(--radius); }
-.coming-list .k { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
-.coming-foot { margin-top: 1.5rem; color: var(--ink-soft); max-width: 52ch; }
-@media (max-width: 860px) { .coming-grid { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </head>
 <body class="sky-page">
@@ -54,29 +47,130 @@
     <img class="hero-slide hero-pylons night" src="../assets/img/pylons-light.webp" width="2000" height="1170" alt="" style="opacity:0">
     <div class="frame page-copy">
       <h1 id="page-title">Zoltiq Battery Index</h1>
-      <p class="lede">What a standard reference battery earned each month on IEX day-ahead and real-time, and how much of that a simple 1pm / 10pm schedule captured.</p>
+      <p class="lede">What a reference 2-hour battery earned each month on the IEX day-ahead market, planning each day on the prices it could actually see. Next to it: the best possible in hindsight, and what a simple 1pm / 10pm rule earned.</p>
       <div class="actions">
-        <a class="btn" href="#subscribe">Get the monthly value by email <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg></a>
-        <a class="btn paper" href="../">Back to home</a>
+        <a class="btn" href="#headline">See the numbers <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg></a>
+        <a class="btn paper" href="#subscribe">Get the monthly value by email</a>
       </div>
     </div>
   </section>
 
-  <section class="coming sky-golden" aria-labelledby="coming-title">
-    <div class="frame coming-grid">
-      <h2 id="coming-title">Coming to this page</h2>
-      <div>
-        <ul class="coming-list">
-          <li><span class="k">Headline figures</span><span>Last month, trailing 12 months, share captured by the simple schedule, average spread</span></li>
-          <li><span class="k">Chart</span><span>The full history, optimised against simple, over 1 year, 3 years or all time</span></li>
-          <li><span class="k">Method</span><span>How it is calculated, in three steps</span></li>
-          <li><span class="k">Assumptions</span><span>Power, energy, round-trip efficiency, cycles per day, markets and fees</span></li>
-          <li><span class="k">Data</span><span>A CSV download of every monthly value, and a line on how to cite it</span></li>
-        </ul>
-        <p class="coming-foot">Backtested results are not a guarantee of future returns.</p>
+  <div class="sky-golden">
+  <section class="page-section" id="headline" aria-labelledby="hl-title">
+    <div class="frame">
+      <div class="section-head">
+        <h2 id="hl-title">The Index, <span id="hl-month">last month</span></h2>
+        <p>100 MW / 200 MWh battery, one cycle a day, after exchange fees and wear. IEX prices through <span data-through>the latest day</span>. <span id="hl-mtd"></span></p>
+      </div>
+      <p class="panel" id="index-error" hidden>The Index data could not be loaded. Please try again later.</p>
+      <div class="stats">
+        <div class="stat"><span class="k">Last month</span><span class="v" id="hl-value">–</span><span class="n" id="hl-note"></span></div>
+        <div class="stat"><span class="k">Trailing 12 months</span><span class="v" id="hl-12m">–</span><span class="n" id="hl-12m-note"></span></div>
+        <div class="stat"><span class="k">Share of the best possible</span><span class="v" id="hl-capture">–</span><span class="n" id="hl-capture-note"></span></div>
+        <div class="stat"><span class="k">The 1pm / 10pm rule</span><span class="v" id="hl-simple">–</span><span class="n" id="hl-simple-note"></span></div>
+        <div class="stat"><span class="k">Evening minus solar hours</span><span class="v" id="hl-spread">–</span><span class="n" id="hl-spread-note"></span></div>
+      </div>
+      <div class="panel" style="margin-top:16px">
+        <div class="controls"><span class="lbl">Range</span><div id="index-range"></div></div>
+        <h3>Earnings per MW, month by month</h3>
+        <p class="sub">₹ lakh per MW of battery power earned in each calendar month. Hover or tap for values.</p>
+        <div id="index-chart"></div>
       </div>
     </div>
   </section>
+  </div>
+
+  <div class="sky-sunset">
+  <section class="page-section" aria-labelledby="ex-title">
+    <div class="frame">
+      <div class="section-head">
+        <h2 id="ex-title">Every battery, every strategy</h2>
+        <p>The same battery run through every schedule we test: two sizes, both markets, one or two cycles a day, with or without a rule that only allows charging in the solar hours. All without look-ahead, except the hindsight rows, which are ceilings.</p>
+      </div>
+      <div class="panel">
+        <div class="controls">
+          <span class="ctl"><span class="lbl">Battery</span><span id="ex-duration"></span></span>
+          <span class="ctl"><span class="lbl">Market</span><span id="ex-market"></span></span>
+          <span class="ctl"><span class="lbl">Cycles</span><span id="ex-cycles"></span></span>
+          <span class="ctl"><span class="lbl">Charging</span><span id="ex-charging"></span></span>
+          <span class="ctl"><span class="lbl">Period</span><span id="ex-window"></span></span>
+        </div>
+        <div id="explorer-table"></div>
+        <h3 style="margin-top:1.75rem">Month by month</h3>
+        <p class="sub">₹ lakh per MW earned in each month by four of the schedules above.</p>
+        <div id="explorer-chart"></div>
+        <h3 style="margin-top:1.75rem">Year by year</h3>
+        <div id="explorer-years"></div>
+      </div>
+      <div class="panel-grid" style="margin-top:16px">
+        <div class="panel">
+          <h3>The strategies</h3>
+          <dl class="defs">
+            <dt>Perfect hindsight</dt><dd>The best schedule possible with every price of the day known in advance. A ceiling no one can reach.</dd>
+            <dt>7-day average plan</dt><dd>Each day is planned on the average of the last 7 days' prices that were public at bid time, by an exact optimiser. This is the Index.</dd>
+            <dt>Yesterday's prices</dt><dd>The same optimiser, planning on the most recent day's prices.</dd>
+            <dt>Same day last week</dt><dd>The same optimiser, planning on the same weekday one week earlier.</dd>
+            <dt>Monthly windows</dt><dd>One charge window and one sell window picked at the start of each month from the last 90 days, then repeated every day.</dd>
+            <dt>Fixed 11:00 / 18:00</dt><dd>Charges from 11:00 and sells from 18:00 every day, for the battery's duration. No software at all.</dd>
+            <dt>1pm / 10pm rule</dt><dd>Charges from 13:00 and sells in the last hours before midnight (22:00–24:00 for 2 hours; 13:00–17:00 and 20:00–24:00 for 4 hours).</dd>
+            <dt>Best of both markets</dt><dd>Hindsight, buying in whichever of day-ahead and real-time is cheaper in each block and selling in the dearer. An upper bound.</dd>
+          </dl>
+        </div>
+        <div class="panel">
+          <h3>Against tender tariffs</h3>
+          <p class="sub">Recent standalone battery tenders, in the same unit.</p>
+          <div id="tender-table"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <div class="sky-dusk">
+  <section class="page-section" aria-labelledby="method-title">
+    <div class="frame">
+      <div class="section-head">
+        <h2 id="method-title">How it is calculated</h2>
+        <p>Every value is reproducible from IEX's public 15-minute data with the open backtester.</p>
+      </div>
+      <div class="panel-grid two">
+        <div class="panel">
+          <h3>Three steps</h3>
+          <ol class="steps">
+            <li><b>Plan.</b> At noon on the day before delivery, when day-ahead bids close, the battery sees only the prices already published. It averages the last 7 days block by block and an exact optimiser picks when to charge and discharge on that profile.</li>
+            <li><b>Settle.</b> The plan is settled at the day's actual clearing prices, block by block, with exchange fees on both sides and a wear charge on every MWh discharged. Blocks where nothing traded do not fill.</li>
+            <li><b>Add up.</b> Each day's profit is added into its calendar month and divided by the battery's power: ₹ per MW per month, the unit Indian battery tenders use.</li>
+          </ol>
+        </div>
+        <div class="panel">
+          <h3>Assumptions</h3>
+          <table class="data-table plain">
+            <tbody>
+              <tr><th scope="row">Battery</th><td>100 MW / 200 MWh (2-hour); 100 MW / 400 MWh (4-hour)</td></tr>
+              <tr><th scope="row">Round-trip efficiency</th><td>87%, split evenly between charging and discharging</td></tr>
+              <tr><th scope="row">State of charge</th><td>10–90%; each day starts and ends at 10%</td></tr>
+              <tr><th scope="row">Cycles</th><td>1 a day (Index); 2 as a variant</td></tr>
+              <tr><th scope="row">Market</th><td>IEX day-ahead (Index); real-time as a variant</td></tr>
+              <tr><th scope="row">Exchange fee</th><td>₹20/MWh on each side</td></tr>
+              <tr><th scope="row">Wear</th><td>₹300 per MWh discharged</td></tr>
+              <tr><th scope="row">Market share</th><td>At most 10% of a block's cleared volume</td></tr>
+              <tr><th scope="row">Not included</th><td>Transmission charges, O&amp;M, deviation charges, ancillary income, capacity fade</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="panel" style="margin-top:16px">
+        <h3>Data</h3>
+        <p class="sub">Every monthly value since May 2022. Cite as: Zoltiq Battery Index, zoltiq.in/battery-index, accessed [date].</p>
+        <div class="controls" style="margin:0">
+          <button class="btn small" type="button" id="csv-index">Download the Index (CSV)</button>
+          <button class="btn small ink" type="button" id="csv-all">Download every run (CSV)</button>
+        </div>
+      </div>
+      <p class="fine" style="margin-top:1.5rem">Backtested results are not a guarantee of future returns. The battery is assumed not to move prices, which holds for a 100 MW battery but not for a large fleet.</p>
+    </div>
+  </section>
+  </div>
 </main>
 
 <footer class="site-footer stars" id="subscribe">
@@ -102,7 +196,7 @@
         <p class="form-status" role="status" aria-live="polite"></p>
       </form>
     </div>
-    <a class="footer-mail" data-contact-email data-keep-text href="mailto:hello@zoltiq.in">hello@<wbr>zoltiq.in</a>
+    <a class="footer-mail" data-contact-email data-keep-text href="mailto:zoltiqenergy@gmail.com">zoltiqenergy<wbr>@gmail.com</a>
     <div class="footer-meta">
       <nav aria-label="Footer">
         <a href="../battery-index/">Index</a><a href="../markets/">Markets</a><a href="../research/">Research</a><a href="../strategies/">Strategies</a><a href="../asset-owners/">For asset owners</a>
@@ -113,7 +207,9 @@
   </div>
 </footer>
 
-<script src="../assets/js/site.js?v=8"></script>
-<script src="../assets/js/hero.js?v=8"></script>
+<script src="../assets/js/site.js?v=9"></script>
+<script src="../assets/js/charts.js?v=9"></script>
+<script src="../assets/js/hero.js?v=9"></script>
+<script src="../assets/js/index-page.js?v=9"></script>
 </body>
 </html>

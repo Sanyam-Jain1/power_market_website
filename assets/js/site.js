@@ -5,10 +5,10 @@
 
   /* ---- Site settings ---------------------------------------------------- */
   var CONFIG = {
-    // Shown on the site. Placeholder until the mailbox exists.
-    contactEmail: "hello@zoltiq.in",
+    // Shown on the site, and where forms are delivered.
+    contactEmail: "zoltiqenergy@gmail.com",
     // Where forms are delivered (FormSubmit forwards submissions to this inbox by email).
-    formEndpoint: "https://formsubmit.co/ajax/hello@zoltiq.in"
+    formEndpoint: "https://formsubmit.co/ajax/zoltiqenergy@gmail.com"
   };
   window.ZOLTIQ = CONFIG;
 

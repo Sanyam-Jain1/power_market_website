@@ -11,20 +11,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/site.css?v=8">
+<link rel="stylesheet" href="../assets/css/site.css?v=9">
 <style>
 .page-hero { min-height: max(100svh, 600px); }
 .page-hero .page-copy { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-block: clamp(2rem, 8vh, 5rem) clamp(9rem, 22vh, 14rem); }
 .page-hero h1 { font-size: clamp(2.25rem, 1.2rem + 2.8vw, 4.25rem); line-height: 1.02; max-width: 15ch; }
 .page-hero .lede { margin-top: 1.25rem; max-width: 42ch; }
 .page-hero .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
-.coming { padding-block: var(--gap-section); }
-.coming-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 2rem clamp(1.5rem, 3vw, 3rem); }
-.coming-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
-.coming-list li { display: grid; gap: 0.35rem; padding: 1.1rem 1.25rem; background: color-mix(in srgb, var(--bg) 70%, transparent); border: 1px solid var(--line); border-radius: var(--radius); }
-.coming-list .k { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
-.coming-foot { margin-top: 1.5rem; color: var(--ink-soft); max-width: 52ch; }
-@media (max-width: 860px) { .coming-grid { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </head>
 <body class="sky-page">
@@ -57,22 +50,65 @@
       <p class="lede">Backtested battery schedules, published as what they earned: per MW each year, how close they came to the best possible, and when they work.</p>
       <div class="actions">
         <a class="btn" href="../asset-owners/#estimate">Request a shadow run <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg></a>
-        <a class="btn paper" href="../">Back to home</a>
+        <a class="btn paper" href="#race-title">See the results</a>
       </div>
     </div>
   </section>
 
-  <section class="coming sky-dusk" aria-labelledby="coming-title">
-    <div class="frame coming-grid">
-      <h2 id="coming-title">Coming to this page</h2>
-      <div>
-        <ul class="coming-list">
-          <li><span class="k">Chart</span><span>Cumulative earnings for perfect hindsight, day-ahead + real-time, day-ahead only, and the simple 1pm / 10pm schedule</span></li>
-          <li><span class="k">Cards</span><span>Each strategy per MW-year, its share of the hindsight best, and when it works or misses</span></li>
-          <li><span class="k">Shadow run</span><span>Run our schedule alongside yours, without touching operations</span></li>
-        </ul>
-        <p class="coming-foot">We publish results, not the rules behind them. Backtested results are not a guarantee of future returns.</p>
+  <div class="sky-dusk">
+  <section class="page-section" aria-labelledby="race-title">
+    <div class="frame">
+      <div class="section-head">
+        <h2 id="race-title">What each schedule earned since May 2022</h2>
+        <p>Every schedule runs on the same battery, costs and IEX prices, through <span data-through>the latest day</span>. The baselines here are simple and published in full; Zoltiq's own strategies are measured against them and published as results only.</p>
       </div>
+      <p class="panel" id="data-error" hidden>The results could not be loaded. Please try again later.</p>
+      <div class="panel">
+        <div class="controls">
+          <span class="ctl"><span class="lbl">Battery</span><span id="st-duration"></span></span>
+          <span class="ctl"><span class="lbl">Cycles</span><span id="st-cycles"></span></span>
+        </div>
+        <h3>Cumulative earnings per MW</h3>
+        <p class="sub" id="sel-note"></p>
+        <div id="race"></div>
+      </div>
+      <div class="panel" style="margin-top:16px">
+        <h3>The ladder, last 12 months</h3>
+        <p class="sub">₹ lakh per MW-year. Blue: day-ahead. Green: real-time. Grey: hindsight ceilings. Hover for values.</p>
+        <div id="ladder"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="found-title">
+    <div class="frame">
+      <div class="section-head">
+        <h2 id="found-title">What the backtests say</h2>
+        <p>Computed from the results above; the numbers update with each data refresh.</p>
+      </div>
+      <ol class="findings" id="findings"></ol>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="cards-title">
+    <div class="frame">
+      <div class="section-head">
+        <h2 id="cards-title">Each schedule, and when it works</h2>
+        <p>For the battery chosen above. Full tables for every size, market and charging rule are on the <a class="text-link" href="../battery-index/#ex-title">Index page</a>.</p>
+      </div>
+      <div class="cards" id="cards"></div>
+    </div>
+  </section>
+  </div>
+
+  <section class="sky-night stars page-section" aria-labelledby="shadow-title">
+    <div class="frame">
+      <div class="section-head">
+        <h2 id="shadow-title">Shadow run</h2>
+        <p>We run our schedule alongside yours, on your battery's real limits, without touching operations. Each week you see what each would have earned.</p>
+      </div>
+      <a class="btn" href="../asset-owners/#estimate">Request a shadow run <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg></a>
+      <p class="fine" style="margin-top:2rem">Backtested results are not a guarantee of future returns. Figures are after exchange fees and wear, before transmission charges and O&amp;M, for a 100 MW battery assumed not to move prices.</p>
     </div>
   </section>
 </main>
@@ -100,7 +136,7 @@
         <p class="form-status" role="status" aria-live="polite"></p>
       </form>
     </div>
-    <a class="footer-mail" data-contact-email data-keep-text href="mailto:hello@zoltiq.in">hello@<wbr>zoltiq.in</a>
+    <a class="footer-mail" data-contact-email data-keep-text href="mailto:zoltiqenergy@gmail.com">zoltiqenergy<wbr>@gmail.com</a>
     <div class="footer-meta">
       <nav aria-label="Footer">
         <a href="../battery-index/">Index</a><a href="../markets/">Markets</a><a href="../research/">Research</a><a href="../strategies/">Strategies</a><a href="../asset-owners/">For asset owners</a>
@@ -111,7 +147,9 @@
   </div>
 </footer>
 
-<script src="../assets/js/site.js?v=8"></script>
-<script src="../assets/js/hero.js?v=8"></script>
+<script src="../assets/js/site.js?v=9"></script>
+<script src="../assets/js/charts.js?v=9"></script>
+<script src="../assets/js/hero.js?v=9"></script>
+<script src="../assets/js/strategies-page.js?v=9"></script>
 </body>
 </html>

@@ -11,20 +11,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/site.css?v=8">
+<link rel="stylesheet" href="../assets/css/site.css?v=9">
 <style>
 .page-hero { min-height: max(100svh, 600px); }
 .page-hero .page-copy { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-block: clamp(2rem, 8vh, 5rem) clamp(9rem, 22vh, 14rem); }
 .page-hero h1 { font-size: clamp(2.25rem, 1.2rem + 2.8vw, 4.25rem); line-height: 1.02; max-width: 15ch; }
 .page-hero .lede { margin-top: 1.25rem; max-width: 42ch; }
 .page-hero .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
-.coming { padding-block: var(--gap-section); }
-.coming-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 2rem clamp(1.5rem, 3vw, 3rem); }
-.coming-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
-.coming-list li { display: grid; gap: 0.35rem; padding: 1.1rem 1.25rem; background: color-mix(in srgb, var(--bg) 70%, transparent); border: 1px solid var(--line); border-radius: var(--radius); }
-.coming-list .k { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
-.coming-foot { margin-top: 1.5rem; color: var(--ink-soft); max-width: 52ch; }
-@media (max-width: 860px) { .coming-grid { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </head>
 <body class="sky-page">
@@ -54,29 +47,87 @@
     <img class="hero-slide hero-pylons night" src="../assets/img/pylons-light.webp" width="2000" height="1170" alt="" style="opacity:0">
     <div class="frame page-copy">
       <h1 id="page-title">Markets, block by block</h1>
-      <p class="lede">Daily dashboards for India's power exchanges: every 15-minute block of every day, updated each morning.</p>
+      <p class="lede">India's power exchange, every 15-minute block of every day: day-ahead, real-time, green day-ahead and high-price day-ahead, from IEX's published results.</p>
       <div class="actions">
-        <a class="btn" href="#subscribe">Get notified when it opens <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg></a>
-        <a class="btn paper" href="../">Back to home</a>
+        <a class="btn" href="#day-title">Open the latest day <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg></a>
+        <a class="btn paper" href="#months-title">Month by month</a>
       </div>
     </div>
   </section>
 
-  <section class="coming sky-noon" aria-labelledby="coming-title">
-    <div class="frame coming-grid">
-      <h2 id="coming-title">Coming to this page</h2>
-      <div>
-        <ul class="coming-list">
-          <li><span class="k">Dashboards</span><span>Day-ahead, real-time, high-price day-ahead and ancillary services, with a date picker</span></li>
-          <li><span class="k">Chart</span><span>The 96-block price curve, day-ahead against real-time</span></li>
-          <li><span class="k">Chart</span><span>The midday-to-evening spread over the last 30 days</span></li>
-          <li><span class="k">Table</span><span>Solar-hours and evening-peak prices, month by month</span></li>
-          <li><span class="k">Expanding to</span><span>Green markets, renewable certificates, bilateral contracts and carbon</span></li>
-        </ul>
-        <p class="coming-foot">Every figure will come from IEX data. Nothing is shown until the real numbers are connected.</p>
+  <div class="sky-noon">
+  <section class="page-section" aria-labelledby="day-title">
+    <div class="frame">
+      <div class="section-head">
+        <h2><span class="soft">The day:</span> <span id="day-title">–</span></h2>
+        <p>Clearing prices on IEX in each of the day's 96 blocks. Data through <span data-through>the latest day</span>; day-ahead results for tomorrow are published around 13:00 IST.</p>
+      </div>
+      <p class="panel" id="data-error" hidden>Market data could not be loaded. Please try again later.</p>
+      <div class="panel">
+        <div class="controls">
+          <span class="ctl"><label for="day-pick">Day</label>
+            <button class="btn small paper" type="button" id="prev-day" aria-label="Previous day">←</button>
+            <select id="day-pick"></select>
+            <button class="btn small paper" type="button" id="next-day" aria-label="Next day">→</button></span>
+          <span class="ctl"><span class="lbl">Show</span>
+            <label class="check"><input type="checkbox" data-series="dam"> DAM</label>
+            <label class="check"><input type="checkbox" data-series="rtm"> RTM</label>
+            <label class="check"><input type="checkbox" data-series="gdam"> G-DAM</label>
+            <label class="check"><input type="checkbox" data-series="hpdam"> HP-DAM</label></span>
+        </div>
+        <div id="day-chart"></div>
+        <p class="fine" style="margin-top:0.5rem">Shaded: solar hours (09:00–16:00) and the evening peak (18:00–22:00). ₹/MWh. <span id="hp-note"></span></p>
+      </div>
+      <div class="stats" id="day-stats" style="margin-top:16px"></div>
+      <details class="panel" style="margin-top:16px">
+        <summary>Every block of the day, as a table</summary>
+        <div class="table-scroll" id="day-table" style="margin-top:1rem"></div>
+      </details>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="recent-title">
+    <div class="frame">
+      <div class="section-head">
+        <h2 id="recent-title">The last 30 days, and longer</h2>
+        <p>The gap between the evening peak and the solar hours is what a battery earns its living on.</p>
+      </div>
+      <div class="panel-grid two">
+        <div class="panel">
+          <h3>Midday-to-evening spread, day-ahead</h3>
+          <p class="sub">Average 18–22h price minus average 09–16h price, each day. ₹/MWh.</p>
+          <div id="spread-chart"></div>
+        </div>
+        <div class="panel">
+          <div class="controls"><span class="lbl">Range</span><div id="avg-range"></div></div>
+          <h3>Daily average price</h3>
+          <p class="sub">The simple block average and the volume-weighted average differ because cheap solar blocks clear the most volume.</p>
+          <div id="avg-chart"></div>
+        </div>
       </div>
     </div>
   </section>
+
+  <section class="page-section" aria-labelledby="months-title">
+    <div class="frame">
+      <div class="section-head">
+        <h2 id="months-title">Month by month</h2>
+        <p>Solar-hours and evening-peak prices for every month since April 2022.</p>
+      </div>
+      <div class="panel">
+        <div class="table-scroll" id="month-table"></div>
+        <div class="controls" style="margin:1rem 0 0">
+          <button class="btn small" type="button" id="csv-months">Download months (CSV)</button>
+          <button class="btn small ink" type="button" id="csv-daily">Download every day (CSV)</button>
+        </div>
+      </div>
+      <div class="panel" style="margin-top:16px">
+        <h3>Coverage</h3>
+        <p class="sub" style="margin:0">Now: day-ahead (DAM), real-time (RTM), green day-ahead (G-DAM) and high-price day-ahead (HP-DAM) on IEX. Next: ancillary services, green term-ahead, renewable energy certificates, bilateral contracts and carbon. Source: IEX market results, as published. Nothing on this page is modelled.</p>
+      </div>
+    </div>
+  </section>
+  </div>
 </main>
 
 <footer class="site-footer stars" id="subscribe">
@@ -102,7 +153,7 @@
         <p class="form-status" role="status" aria-live="polite"></p>
       </form>
     </div>
-    <a class="footer-mail" data-contact-email data-keep-text href="mailto:hello@zoltiq.in">hello@<wbr>zoltiq.in</a>
+    <a class="footer-mail" data-contact-email data-keep-text href="mailto:zoltiqenergy@gmail.com">zoltiqenergy<wbr>@gmail.com</a>
     <div class="footer-meta">
       <nav aria-label="Footer">
         <a href="../battery-index/">Index</a><a href="../markets/">Markets</a><a href="../research/">Research</a><a href="../strategies/">Strategies</a><a href="../asset-owners/">For asset owners</a>
@@ -113,7 +164,9 @@
   </div>
 </footer>
 
-<script src="../assets/js/site.js?v=8"></script>
-<script src="../assets/js/hero.js?v=8"></script>
+<script src="../assets/js/site.js?v=9"></script>
+<script src="../assets/js/charts.js?v=9"></script>
+<script src="../assets/js/hero.js?v=9"></script>
+<script src="../assets/js/markets-page.js?v=9"></script>
 </body>
 </html>
