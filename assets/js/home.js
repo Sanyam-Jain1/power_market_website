@@ -86,7 +86,7 @@
   var bars = document.getElementById("index-bars");
   ZOLTIQ.loadJSON("data/backtests.json").then(function (bt) {
     var R = bt.results, months = bt.months, n = months.length;
-    var head = R[bt.headline], ph = R["2h|DAM|PH|c1|any"], s1 = R["2h|DAM|S1|c1|any"], x = R["2h|BOTH|PH|c1|any"];
+    var head = R[bt.headline], ph = R["2h|DAM|PH|c1|any"], b0 = R["2h|DAM|B0|c1|any"], t1 = R["2h|BOTH|T1|c1|any"], x = R["2h|BOTH|PH|c1|any"];
     var last = head.monthly_rs_mw[n - 1];
     set('[data-idx="month"]', F.monthLong(months[n - 1]));
     set("#hero-index-month", F.month(months[n - 1]));
@@ -103,17 +103,18 @@
       ZoltiqCharts.edgeBars(bars, v14, { labels: m14.map(F.monthLong), valueText: function (v) { return F.lakh(v, 2) + " per MW"; } });
     }
     var cr = function (r) { return F.crore(r.last_12m.lakh_mw_yr * 1e5 * 100, 1); };
-    set('[data-est="ph"]', cr(ph)); set('[data-est="b2"]', cr(head)); set('[data-est="s1"]', cr(s1));
+    set('[data-est="ph"]', cr(ph)); set('[data-est="b2"]', cr(head)); set('[data-est="b0"]', cr(b0)); if (t1) set('[data-est="t1"]', cr(t1));
     var l = function (r) { return "₹" + F.num(r.last_12m.lakh_mw_yr, 1) + " lakh"; };
-    set('[data-st="s1"]', l(s1)); set('[data-st="b2"]', l(head)); if (x) set('[data-st="x"]', l(x));
-    set('[data-st="s1cap"]', F.pct(s1.last_12m.capture)); set('[data-st="b2cap"]', F.pct(head.last_12m.capture));
+    set('[data-st="b0"]', l(b0)); set('[data-st="b2"]', l(head)); if (x) set('[data-st="x"]', l(x)); if (t1) set('[data-st="t1"]', l(t1));
+    set('[data-st="b0cap"]', F.pct(b0.last_12m.capture)); set('[data-st="b2cap"]', F.pct(head.last_12m.capture));
     var max = x ? x.last_12m.lakh_mw_yr : ph.last_12m.lakh_mw_yr;
-    each('[data-bar="s1"]', function (e) { e.style.width = (100 * s1.last_12m.lakh_mw_yr / max).toFixed(1) + "%"; });
+    each('[data-bar="b0"]', function (e) { e.style.width = (100 * b0.last_12m.lakh_mw_yr / max).toFixed(1) + "%"; });
+    if (t1) each('[data-bar="t1"]', function (e) { e.style.width = (100 * t1.last_12m.lakh_mw_yr / max).toFixed(1) + "%"; });
     each('[data-bar="b2"]', function (e) { e.style.width = (100 * head.last_12m.lakh_mw_yr / max).toFixed(1) + "%"; });
     each('[data-bar="x"]', function (e) { e.style.width = "100%"; });
     var plans = bt.latest_day && bt.latest_day.plans;
     if (plans) {
-      fill("sched-simple", plans.S1);
+      fill("sched-simple", plans.B0);
       fill("sched-opt", plans.B2);
       set('[data-st="plandate"]', F.date(bt.latest_day.date));
     }

@@ -17,7 +17,7 @@ Outputs (all in data/, read by the pages)
   backtests.json         every battery x market x strategy x cycle x charging-rule run:
                          monthly earnings per MW and summary metrics
   battery-index.json     the headline Zoltiq Battery Index series (a slice of backtests.json)
-  research/one-pm-ten-pm-rule.json   figures for the first research note
+  research/day-ahead-or-real-time.json   figures for the first research note
 
 Nothing is invented: every number comes from IEX prices through the backtester.
 Backtest results are cached in tools/.cache so a daily run only simulates new days.
@@ -57,8 +57,11 @@ STRATEGIES = {  # id -> public name, short description
     "B3": ("Same day last week", "Plans each day on the prices of the same weekday one week earlier."),
     "B1": ("Monthly windows", "Picks one charge window and one sell window each month from the last 90 days, then repeats them."),
     "B0": ("Fixed 11:00 / 18:00", "Charges from 11:00 and sells from 18:00 every day."),
-    "S1": ("1pm / 10pm rule", "Charges from 13:00 and sells in the last hours before midnight every day."),
+    "T1": ("Day-ahead plan, corrected in real-time", "Commits the 7-day average plan in day-ahead at noon; at 22:00, re-plans on a blend of the next day's day-ahead prices and last week's real-time prices, and trades the difference in real-time."),
+    "XF": ("Best market per block, chosen ahead", "At noon the day before, buys each block in whichever market last week's prices say is cheaper and sells in the dearer."),
 }
+SINGLE = ["PH", "B2", "B4", "B3", "B1", "B0"]       # strategies run in one market at a time
+BOTH = ["PH", "T1", "XF"]                           # strategies that use both markets
 MARKET_NAMES = {"DAM": "Day-ahead", "RTM": "Real-time", "BOTH": "Day-ahead + real-time"}
 HEADLINE = "2h|DAM|B2|c1|any"
 CEILING_OF = lambda key: "|".join([*key.split("|")[:2], "PH", *key.split("|")[3:]])
@@ -103,7 +106,7 @@ def day_stats(p, v=None):
 
 # ------------------------------------------------------------------ backtests
 
-SIM_VERSION = "1"  # bump when the run matrix or the stored fields change
+SIM_VERSION = "2"  # bump when the run matrix or the stored fields change
 
 
 def code_hash(bess):
@@ -114,11 +117,9 @@ def run_matrix():
     for dur, energy in DURATIONS.items():
         for charge in CHARGING:
             for market in ("DAM", "RTM", "BOTH"):
-                strategies = ["PH"] if market == "BOTH" else list(STRATEGIES)
+                strategies = BOTH if market == "BOTH" else SINGLE
                 for s in strategies:
-                    for c in ((1,) if s in ("S1", "B0", "B1") else (1, 2)):
-                        if charge == "solar" and s == "S1" and dur != "2h":
-                            continue  # 13:00 + 4 h of charging runs past 15:00
+                    for c in ((1,) if s in ("B0", "B1") else (1, 2)):
                         yield f"{dur}|{market}|{s}|c{c}|{charge}", energy, market, s, c, CHARGING[charge]
 
 
@@ -219,59 +220,51 @@ def summarise(runs, days, eval_from, last_month_end):
     return months, out
 
 
-# ------------------------------------------------------------------ research: the 1pm / 10pm rule
+# ------------------------------------------------------------------ research: day-ahead or real-time?
 
-def research_simple_rule(runs, days, P, eval_from, last_day):
+def research_waiting(runs, days, P, eval_from, last_day):
+    """Figures for the note 'Day-ahead or real-time? What waiting is worth' (2-hour battery, 1 cycle)."""
     d = np.array(days)
     ev = (d >= eval_from) & (d <= last_day)
-    s1 = runs["2h|DAM|S1|c1|any"]["profit_rs"]
-    ph = runs["2h|DAM|PH|c1|any"]["profit_rs"]
-    b0 = runs["2h|DAM|B0|c1|any"]["profit_rs"]
-    b2 = runs["2h|DAM|B2|c1|any"]["profit_rs"]
     idx = np.where(ev)[0]
-    # where the day's dearest 2-hour window starts, and the cheapest one, by year (DAM)
-    A = P["DAM"]
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore", RuntimeWarning)
-        w = np.lib.stride_tricks.sliding_window_view(A, 8, axis=1).mean(axis=2)  # days x 89
-    hours = {}
-    for y in sorted({x[:4] for x in d[ev]}):
-        yi = [i for i in idx if days[i].startswith(y) and np.isfinite(w[i]).all()]
-        top = [int(np.argmax(w[i])) // 4 for i in yi]       # start hour of the dearest window
-        low = [int(np.argmin(w[i])) // 4 for i in yi]
-        hours[y] = {"sell_start_hour": np.bincount(top, minlength=24)[:24].tolist(),
-                    "buy_start_hour": np.bincount(low, minlength=24)[:24].tolist(), "days": len(yi)}
-    # average price of the 22:00-24:00 window against the dearest window, by year
+    keys = {"da": "2h|DAM|B2|c1|any", "da_ph": "2h|DAM|PH|c1|any", "rt": "2h|RTM|B2|c1|any", "rt_ph": "2h|RTM|PH|c1|any",
+            "t1": "2h|BOTH|T1|c1|any", "xf": "2h|BOTH|XF|c1|any", "x_ph": "2h|BOTH|PH|c1|any"}
+    pr = {k: runs[v]["profit_rs"] for k, v in keys.items()}
+    rate = lambda a, ix: r(a[ix].sum() / 1e7 / (len(ix) / 365.25), 2)  # ₹ lakh per MW-year, 100 MW battery
     by_year = {}
     for y in sorted({x[:4] for x in d[ev]}):
         yi = np.array([i for i in idx if days[i].startswith(y)])
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore", RuntimeWarning)
-            by_year[y] = {
-                "s1_capture": r(s1[yi].sum() / ph[yi].sum(), 3), "b0_capture": r(b0[yi].sum() / ph[yi].sum(), 3),
-                "b2_capture": r(b2[yi].sum() / ph[yi].sum(), 3),
-                "s1_lakh_mw_yr": r(s1[yi].sum() / 1e7 / (len(yi) / 365.25), 2),
-                "ph_lakh_mw_yr": r(ph[yi].sum() / 1e7 / (len(yi) / 365.25), 2),
-                "price_22_24": r(np.nanmean(A[yi, 88:96]), 0), "price_18_20": r(np.nanmean(A[yi, 72:80]), 0),
-                "price_13_15": r(np.nanmean(A[yi, 52:60]), 0), "price_11_13": r(np.nanmean(A[yi, 44:52]), 0),
-                "days": int(len(yi)),
-            }
-    # monthly capture (calendar month, all years)
-    mo = {}
+        by_year[y] = {k: rate(v, yi) for k, v in pr.items()}
+        by_year[y]["t1_beats_da_days"] = r((pr["t1"][yi] > pr["da"][yi] + 1).mean(), 3)
+        by_year[y]["days"] = int(len(yi))
+    by_month = {}
     for m in range(1, 13):
         mi = np.array([i for i in idx if int(days[i][5:7]) == m])
-        mo[f"{m:02d}"] = {"s1_capture": r(s1[mi].sum() / ph[mi].sum(), 3), "b2_capture": r(b2[mi].sum() / ph[mi].sum(), 3)}
-    # the days the rule did worst against hindsight
-    gap = (ph - s1)
-    worst = [int(i) for i in idx[np.argsort(-gap[idx])][:8]]
-    worst_days = [{"date": days[i], "s1_rs_mw": r(s1[i] / 100, 0), "ph_rs_mw": r(ph[i] / 100, 0),
-                   "dam": arr(A[i], 0)} for i in worst]
-    total = {"s1_capture": r(s1[idx].sum() / ph[idx].sum(), 3), "b0_capture": r(b0[idx].sum() / ph[idx].sum(), 3),
-             "b2_capture": r(b2[idx].sum() / ph[idx].sum(), 3),
-             "s1_losing_days": r((s1[idx] < 0).mean(), 3),
-             "s1_beats_b0_days": r((s1[idx] > b0[idx]).mean(), 3),
-             "days": int(len(idx)), "from": days[idx[0]], "to": days[idx[-1]]}
-    return {"total": total, "by_year": by_year, "by_month": mo, "window_hours": hours, "worst_days": worst_days}
+        by_month[f"{m:02d}"] = {"t1_minus_da": rate(pr["t1"] - pr["da"], mi), "rt_minus_da": rate(pr["rt"] - pr["da"], mi)}
+    # the average real-time minus day-ahead price, block by block, over the last 12 months
+    last12 = np.array([i for i in idx if days[i] > (date.fromisoformat(last_day) - timedelta(days=365)).isoformat()])
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", RuntimeWarning)
+        basis = np.nanmean(P["RTM"][last12] - P["DAM"][last12], axis=0)
+        absdiff = np.nanmean(np.abs(P["RTM"][last12] - P["DAM"][last12]), axis=0)
+    diff = pr["t1"][idx] - pr["da"][idx]
+    total = {k: rate(v, idx) for k, v in pr.items()}
+    total.update(t1_beats_da_days=r((diff > 1).mean(), 3), t1_loses_to_da_days=r((diff < -1).mean(), 3),
+                 days=int(len(idx)), first=days[idx[0]], last=days[idx[-1]])
+    return {"total": total, "by_year": by_year, "by_month": by_month,
+            "basis_last_12m": arr(basis, 0), "abs_gap_last_12m": arr(absdiff, 0)}
+
+
+def tolling(tenders):
+    """The latest 2-hour and 4-hour tender tariff, as a 'lease the battery' benchmark."""
+    out = {}
+    for dur, lo, hi in (("2h", 1.5, 2.5), ("4h", 3.5, 4.5)):
+        for t in tenders:  # newest first
+            if lo <= t["energy_mwh"] / t["capacity_mw"] <= hi:
+                rate = t["tariff_low"]
+                out[dur] = {**t, "lakh_mw_month": rate, "lakh_mw_yr": round(rate * 12, 2)}
+                break
+    return out
 
 
 def load_tenders(terminal):
@@ -306,8 +299,8 @@ def latest_plans(bess, P, V):
     b2, _ = bess.plan_days(bat, prof, prof, ch, dis)
     ch, dis = bess.step_limits(bat, Vm[-1:])
     ph, _ = bess.plan_days(bat, A[-1:], A[-1:], ch, dis)
-    s1 = bess.window_plan(bat, [(bess.SIMPLE_RULE_CHARGE, 97 - bess.window_blocks(bat))])
-    return {"B2": hours(b2[0]), "PH": hours(ph[0]), "S1": hours(s1[0])}
+    b0 = bess.window_plan(bat, [bess.FIXED_WINDOWS])
+    return {"B2": hours(b2[0]), "PH": hours(ph[0]), "B0": hours(b0[0])}
 
 
 # ------------------------------------------------------------------ main
@@ -424,29 +417,33 @@ def main(argv=None):
         "charging": {"any": "Charge at any hour", "solar": "Charge 10:00–15:00 only"},
         "headline": HEADLINE, "runs": runs_meta, "results": summary,
         "tenders": load_tenders(args.terminal),
+        "tolling": tolling(load_tenders(args.terminal)),
         "latest_day": {"date": last_day, "plans": latest_plans(bess, P, V),
-                       "profit_rs_mw": {k: r(runs[f"2h|DAM|{k}|c1|any"]["profit_rs"][-1] / 100.0, 0) for k in ("PH", "B2", "S1")}},
+                       "profit_rs_mw": {k: r(runs[f"2h|DAM|{k}|c1|any"]["profit_rs"][-1] / 100.0, 0) for k in ("PH", "B2", "B0")}},
         "units": {"monthly_rs_mw": "₹ per MW of power in the month, after fees and wear",
                   "lakh_mw_yr": "₹ lakh per MW per year, after fees and wear"},
     }
     (DATA / "backtests.json").write_text(json.dumps(bt, separators=(",", ":")))
     h = summary[HEADLINE]
     ceiling = summary[CEILING_OF(HEADLINE)]
-    simple = summary["2h|DAM|S1|c1|any"]
+    simple = summary["2h|DAM|B0|c1|any"]
     idx = {
         "sample": False, "updated": now, "through": last_day, "unit": "Rs per MW per month",
         "name": "Zoltiq Battery Index", "definition": "What a 100 MW / 200 MWh battery earned per MW each month on the IEX "
         "day-ahead market, planning each day on the last 7 days' prices (no look-ahead), one cycle a day, after fees and wear.",
         "months": mlist, "values": h["monthly_rs_mw"], "ceiling": ceiling["monthly_rs_mw"],
-        "simple": simple["monthly_rs_mw"],
+        "fixed_windows": simple["monthly_rs_mw"],
         "last_month": mlist[-1], "last_value": h["monthly_rs_mw"][-1],
         "month_to_date": {"month": mtd_month, "value": mtd.get(HEADLINE)} if mtd_month else None,
     }
     (DATA / "battery-index.json").write_text(json.dumps(idx, separators=(",", ":")))
     (DATA / "research").mkdir(exist_ok=True)
-    note = research_simple_rule(runs, days, P, eval_from, last_complete_month_end)
+    note = research_waiting(runs, days, P, eval_from, last_complete_month_end)
     note.update(updated=now)
-    (DATA / "research" / "one-pm-ten-pm-rule.json").write_text(json.dumps(note, separators=(",", ":")))
+    (DATA / "research" / "day-ahead-or-real-time.json").write_text(json.dumps(note, separators=(",", ":")))
+    old = DATA / "research" / "one-pm-ten-pm-rule.json"
+    if old.exists():
+        old.unlink()
     print(f"backtests: {len(summary)} runs, {mlist[0]} to {mlist[-1]}", file=sys.stderr)
 
 

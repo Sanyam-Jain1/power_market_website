@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/site.css?v=9">
+<link rel="stylesheet" href="assets/css/site.css?v=10">
 <style>
 /* ================= Home ================= */
 
@@ -323,9 +323,9 @@
         <p>Now trading in India: block <span id="now-block">–</span> of 96 · <span id="now-time">IST</span></p>
       </div>
       <div class="hero-cards">
-        <a class="hero-card" href="research/">
+        <a class="hero-card" href="research/day-ahead-or-real-time/">
           <img src="assets/img/tower-sky.jpg" width="1000" height="1340" alt="" loading="lazy">
-          <span>New note: the 1pm / 10pm rule <span aria-hidden="true">→</span></span>
+          <span>New note: day-ahead or real-time? <span aria-hidden="true">→</span></span>
         </a>
         <a class="hero-card" href="battery-index/">
           <img src="assets/img/battery-sky.jpg" width="1400" height="880" alt="" loading="lazy">
@@ -398,14 +398,14 @@
       </article>
 
       <article class="sheet" data-sheet="note" aria-label="Research note" hidden>
-        <header><b>Zoltiq Research</b><span>Batteries</span></header>
-        <h3>The 1pm / 10pm rule</h3>
-        <p class="meta">Zoltiq Research · <span data-note="date">November 2026</span> · <span data-note="minutes">6</span> min read</p>
+        <header><b>Zoltiq Research</b><span>Exchanges</span></header>
+        <h3>Day-ahead or real-time?</h3>
+        <p class="meta">Zoltiq Research · November 2026 · 6 min read</p>
         <div class="note-body">
-          <p>Charge at one in the afternoon, when the sun has pushed prices down. Sell at ten at night, when it has gone and the country turns its lights on. It is the simplest schedule a battery can run.</p>
-          <p>How much of a battery's possible earnings does that one rule capture? We test it against the best schedule in hindsight, on every day in the record, and look at the days it gets wrong.</p>
+          <p>A battery can sell a day early on the day-ahead market, or wait for real-time. Waiting on its own earns less. Waiting as a correction earns more.</p>
+          <p>We test a battery that commits its day-ahead plan at noon, then re-plans at 22:00 once the next day's prices are out, against every single-market schedule since May 2022.</p>
         </div>
-        <a class="open" href="research/one-pm-ten-pm-rule/">Read the note →</a>
+        <a class="open" href="research/day-ahead-or-real-time/">Read the note →</a>
       </article>
 
       <article class="sheet" data-sheet="estimate" aria-label="Revenue estimate" hidden>
@@ -417,7 +417,8 @@
           <tr><td>Market</td><td>IEX day-ahead</td></tr>
           <tr><td>Best possible, last 12 months</td><td data-est="ph">–</td></tr>
           <tr><td>Planned on last week's prices</td><td data-est="b2">–</td></tr>
-          <tr><td>Simple 1pm / 10pm schedule</td><td data-est="s1">–</td></tr>
+          <tr><td>Also correcting in real-time</td><td data-est="t1">–</td></tr>
+          <tr><td>Fixed 11:00 / 18:00 schedule</td><td data-est="b0">–</td></tr>
         </table>
         <p style="margin-top:14px">After exchange fees and wear, before transmission charges and O&amp;M. Backtested results are not a guarantee of future returns.</p>
         <a class="open" href="asset-owners/">Get your free estimate →</a>
@@ -436,13 +437,13 @@
             <p class="lede soft" style="max-width:30ch">Short notes, one question each, answered with the data.</p>
           </div>
           <div class="deck">
-            <article class="deck-card"><button class="spine-hit" type="button" aria-label="Show: The 1pm / 10pm rule"></button>
-              <span class="tag">Batteries</span><h3>The 1pm / 10pm rule</h3>
-              <p>One fixed schedule, charge after lunch and sell after dinner, tested against the best possible schedule on every day in the record.</p>
-              <div class="foot"><span data-note="foot">November 2026 · 6 min read</span><a href="research/one-pm-ten-pm-rule/">Read the note</a></div></article>
+            <article class="deck-card"><button class="spine-hit" type="button" aria-label="Show: Day-ahead or real-time?"></button>
+              <span class="tag">Exchanges</span><h3>Day-ahead or real-time? What waiting is worth</h3>
+              <p>Commit a day early, or wait for the real-time market? Waiting alone earns less; using it to correct the day-ahead plan earns more.</p>
+              <div class="foot"><span>November 2026 · 6 min read</span><a href="research/day-ahead-or-real-time/">Read the note</a></div></article>
             <article class="deck-card"><button class="spine-hit" type="button" aria-label="Show: Where the rest hides"></button>
               <span class="tag">Batteries</span><h3>Where the rest hides</h3>
-              <p>The cloudy days, the shifted peaks and the price spikes that a fixed schedule walks straight past.</p>
+              <p>The cloudy days, the shifted peaks and the price spikes that a plan made on last week's prices walks straight past.</p>
               <div class="foot"><span>In preparation</span><a href="research/">See the series</a></div></article>
             <article class="deck-card"><button class="spine-hit" type="button" aria-label="Show: Will the spread survive?"></button>
               <span class="tag">Exchanges</span><h3>Will the spread survive?</h3>
@@ -452,9 +453,9 @@
               <span class="tag">Batteries</span><h3>The break-even spread</h3>
               <p>Cycling wears a battery out. The point at which a day's spread no longer pays for the wear.</p>
               <div class="foot"><span>In preparation</span><a href="research/">See the series</a></div></article>
-            <article class="deck-card"><button class="spine-hit" type="button" aria-label="Show: Day-ahead or real-time?"></button>
-              <span class="tag">Exchanges</span><h3>Day-ahead or real-time?</h3>
-              <p>Commit a day early, or wait for the real-time market? What the extra hours of waiting are worth.</p>
+            <article class="deck-card"><button class="spine-hit" type="button" aria-label="Show: Lease or trade?"></button>
+              <span class="tag">Batteries</span><h3>Lease or trade?</h3>
+              <p>A tender tariff is fixed for twelve years; the exchange pays more today. What a battery owner gives up either way.</p>
               <div class="foot"><span>In preparation</span><a href="research/">See the series</a></div></article>
             <article class="deck-card"><button class="spine-hit" type="button" aria-label="Show: Selling solar at noon"></button>
               <span class="tag">Renewables</span><h3>What a solar plant gives up by selling at noon</h3>
@@ -494,24 +495,25 @@
       </div>
       <div class="strat-list">
         <div class="compare rise">
-          <h3>Simple schedule vs optimised, per MW-year, last 12 months</h3>
-          <div class="cbar"><div><span>Simple 1pm / 10pm</span><span data-st="s1">–</span></div><i data-bar="s1" style="width:0%"></i></div>
-          <div class="cbar opt"><div><span>Optimised on last week's prices, day-ahead</span><span data-st="b2">–</span></div><i data-bar="b2" style="width:0%"></i></div>
+          <h3>Fixed schedule vs optimised, per MW-year, last 12 months</h3>
+          <div class="cbar"><div><span>Fixed 11:00 / 18:00, no software</span><span data-st="b0">–</span></div><i data-bar="b0" style="width:0%"></i></div>
+          <div class="cbar"><div><span>Optimised on last week's prices, day-ahead</span><span data-st="b2">–</span></div><i data-bar="b2" style="width:0%"></i></div>
+          <div class="cbar opt"><div><span>Day-ahead plan, corrected in real-time</span><span data-st="t1">–</span></div><i data-bar="t1" style="width:0%"></i></div>
           <div class="cbar"><div><span>Best possible, both markets (hindsight)</span><span data-st="x">–</span></div><i data-bar="x" style="width:0%"></i></div>
         </div>
 
         <article class="strat rise">
-          <h3>Simple 1pm / 10pm</h3>
+          <h3>Fixed 11:00 / 18:00</h3>
           <div class="strat-row">
-            <div class="sched" data-ui aria-label="Every day: charge from 13:00, sell from 22:00">
+            <div class="sched" data-ui aria-label="Every day: charge from 11:00, sell from 18:00">
               <header><span>Every day</span><span>Charge · Sell</span></header>
               <ol id="sched-simple"></ol>
             </div>
             <ul>
-              <li><b data-st="s1">–</b> per MW-year</li>
-              <li><b data-st="s1cap">–</b> of the hindsight best</li>
-              <li>Works when the day keeps its usual shape: cheap after lunch, dear late at night.</li>
-              <li>Misses winter: from November to February the peak comes early and late-night prices fall, and the rule loses money.</li>
+              <li><b data-st="b0">–</b> per MW-year</li>
+              <li><b data-st="b0cap">–</b> of the hindsight best</li>
+              <li>Works when the peak is early evening, the most common shape in the record.</li>
+              <li>Misses days when the solar trough or the peak moves, and every chance of a second cycle.</li>
             </ul>
           </div>
         </article>
@@ -637,9 +639,9 @@
   </div>
 </footer>
 
-<script src="assets/js/site.js?v=9"></script>
-<script src="assets/js/charts.js?v=9"></script>
-<script src="assets/js/home.js?v=9"></script>
-<script src="assets/js/hero.js?v=9"></script>
+<script src="assets/js/site.js?v=10"></script>
+<script src="assets/js/charts.js?v=10"></script>
+<script src="assets/js/home.js?v=10"></script>
+<script src="assets/js/hero.js?v=10"></script>
 </body>
 </html>

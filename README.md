@@ -18,7 +18,7 @@ index.html                       Home: hero, the latest day's sheet, Index, stra
 battery-index/index.html         Zoltiq Battery Index: headline, history, every battery x strategy, method, CSV
 markets/index.html               Markets: any of the last 60 days block by block, spreads, month table, CSV
 research/index.html              Research notes
-research/one-pm-ten-pm-rule/     First note: the 1pm / 10pm rule
+research/day-ahead-or-real-time/ First note: day-ahead or real-time? What waiting is worth
 strategies/index.html            Strategies: cumulative earnings, the ladder, findings, cards
 asset-owners/index.html          Battery estimate on last year's prices, and the estimate request form
 assets/css/site.css              Shared design system (incl. panels, charts, tables)
@@ -29,7 +29,7 @@ assets/js/index-page.js          Battery Index page
 assets/js/markets-page.js        Markets page
 assets/js/strategies-page.js     Strategies page
 assets/js/owners-page.js         For asset owners page
-assets/js/note-1pm.js            Charts in the 1pm / 10pm note
+assets/js/note-waiting.js        Charts in the day-ahead or real-time note
 assets/js/hero.js                Hero animation (the Home hero's 96 bars take the latest day's real prices)
 assets/img/                      Illustrations (risograph style). `_source-illustrations.html` draws them.
 data/                            Data the pages read (built by tools/build_data.py; see Data)
@@ -39,7 +39,7 @@ tools/build_data.py              Builds data/ from IEX prices and the battery ba
 
 ## Updating styles or scripts
 
-Pages link to `assets/...?v=<number>` (currently `v=9`). After changing any file in `assets/`, bump that number in every page so browsers fetch the new file instead of a cached copy.
+Pages link to `assets/...?v=<number>` (currently `v=10`). After changing any file in `assets/`, bump that number in every page so browsers fetch the new file instead of a cached copy.
 
 ## Data
 
@@ -49,7 +49,7 @@ Every figure on the site is real: IEX prices, and backtests of them. Nothing is 
 |---|---|
 | `data/market-snapshot.json` | The latest delivery day complete in both markets: 96 day-ahead and real-time prices (₹/MWh) and the day's stats |
 | `data/markets.json` | The last 60 days block by block (DAM, RTM, G-DAM, HP-DAM), every day's summary since Apr 2022, and a month table |
-| `data/backtests.json` | Every run: 2-hour and 4-hour battery × day-ahead, real-time and both × seven strategies × 1 or 2 cycles × charging any hour or 10:00–15:00 only. Monthly ₹ per MW and summaries |
+| `data/backtests.json` | Every run: 2-hour and 4-hour battery × day-ahead, real-time and both × six single-market strategies and three that use both markets (hindsight, the day-ahead plan corrected in real-time, best market per block chosen ahead), plus a lease at the latest tender tariff for comparison, × 1 or 2 cycles × charging any hour or 10:00–15:00 only. Monthly ₹ per MW and summaries |
 | `data/battery-index.json` | The headline Index series |
 | `data/research/*.json` | Figures for research notes |
 
@@ -69,7 +69,7 @@ cd ../power_market_website && python tools/build_data.py --backtester ../power_m
 The first build simulates every run (about an hour). Results are cached in `tools/.cache/` (git-ignored), so later builds only simulate new days.
 `--markets-only` rebuilds the market files alone in seconds.
 
-**Daily refresh.** `.github/workflows/refresh-data.yml` runs every evening: it checks out both repositories, rebuilds `data/` and commits it to `master`. It uses `power_market` at `BACKTESTER_REF` (`main`), which must include the `ingest-csv` command and the `S1` rule.
+**Daily refresh.** `.github/workflows/refresh-data.yml` runs every evening: it checks out both repositories, rebuilds `data/` and commits it to `master`. It uses `power_market` at `BACKTESTER_REF` (`main`), which must include the `ingest-csv` command and the `T1` and `XF` strategies.
 
 ## Forms and email
 

@@ -18,7 +18,7 @@
         ["Planned on last week's prices, day-ahead", get("DAM", "B2"), "What a disciplined day-ahead schedule earned."],
         ["Planned on last week's prices, real-time", get("RTM", "B2"), "The same plan in the real-time market."],
         ["Fixed 11:00 / 18:00", get("DAM", "B0"), "Charges and sells at the same hours every day."],
-        ["1pm / 10pm rule", get("DAM", "S1"), "Charges after lunch, sells before midnight."]
+        ["Day-ahead plan, corrected in real-time", get("BOTH", "T1"), "The same plan, re-planned at 22:00 and adjusted in real-time."]
       ];
       var both = get("BOTH", "PH");
       $("est-head").textContent = F.crore(yr(get("DAM", "B2")), 1);
@@ -26,7 +26,8 @@
         F.month(months[months.length - 12]) + " to " + F.month(months[months.length - 1]) + ", after fees and wear.";
       C.table($("est-table"), ["Schedule", "Last 12 months", "Per MW", "Note"], rows.map(function (r) {
         return [r[0], F.crore(yr(r[1]), 2), r[1] ? "₹" + F.num(r[1].last_12m.lakh_mw_yr, 1) + " lakh" : "–", r[2]];
-      }).concat(both ? [["Best of both markets (hindsight)", F.crore(yr(both), 2), "₹" + F.num(both.last_12m.lakh_mw_yr, 1) + " lakh", "Upper bound for trading day-ahead and real-time together."]] : []),
+      }).concat(bt.tolling && bt.tolling[sel.duration] ? [["Lease at the latest tender tariff", F.crore(bt.tolling[sel.duration].lakh_mw_yr * 1e5 * mw, 2), "₹" + F.num(bt.tolling[sel.duration].lakh_mw_yr, 1) + " lakh",
+        bt.tolling[sel.duration].authority + ", " + F.month(bt.tolling[sel.duration].result_date.slice(0, 7)) + ": fixed ₹" + F.num(bt.tolling[sel.duration].lakh_mw_month, 2) + " lakh per MW-month."]] : []).concat(both ? [["Best of both markets (hindsight)", F.crore(yr(both), 2), "₹" + F.num(both.last_12m.lakh_mw_yr, 1) + " lakh", "Upper bound for trading day-ahead and real-time together."]] : []),
         { text: [3], caption: "Before transmission charges, O&M and financing. " + (mw > 300 ? "Above a few hundred MW a battery starts to move evening prices, so these figures overstate what it would earn." : "A battery of this size is assumed not to move prices.") });
     }
     C.segmented($("est-duration"), [["2h", "2-hour"], ["4h", "4-hour"]], sel.duration, function (v) { sel.duration = v; draw(); });
