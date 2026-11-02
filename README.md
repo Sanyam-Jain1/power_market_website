@@ -5,12 +5,11 @@ Live at https://zoltiq.in (GitHub Pages, served from `master`; the `CNAME` file 
 
 Plain HTML, CSS and JavaScript. No build step.
 
-Design: an energy control room, in black and white. Archivo (wide cut for headings) with JetBrains Mono for data labels,
-rounded app-style panels and halftone illustrations of India's grid.
-Light mode is paper and ink with one saffron accent; dark mode is night and gold. The site follows the
-visitor's device setting and the header button switches it (remembered per browser). Sections alternate
-plain and banded. Illustrations of India's grid come in a light and a dark version (`*-light.jpg`,
-`*-dark.jpg`) and swap with the theme. The hero marks the 15-minute block India is trading right now (IST).
+Design: one Indian day on the grid. The Home hero plays a full day (night, dawn, midday, golden hour,
+sunset) behind a line of pylons; the sections below continue it as you scroll (morning, midday, golden hour,
+sunset, dusk, then night with stars at the footer). Each other page opens on the same sky frozen at its own
+hour (Research at dawn, Markets at noon, Index at golden hour, Strategies at sunset, For asset owners at night).
+Section colours are set by the `.sky-*` classes in `site.css`. Type: Archivo, with JetBrains Mono for data labels.
 
 ## Structure
 
@@ -32,7 +31,7 @@ data/*.json                 Data the charts read
 
 ## Updating styles or scripts
 
-Pages link to `assets/...?v=<number>` (currently `v=7`). After changing any file in `assets/`, bump that number in every page so browsers fetch the new file instead of a cached copy.
+Pages link to `assets/...?v=<number>` (currently `v=8`). After changing any file in `assets/`, bump that number in every page so browsers fetch the new file instead of a cached copy.
 
 ## Data
 

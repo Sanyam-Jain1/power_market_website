@@ -22,7 +22,7 @@
   --card-2: #e3e6eb;
   --card-3: #d9dde4;
   --card-ink: #0d0f12;
-  --footer: #08090b;
+  --footer: #060a19;
   --footer-ink: #f6f7f9;
   --footer-soft: #9aa0aa;
 
@@ -52,25 +52,6 @@
   --gap-section: clamp(6rem, 11vw, 10rem);
 
   color-scheme: light;
-}
-/* Dark: night and gold. Follows the device setting unless the visitor picks a theme. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0b0d12; --bg-2: #151922; --ink: #eef0f4; --ink-soft: #9aa1ad; --line: rgba(255, 255, 255, 0.12);
-    --band: #12151c; --band-ink: #eef0f4; --band-soft: #9aa1ad; --band-line: rgba(255, 255, 255, 0.12);
-    --accent: #ffb238; --accent-ink: #0d0f12; --accent-soft: #4a3714; --bar: #2b3140;
-    --card-1: #1a1e27; --card-2: #212632; --card-3: #282e3c; --card-ink: #eef0f4;
-    --footer: #06070a; --footer-ink: #eef0f4; --footer-soft: #8d94a0;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0b0d12; --bg-2: #151922; --ink: #eef0f4; --ink-soft: #9aa1ad; --line: rgba(255, 255, 255, 0.12);
-  --band: #12151c; --band-ink: #eef0f4; --band-soft: #9aa1ad; --band-line: rgba(255, 255, 255, 0.12);
-  --accent: #ffb238; --accent-ink: #0d0f12; --accent-soft: #4a3714; --bar: #2b3140;
-  --card-1: #1a1e27; --card-2: #212632; --card-3: #282e3c; --card-ink: #eef0f4;
-  --footer: #06070a; --footer-ink: #eef0f4; --footer-soft: #8d94a0;
-  color-scheme: dark;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -136,7 +117,8 @@ p { margin: 0; }
   color: var(--ink);
   transition: background-color 0.25s ease, color 0.25s ease;
 }
-.site-header.is-solid { background: var(--paper); }
+.site-header.is-solid { background: rgba(246, 247, 249, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #0d0f12; }
+body.dark-hero .site-header:not(.is-solid) { color: #f2f4f8; }
 .site-header .frame {
   display: flex;
   align-items: center;
@@ -163,7 +145,8 @@ p { margin: 0; }
   transition: text-decoration-color 0.2s ease, text-underline-offset 0.2s ease;
 }
 .nav a:not(.btn):hover, .nav a[aria-current="page"] { text-decoration-color: currentColor; text-underline-offset: 4px; }
-.theme-toggle {
+.theme-toggle { display: none !important;
+
   display: inline-grid; place-items: center;
   width: 40px; height: 40px; padding: 0;
   background: transparent; color: inherit;
@@ -239,7 +222,63 @@ p { margin: 0; }
 }
 .text-link:hover { text-underline-offset: 8px; }
 
+/* ---- Hero: a day on the grid. The sun (canvas) moves behind the pylon picture. ---- */
+.hero {
+  position: relative;
+  min-height: max(100svh, 640px);
+  margin-top: -4.6rem;
+  padding-top: 4.6rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  isolation: isolate;
+  /* The sky behind the words changes with the hour, so the hero sets its own text colours. */
+  background: #0b1230;
+  color: #0d0f12;
+  transition: color 0.6s ease;
+}
+.hero.is-night { color: #f2f4f8; }
+.hero .btn.paper { background: #ffffff; color: #0d0f12; }
+.sky-page .site-header:not(.is-solid) { color: #0d0f12; transition: color 0.6s ease; }
+.sky-page .site-header.over-night:not(.is-solid) { color: #f2f4f8; }
+.hero-sky { position: absolute; inset: 0; z-index: -3; width: 100%; height: 100%; }
+.hero-slide {
+  position: absolute; inset: 0; z-index: -2;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 70% 50%;
+}
+
 /* ---------- Fields: whole sections in one flat colour ---------- */
+/* ---------- The day, continued: sections take the sky colour of a later hour ----------
+   Each class sets the section's colour tokens, so panels, bars and text inside follow it.
+   Light skies use dark ink; dusk and night use light ink and a gold accent. */
+.sky-morning, .sky-noon, .sky-golden, .sky-sunset { --ink: #0d0f12; --ink-soft: #3f4653; --line: rgba(13, 15, 18, 0.14);
+  --bg: #ffffff; --bg-2: #eef3f9; --card-ink: #0d0f12; --band: #0b1230; --band-ink: #f2f4f8; --band-soft: #aab3c8; color: var(--ink); --soft: var(--ink-soft); }
+.sky-dusk, .sky-night { --ink: #f2f4f8; --ink-soft: #b6bdd2; --line: rgba(255, 255, 255, 0.16);
+  --bg: #121a3d; --bg-2: #1b2550; --card-ink: #f2f4f8; --band: #070b1a; --band-ink: #f2f4f8; --band-soft: #8f98b5;
+  --accent: #ffb238; --accent-soft: #5a4320; color: var(--ink); --soft: var(--ink-soft); }
+.sky-morning { background: linear-gradient(180deg, #cfe2fa 0%, #e6f1fd 100%); --card-1: #ffffffcc; --card-2: #ffffffb3; --card-3: #ffffff99; --bar: #9fb9db; }
+.sky-noon    { background: linear-gradient(180deg, #e6f1fd 0%, #f4f9ff 100%); --bar: #a9c4e6; }
+.sky-golden  { background: linear-gradient(180deg, #f4f9ff 0%, #ffe8c4 35%, #ffc98e 100%); --card-1: #fff8ee; --card-2: #fff1de; --card-3: #ffe9cc; --bar: #e8a96a; }
+.sky-sunset  { background: linear-gradient(180deg, #ffc98e 0%, #ff9f6e 55%, #e8686a 100%); --bar: #b8505e; --accent: #0b1230; --accent-ink: #ffffff; }
+.sky-dusk    { background: linear-gradient(180deg, #5a3a7e 0%, #2c2766 55%, #171d4c 100%); --bar: #3b4685; --card-1: #ffffff14; --card-2: #ffffff1f; --card-3: #ffffff29; }
+.sky-night   { background: linear-gradient(180deg, #171d4c 0%, #0a1028 60%, #060a19 100%); --bar: #2b3566; }
+/* Stars over the night sections */
+.stars { position: relative; isolation: isolate; }
+.stars::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0.7;
+  background-image:
+    radial-gradient(1.4px 1.4px at 12% 18%, #fff 50%, transparent 51%), radial-gradient(1px 1px at 27% 42%, #fff 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 44% 12%, #fff 50%, transparent 51%), radial-gradient(1px 1px at 61% 33%, #fff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 78% 9%, #fff 50%, transparent 51%), radial-gradient(1px 1px at 88% 47%, #fff 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 6% 66%, #fff 50%, transparent 51%), radial-gradient(1px 1px at 35% 78%, #fff 50%, transparent 51%),
+    radial-gradient(1.3px 1.3px at 70% 70%, #fff 50%, transparent 51%), radial-gradient(1px 1px at 93% 84%, #fff 50%, transparent 51%);
+  background-size: 520px 420px;
+}
+/* The far ridge and pylon line, used to close a sky section like a horizon */
+.horizon-line { height: clamp(90px, 12vw, 160px); background: url("../img/pylons-dark.webp") right bottom / cover no-repeat; margin-top: -1px; }
+.sky-dusk .horizon-line, .sky-night .horizon-line { background-image: url("../img/pylons-light.webp"); opacity: 0.6; }
+
 .field-plain { background: var(--bg); color: var(--ink); --soft: var(--ink-soft); }
 .field-band { background: var(--band); color: var(--band-ink); --soft: var(--band-soft); }
 .field-band .btn.ink { background: var(--band-ink); color: var(--band); }

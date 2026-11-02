@@ -176,14 +176,16 @@
     }
   }
 
-  var current = 17.4;
+  // A page can freeze the sky at one hour with data-hour on the hero (the other pages do this).
+  var fixedHour = hero.hasAttribute("data-hour") ? parseFloat(hero.getAttribute("data-hour")) : null;
+  var current = fixedHour != null ? fixedHour : 17.4;
   function setup() { size(); lastBlock = -1; wasNight = null; draw(current); }
   setup();
   addEventListener("resize", setup);
   if (!dayInk.complete) dayInk.addEventListener("load", setup);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(setup);
 
-  if (reduce) return;                       // still frame at golden hour
+  if (reduce || fixedHour != null) return;  // still frame
 
   var DAY_MS = 40000;                       // one day every 40 seconds
   var start = performance.now() - DAY_MS * (5 / 24);   // begin before dawn

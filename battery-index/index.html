@@ -11,29 +11,29 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/site.css?v=7">
+<link rel="stylesheet" href="../assets/css/site.css?v=8">
 <style>
-.stub { min-height: 88svh; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); margin-top: -4.6rem; padding-top: 4.6rem; }
-.stub-copy { display: grid; align-content: center; gap: 1.5rem; padding: clamp(2rem, 6vw, 5rem) var(--margin); max-width: 52rem; }
-.stub h1 { font-size: clamp(2.25rem, 1.2rem + 2.8vw, 4.25rem); line-height: 1.02; max-width: 16ch; }
-.stub .lede { max-width: 38ch; }
-.stub .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
-.stub img { width: 100%; height: 100%; object-fit: cover; }
-.stub.field-band img, .stub.field-plain img { border-radius: 0; }
-@media (max-width: 860px) { .stub { grid-template-columns: minmax(0, 1fr); } .stub img { height: 44svh; } }
+.page-hero { min-height: max(100svh, 600px); }
+.page-hero .page-copy { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-block: clamp(2rem, 8vh, 5rem) clamp(9rem, 22vh, 14rem); }
+.page-hero h1 { font-size: clamp(2.25rem, 1.2rem + 2.8vw, 4.25rem); line-height: 1.02; max-width: 15ch; }
+.page-hero .lede { margin-top: 1.25rem; max-width: 42ch; }
+.page-hero .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+.coming { padding-block: var(--gap-section); }
+.coming-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 2rem clamp(1.5rem, 3vw, 3rem); }
+.coming-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.coming-list li { display: grid; gap: 0.35rem; padding: 1.1rem 1.25rem; background: color-mix(in srgb, var(--bg) 70%, transparent); border: 1px solid var(--line); border-radius: var(--radius); }
+.coming-list .k { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+.coming-foot { margin-top: 1.5rem; color: var(--ink-soft); max-width: 52ch; }
+@media (max-width: 860px) { .coming-grid { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </head>
-<body>
+<body class="sky-page">
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="site-header">
   <div class="frame">
     <a class="brand" href="../">Zoltiq</a>
     <div class="header-tools">
-      <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
-        <svg class="moon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M15 10.5A6.5 6.5 0 1 1 7.5 3a5 5 0 0 0 7.5 7.5z"/></svg>
-        <svg class="sun" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="9" cy="9" r="3.5"/><path d="M9 1v2M9 15v2M1 9h2M15 9h2M3.3 3.3l1.4 1.4M13.3 13.3l1.4 1.4M3.3 14.7l1.4-1.4M13.3 4.7l1.4-1.4"/></svg>
-      </button>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
     </div>
     <nav class="nav" id="site-nav" aria-label="Main">
@@ -48,20 +48,38 @@
 </header>
 
 <main id="main">
-  <section class="stub field-plain" aria-labelledby="page-title">
-    <div class="stub-copy">
+  <section class="hero page-hero" data-hour="16.9" aria-labelledby="page-title">
+    <canvas class="hero-sky" id="hero-sky" aria-hidden="true"></canvas>
+    <img class="hero-slide hero-pylons day" src="../assets/img/pylons-dark.webp" width="2000" height="1170" alt="">
+    <img class="hero-slide hero-pylons night" src="../assets/img/pylons-light.webp" width="2000" height="1170" alt="" style="opacity:0">
+    <div class="frame page-copy">
       <h1 id="page-title">Zoltiq Battery Index</h1>
-      <p class="lede">What a standard reference battery earned each month on IEX day-ahead and real-time, against a simple 1pm / 10pm schedule. The full history, the method and downloadable data are on their way.</p>
+      <p class="lede">What a standard reference battery earned each month on IEX day-ahead and real-time, and how much of that a simple 1pm / 10pm schedule captured.</p>
       <div class="actions">
-        <a class="btn" href="#subscribe">Get notified by email</a>
-        <a class="btn ink" href="../">Back to home</a>
+        <a class="btn" href="#subscribe">Get the monthly value by email <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg></a>
+        <a class="btn paper" href="../">Back to home</a>
       </div>
     </div>
-    <img src="../assets/img/battery-light.jpg" data-light="../assets/img/battery-light.jpg" data-dark="../assets/img/battery-dark.jpg" alt="Illustration: a battery storage yard." width="1400" height="880">
+  </section>
+
+  <section class="coming sky-golden" aria-labelledby="coming-title">
+    <div class="frame coming-grid">
+      <h2 id="coming-title">Coming to this page</h2>
+      <div>
+        <ul class="coming-list">
+          <li><span class="k">Headline figures</span><span>Last month, trailing 12 months, share captured by the simple schedule, average spread</span></li>
+          <li><span class="k">Chart</span><span>The full history, optimised against simple, over 1 year, 3 years or all time</span></li>
+          <li><span class="k">Method</span><span>How it is calculated, in three steps</span></li>
+          <li><span class="k">Assumptions</span><span>Power, energy, round-trip efficiency, cycles per day, markets and fees</span></li>
+          <li><span class="k">Data</span><span>A CSV download of every monthly value, and a line on how to cite it</span></li>
+        </ul>
+        <p class="coming-foot">Backtested results are not a guarantee of future returns.</p>
+      </div>
+    </div>
   </section>
 </main>
 
-<footer class="site-footer" id="subscribe">
+<footer class="site-footer stars" id="subscribe">
   <div class="frame">
     <div class="footer-top">
       <div>
@@ -95,6 +113,7 @@
   </div>
 </footer>
 
-<script src="../assets/js/site.js?v=7"></script>
+<script src="../assets/js/site.js?v=8"></script>
+<script src="../assets/js/hero.js?v=8"></script>
 </body>
 </html>

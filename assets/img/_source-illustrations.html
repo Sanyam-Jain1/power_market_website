@@ -80,6 +80,12 @@ function landscape(w,h,p,seed){
 }
 
 
+const SKYTHEME={
+ tower:{bg:'#a9cdf5',dots:'#d3e6fb',ink:'#0d0f12',accent:'#fff1c8',soft:'#cfe2fa',mid:'#9fb9db',box:'#ffffff'},
+ solar:{bg:'#ffc98e',dots:'#ffe3bd',ink:'#2a1a10',accent:'#fff3c4',soft:'#e9a96c',mid:'#2f4a8f',box:'#ffffff'},
+ battery:{bg:'#ff9f6e',dots:'#ffc4a0',ink:'#1a1020',accent:'#fff0d0',soft:'#c9655e',mid:'#9a4a58',box:'#fff4ea'},
+ wind:{bg:'#121a42',dots:'#24306c',ink:'#d9e1ff',accent:'#e8edff',soft:'#0c1230',mid:'#1b2550',box:'#1b2550'}
+};
 const THEME={
  light:{bg:'#f6f7f9',dots:'#d6dae2',ink:'#0d0f12',accent:'#ff7a1a',soft:'#eceef2',mid:'#cfd3da',box:'#ffffff'},
  dark:{bg:'#0b0d12',dots:'#3a2b10',ink:'#ffb238',accent:'#ffb238',soft:'#10141c',mid:'#1a202c',box:'#161b25'}
@@ -167,6 +173,10 @@ function pylonsLayer(w,h,ink){
 }
 window.renderPylons=function(ink,w,h){ return pylonsLayer(w,h,ink).toDataURL('image/webp',0.9); };
 window.renderLayer=function(mode,w,h){ return landscapeLayer(w,h,PAL[mode==='light'?'mono':'gold'],11).toDataURL('image/webp',0.85); };
+window.renderSky=function(subject,w,h){
+  const f={tower:closeTower,solar:solarField,battery:batteryYard,wind:windRidge}[subject];
+  return f(w,h,{tower:5,solar:3,battery:9,wind:4}[subject],SKYTHEME[subject]).toDataURL('image/jpeg',0.8);
+};
 window.render=function(name,w,h){
   const [subject,mode]=name.split('-');
   const P=THEME[mode];
