@@ -5,24 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Markets | Zoltiq</title>
 <meta name="description" content="Market data, research and strategies for India's power exchanges, and the tools to turn them into returns for your plant or battery.">
-<meta name="theme-color" content="#07090f">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2307090f'/%3E%3Ctext x='16' y='23' font-family='Arial' font-weight='700' font-size='20' text-anchor='middle' fill='%23f3f2ef'%3EZ%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#ff8126">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23ff8126'/%3E%3Ctext x='16' y='24' font-family='Georgia' font-size='22' text-anchor='middle' fill='%23111'%3EZ%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/site.css?v=202611021453">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif:wght@400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<link rel="stylesheet" href="../assets/css/site.css?v=2">
 <style>
-.stub { min-height: 62svh; display: grid; align-content: center; gap: 1.5rem; padding-block: clamp(4rem, 10vw, 8rem); }
-.stub h1 { font-size: var(--step-3); line-height: 1; letter-spacing: -0.05em; max-width: 18ch; }
+.stub { min-height: 88svh; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); margin-top: -4.6rem; padding-top: 4.6rem; }
+.stub-copy { display: grid; align-content: center; gap: 1.5rem; padding: clamp(2rem, 6vw, 5rem) var(--margin); max-width: 52rem; }
+.stub h1 { font-size: clamp(2.75rem, 1.2rem + 5vw, 6.5rem); line-height: 0.95; max-width: 13ch; }
+.stub .lede { max-width: 38ch; }
 .stub .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
+.stub img { width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 860px) { .stub { grid-template-columns: minmax(0, 1fr); } .stub img { height: 44svh; } }
 </style>
 </head>
 <body>
-<div class="sky" aria-hidden="true"></div>
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="site-header">
-  <div class="wrap">
+  <div class="frame">
     <a class="brand" href="../">Zoltiq</a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
     <nav class="nav" id="site-nav" aria-label="Main">
@@ -31,28 +34,38 @@
       <a href="../research/">Research</a>
       <a href="../strategies/">Strategies</a>
       <a href="../asset-owners/">For asset owners</a>
-      <a class="btn small" href="#subscribe">Subscribe</a>
+      <a class="btn small ink" href="#subscribe">Subscribe</a>
     </nav>
   </div>
 </header>
 
 <main id="main">
-  <section class="wrap stub" aria-labelledby="page-title">
-    <h1 id="page-title">Markets</h1>
-    <p class="lede">Daily dashboards for India's power exchanges: day-ahead, real-time, high-price day-ahead and ancillary services, block by block. Coming soon.</p>
-    <div class="actions">
-      <a class="btn" href="#subscribe">Get notified by email</a>
-      <a class="btn ghost" href="../">Back to home</a>
+  <section class="stub field-saffron" aria-labelledby="page-title">
+    <div class="stub-copy">
+      <h1 id="page-title">Markets, block by block</h1>
+      <p class="lede">Daily dashboards for India's power exchanges: day-ahead, real-time, high-price day-ahead and ancillary services, all 96 blocks of every day. Coming soon.</p>
+      <div class="actions">
+        <a class="btn" href="#subscribe">Get notified by email</a>
+        <a class="btn ink" href="../">Back to home</a>
+      </div>
     </div>
+    <img src="../assets/img/hero-noon.jpg" alt="Illustration: transmission pylons at noon." width="1400" height="880">
   </section>
 </main>
 
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="subscribe" id="subscribe">
-      <h2>New research and market notes, by email.</h2>
-      <form class="subscribe-form" data-form="Newsletter signup" data-success="You're subscribed. Watch your inbox for the next note.">
-        <div class="field">
+<footer class="site-footer" id="subscribe">
+  <div class="frame">
+    <div class="footer-top">
+      <div>
+        <a class="brand" href="../">Zoltiq</a>
+        <div class="footer-notes">
+          <p>Energy Intelligence for India.</p>
+          <p>Market data, research and strategies for India's power exchanges.</p>
+        </div>
+      </div>
+      <form class="subscribe" data-form="Newsletter signup" data-success="You're subscribed. Watch your inbox for the next note.">
+        <h2>New research and market notes, by email.</h2>
+        <div class="field-input">
           <label for="sub-email">Email address</label>
           <div class="subscribe-row">
             <input id="sub-email" name="email" type="email" autocomplete="email" required placeholder="you@company.in">
@@ -63,36 +76,17 @@
         <p class="form-status" role="status" aria-live="polite"></p>
       </form>
     </div>
-    <div class="footer-grid">
-      <div>
-        <p class="footer-name" aria-hidden="true">Zoltiq</p>
-        <p style="margin:0;color:var(--ink-2)">Energy Intelligence for India.<br>Contact: <a data-contact-email href="mailto:hello@zoltiq.in">hello@zoltiq.in</a></p>
-      </div>
-      <nav aria-label="Platform">
-        <h3>Platform</h3>
-        <ul>
-          <li><a href="../battery-index/">Battery Index</a></li>
-          <li><a href="../markets/">Markets</a></li>
-          <li><a href="../research/">Research</a></li>
-          <li><a href="../strategies/">Strategies</a></li>
-        </ul>
+    <a class="footer-mail" data-contact-email data-keep-text href="mailto:hello@zoltiq.in">hello@<wbr>zoltiq.in</a>
+    <div class="footer-meta">
+      <nav aria-label="Footer">
+        <a href="../battery-index/">Index</a><a href="../markets/">Markets</a><a href="../research/">Research</a><a href="../strategies/">Strategies</a><a href="../asset-owners/">For asset owners</a>
       </nav>
-      <nav aria-label="Company">
-        <h3>Company</h3>
-        <ul>
-          <li><a href="../asset-owners/">For asset owners</a></li>
-          <li><a href="../asset-owners/#estimate">Free estimate</a></li>
-          <li><a href="../#about">About</a></li>
-        </ul>
-      </nav>
-    </div>
-    <div class="footer-legal">
-      <span>© 2026 Zoltiq</span>
-      <span>Backtested results are not a guarantee of future returns.</span>
+      <p>Backtested results are not a guarantee of future returns.</p>
+      <p>© 2026 Zoltiq · India</p>
     </div>
   </div>
 </footer>
 
-<script src="../assets/js/site.js?v=202611021453"></script>
+<script src="../assets/js/site.js?v=2"></script>
 </body>
 </html>

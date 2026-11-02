@@ -1,6 +1,7 @@
 /* Zoltiq — shared behaviour for every page. */
 (function () {
   "use strict";
+  document.documentElement.classList.add("js");
 
   /* ---- Site settings ---------------------------------------------------- */
   var CONFIG = {
@@ -12,7 +13,7 @@
   window.ZOLTIQ = CONFIG;
 
   [].forEach.call(document.querySelectorAll("[data-contact-email]"), function (el) {
-    el.textContent = CONFIG.contactEmail;
+    if (!el.hasAttribute("data-keep-text")) el.textContent = CONFIG.contactEmail;
     if (el.tagName === "A") el.href = "mailto:" + CONFIG.contactEmail;
   });
 
@@ -23,54 +24,35 @@
     menuBtn.addEventListener("click", function () {
       var open = nav.classList.toggle("is-open");
       menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
+      menuBtn.textContent = open ? "Close" : "Menu";
     });
     nav.addEventListener("click", function (e) {
       if (e.target.closest("a")) {
         nav.classList.remove("is-open");
         menuBtn.setAttribute("aria-expanded", "false");
+        menuBtn.textContent = "Menu";
       }
     });
   }
 
-  /* ---- Sky: midday at the top of the page, night at the bottom ---------- */
-  var root = document.documentElement;
+  /* ---- Header: transparent over the first screen, paper once you scroll -- */
   var header = document.querySelector(".site-header");
-  // [progress, skyTop, skyBottom, glow rgba, sunX %, sunY %]
-  var SKY = [
-    [0.00, [8, 28, 56], [23, 82, 112], [140, 200, 255, 0.34], 72, 8],
-    [0.30, [9, 26, 54], [28, 62, 104], [120, 175, 255, 0.24], 80, 40],
-    [0.60, [10, 16, 40], [52, 38, 84], [255, 132, 112, 0.22], 86, 86],
-    [1.00, [4, 6, 13], [8, 14, 36], [90, 170, 255, 0.14], 50, 115]
-  ];
-  function mix(a, b, t) { return a + (b - a) * t; }
-  function rgb(a, b, t) {
-    return "rgb(" + Math.round(mix(a[0], b[0], t)) + "," + Math.round(mix(a[1], b[1], t)) + "," + Math.round(mix(a[2], b[2], t)) + ")";
-  }
-  function paintSky() {
-    var max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
-    var p = Math.min(1, Math.max(0, scrollY / max));
-    var i = 0;
-    while (i < SKY.length - 2 && p > SKY[i + 1][0]) i++;
-    var a = SKY[i], b = SKY[i + 1];
-    var t = (p - a[0]) / (b[0] - a[0]);
-    root.style.setProperty("--sky-top", rgb(a[1], b[1], t));
-    root.style.setProperty("--sky-bottom", rgb(a[2], b[2], t));
-    var g = a[3], h = b[3];
-    root.style.setProperty("--sky-glow", "rgba(" + Math.round(mix(g[0], h[0], t)) + "," + Math.round(mix(g[1], h[1], t)) + "," +
-      Math.round(mix(g[2], h[2], t)) + "," + mix(g[3], h[3], t).toFixed(3) + ")");
-    root.style.setProperty("--sun-x", mix(a[4], b[4], t).toFixed(1) + "%");
-    root.style.setProperty("--sun-y", mix(a[5], b[5], t).toFixed(1) + "%");
-    if (header) header.classList.toggle("is-solid", scrollY > 40);
-  }
-  var queued = false;
-  function onScroll() {
-    if (queued) return;
-    queued = true;
-    requestAnimationFrame(function () { queued = false; paintSky(); });
-  }
+  function onScroll() { if (header) header.classList.toggle("is-solid", scrollY > 60); }
   addEventListener("scroll", onScroll, { passive: true });
-  addEventListener("resize", onScroll);
-  paintSky();
+  onScroll();
+
+  /* ---- Entrances: each .rise element rises once as it comes into view --- */
+  var risers = document.querySelectorAll(".rise, .watch");
+  if ("IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+      });
+    }, { rootMargin: "0px 0px -8% 0px" });
+    [].forEach.call(risers, function (el) { io.observe(el); });
+  } else {
+    [].forEach.call(risers, function (el) { el.classList.add("in"); });
+  }
 
   /* ---- Forms: any <form data-form="name"> posts to the form endpoint ---- */
   [].forEach.call(document.querySelectorAll("form[data-form]"), function (form) {
@@ -83,7 +65,7 @@
       [].forEach.call(form.elements, function (el) { if (el.name) data[el.name] = el.value.trim(); });
       if (data._honey) return;
       if (submit) submit.disabled = true;
-      if (status) { status.className = "form-status"; status.textContent = "Sending…"; }
+      if (status) status.textContent = "Sending…";
       fetch(CONFIG.formEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
@@ -95,10 +77,7 @@
         form.reset();
         if (status) status.textContent = form.getAttribute("data-success") || "Thanks. We’ll be in touch by email.";
       }).catch(function () {
-        if (status) {
-          status.className = "form-status is-error";
-          status.textContent = "That didn’t send. Please email " + CONFIG.contactEmail + " instead.";
-        }
+        if (status) status.textContent = "That didn’t send. Please email " + CONFIG.contactEmail + " instead.";
       }).then(function () { if (submit) submit.disabled = false; });
     });
   });

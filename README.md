@@ -5,6 +5,11 @@ Live at https://zoltiq.in (GitHub Pages, served from `master`; the `CNAME` file 
 
 Plain HTML, CSS and JavaScript. No build step.
 
+Design: "the printed annual". Young Serif headlines over Source Serif 4 text, whole sections in solid colour fields
+(saffron noon, afternoon sky, lime, sunset crimson, night), and halftone illustrations of India's grid.
+The page reads as one trading day; the hero shows the same view at noon, afternoon, sunset and night and
+marks the 15-minute block India is trading right now (IST).
+
 ## Structure
 
 ```
@@ -17,7 +22,8 @@ asset-owners/index.html     For asset owners + estimate (placeholder page for no
 assets/css/site.css         Shared design system
 assets/js/site.js           Shared behaviour and site settings (contact email, form endpoint)
 assets/js/charts.js         Small SVG chart helpers
-assets/js/hero.js           Home hero animation
+assets/js/home.js           Home page behaviour (hero crossfade, live IST block, document switcher, research deck)
+assets/img/                 Illustrations (risograph style). `_source-illustrations.html` draws them; open it in a browser and call render(name, w, h) to redraw.
 data/*.json                 Data the charts read
 ```
 

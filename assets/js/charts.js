@@ -1,4 +1,4 @@
-/* Zoltiq — small SVG chart helpers. No library; each function draws into an <svg> it is given.
+/* Zoltiq — small SVG chart helpers, drawn in the site's print inks.
    Values are drawn relative to their own min/max, so the same code draws sample shapes now and real ₹/MWh later. */
 (function () {
   "use strict";
@@ -16,52 +16,46 @@
     return [lo, hi];
   }
 
-  /* A day of 96 fifteen-minute blocks: day-ahead as a filled step line, real-time as a dashed line,
-     with the solar hours and the evening peak shaded. */
+  /* One day of 96 fifteen-minute blocks: day-ahead as a heavy step line, real-time dashed,
+     solar hours printed in saffron and the evening peak in crimson. */
   function dayCurve(svg, data) {
-    var W = 960, H = 320, top = 16, base = 300;
+    var W = 960, H = 340, top = 14, base = 320;
     svg.setAttribute("viewBox", "0 0 " + W + " " + H);
     svg.textContent = "";
-    var series = [data.dam].concat(data.rtm ? [data.rtm] : []);
-    var ex = extent(series);
-    var span = ex[1] - ex[0];
+    var ex = extent([data.dam].concat(data.rtm ? [data.rtm] : []));
     var x = function (i) { return (i / 96) * W; };
-    var y = function (v) { return base - ((v - ex[0]) / span) * (base - top) * 0.92 - (base - top) * 0.04; };
-
-    el("rect", { x: x(36), y: 0, width: x(64) - x(36), height: base, fill: "rgba(255,195,90,0.13)" }, svg);
-    el("rect", { x: x(72), y: 0, width: x(88) - x(72), height: base, fill: "rgba(255,138,106,0.16)" }, svg);
-    for (var g = 0; g <= 24; g += 6) {
-      el("line", { x1: x(g * 4), x2: x(g * 4), y1: 0, y2: base, stroke: "rgba(255,255,255,0.10)", "stroke-dasharray": g % 24 ? "2 6" : "" }, svg);
-    }
+    var y = function (v) { return base - ((v - ex[0]) / (ex[1] - ex[0])) * (base - top) * 0.9 - (base - top) * 0.05; };
+    el("rect", { x: x(36), y: 0, width: x(64) - x(36), height: base, fill: "#ffb37a" }, svg);
+    el("rect", { x: x(72), y: 0, width: x(88) - x(72), height: base, fill: "#f7a3b8" }, svg);
     function stepPath(vals) {
       var d = "M0 " + y(vals[0]).toFixed(1);
-      vals.forEach(function (v, i) {
-        if (i) d += "V" + y(v).toFixed(1);
-        d += "H" + x(i + 1).toFixed(1);
-      });
+      vals.forEach(function (v, i) { if (i) d += "V" + y(v).toFixed(1); d += "H" + x(i + 1).toFixed(1); });
       return d;
     }
-    var dam = stepPath(data.dam);
-    el("path", { d: dam + "V" + base + "H0Z", fill: "rgba(243,242,239,0.08)" }, svg);
-    if (data.rtm) el("path", { d: stepPath(data.rtm), fill: "none", stroke: "#6fe3ff", "stroke-width": 1.6, "stroke-dasharray": "5 4" }, svg);
-    el("path", { d: dam, fill: "none", stroke: "#f3f2ef", "stroke-width": 2 }, svg);
-    el("line", { x1: 0, x2: W, y1: base, y2: base, stroke: "rgba(255,255,255,0.35)" }, svg);
+    if (data.rtm) el("path", { d: stepPath(data.rtm), fill: "none", stroke: "#1b6fd0", "stroke-width": 2, "stroke-dasharray": "6 5" }, svg);
+    el("path", { d: stepPath(data.dam), fill: "none", stroke: "#111", "stroke-width": 3 }, svg);
+    el("rect", { x: 0, y: base, width: W, height: 3, fill: "#111" }, svg);
   }
 
-  /* A compact trend line with an emphasised last point. */
-  function sparkline(svg, values) {
-    var W = 320, H = 96, pad = 6;
-    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
-    svg.textContent = "";
-    var ex = extent([values]);
-    var x = function (i) { return pad + (i / (values.length - 1)) * (W - pad * 2); };
-    var y = function (v) { return H - pad - ((v - ex[0]) / (ex[1] - ex[0])) * (H - pad * 2); };
-    var d = values.map(function (v, i) { return (i ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1); }).join("");
-    el("path", { d: d + "L" + x(values.length - 1) + " " + H + "L" + x(0) + " " + H + "Z", fill: "rgba(255,195,90,0.14)" }, svg);
-    el("path", { d: d, fill: "none", stroke: "#ffc35a", "stroke-width": 2, "stroke-linejoin": "round" }, svg);
-    var last = values.length - 1;
-    el("circle", { cx: x(last), cy: y(values[last]), r: 4.5, fill: "#ffc35a", stroke: "#07090f", "stroke-width": 2 }, svg);
+  /* Monthly bars standing on the bottom edge; the last bar takes the accent. */
+  function edgeBars(container, values, opts) {
+    opts = opts || {};
+    container.textContent = "";
+    var hi = Math.max.apply(null, values), lo = Math.min.apply(null, values);
+    values.forEach(function (v, i) {
+      var bar = document.createElement("button");
+      bar.type = "button";
+      bar.className = "edge-bar" + (i === values.length - 1 ? " is-latest" : "");
+      var label = (opts.labels && opts.labels[i]) || ("Month " + (i + 1));
+      bar.setAttribute("aria-label", label + ": " + (opts.valueText ? opts.valueText(v, i) : "₹[X]"));
+      bar.style.setProperty("--h", (0.22 + 0.78 * (v - lo) / (hi - lo || 1)).toFixed(3));
+      var tip = document.createElement("span");
+      tip.className = "edge-tip";
+      tip.textContent = label + " · " + (opts.valueText ? opts.valueText(v, i) : "₹[X]");
+      bar.appendChild(tip);
+      container.appendChild(bar);
+    });
   }
 
-  window.ZoltiqCharts = { dayCurve: dayCurve, sparkline: sparkline };
+  window.ZoltiqCharts = { dayCurve: dayCurve, edgeBars: edgeBars };
 })();
