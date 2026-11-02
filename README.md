@@ -21,6 +21,10 @@ assets/js/hero.js           Home hero animation
 data/*.json                 Data the charts read
 ```
 
+## Updating styles or scripts
+
+Pages link to `assets/...?v=<number>`. After changing any file in `assets/`, bump that number in every page so browsers fetch the new file instead of a cached copy.
+
 ## Data
 
 Charts read `data/*.json`. Each file currently holds a **sample shape** with `"sample": true` and unitless values, not prices.
