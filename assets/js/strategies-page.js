@@ -20,7 +20,7 @@
       var t1 = get("BOTH", "T1"), da = get("DAM", "B2"), b0 = get("DAM", "B0"), x = get("BOTH", "PH");
       var lease = bt.tolling && bt.tolling[sel.duration];
       if (!t1 || !x) return;
-      $("r-val").textContent = "₹" + F.num(t1.last_12m.lakh_mw_yr, 1);
+      $("r-val").innerHTML = "₹" + F.num(t1.last_12m.lakh_mw_yr, 1) + '<span class="u">L</span>';
       $("r-name").textContent = S.T1 ? S.T1.name : "Day-ahead plan, corrected in real-time";
       var chips = $("r-chips"); chips.textContent = "";
       [["Share of the best possible", F.pct(t1.last_12m.capture)],

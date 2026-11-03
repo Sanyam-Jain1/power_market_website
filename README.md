@@ -42,7 +42,7 @@ tools/build_data.py              Builds data/ from IEX prices and the battery ba
 
 ## Updating styles or scripts
 
-Pages link to `assets/...?v=<number>` (currently `v=13`). After changing any file in `assets/`, bump that number in every page so browsers fetch the new file instead of a cached copy.
+Pages link to `assets/...?v=<number>` (currently `v=14`). After changing any file in `assets/`, bump that number in every page so browsers fetch the new file instead of a cached copy.
 
 ## Data
 
