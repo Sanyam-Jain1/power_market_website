@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>From leased asset to market player | Zoltiq Research</title>
+<meta name="description" content="Most Indian batteries are leased to discoms for a fixed fee. Why that is changing, and what a battery can earn from merchant trading and ancillary services on India's power exchanges.">
+<meta name="theme-color" content="#f4f3ee">
+<script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Ctext x='16' y='24' font-family='Georgia' font-size='22' text-anchor='middle' fill='%23ff7a1a'%3EZ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../assets/css/site.css?v=11">
+<style>
+.art-hero { min-height: max(78svh, 560px); }
+.art-hero .page-copy { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-block: clamp(2rem, 8vh, 5rem) clamp(8rem, 20vh, 12rem); }
+.art-hero h1 { font-size: clamp(2.25rem, 1.2rem + 2.8vw, 4rem); line-height: 1.02; max-width: 16ch; }
+.art-hero .lede { margin-top: 1.25rem; max-width: 46ch; }
+.art-kicker, .art-meta { font-family: var(--font-mono); font-size: 0.8125rem; letter-spacing: 0.05em; text-transform: uppercase; }
+.art-kicker { margin-bottom: 1.25rem; } .art-kicker a { text-decoration: underline; text-underline-offset: 4px; }
+.art-meta { margin-top: 1.5rem; opacity: 0.85; }
+
+.art { padding-block: clamp(3rem, 7vw, 6rem) var(--gap-section); background: linear-gradient(180deg, #cfe2fa 0%, #eef5fe 18%, #f6f9fd 100%); }
+.art-grid { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 46rem); gap: 2rem clamp(2rem, 6vw, 6rem); justify-content: center; }
+.art-side { position: sticky; top: 5.5rem; align-self: start; }
+.art-side-title { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 0.75rem; }
+.toc { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.5rem; font-size: 0.9375rem; color: var(--ink-soft); }
+.toc a { text-decoration: none; } .toc a:hover { text-decoration: underline; color: var(--ink); }
+@media (max-width: 960px) { .art-grid { grid-template-columns: minmax(0, 1fr); } .art-side { position: static; } }
+
+.art-body { font-size: 1.0625rem; line-height: 1.72; color: #1b2029; }
+.art-body > section + section { margin-top: clamp(3rem, 6vw, 4.5rem); }
+.art-body h2 { font-size: clamp(1.5rem, 1.2rem + 1vw, 2.125rem); line-height: 1.15; margin-bottom: 1.1rem; scroll-margin-top: 6rem; }
+.art-body h3 { font-size: 1.1875rem; margin-bottom: 0.6rem; }
+.art-body p + p, .art-body p + ul, .art-body ul + p, .art-body figure + p, .art-body p + figure, .art-body div + p, .art-body p + div { margin-top: 1rem; }
+.art-body ul { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.6rem; }
+.art-body b { font-weight: 650; color: #0d0f12; }
+.art-body a { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.keybox { background: #ffffff; border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(1.25rem, 3vw, 2rem); }
+.keybox h2 { font-size: 1.25rem; }
+.pull { font-size: 1.3125rem; line-height: 1.45; font-weight: 600; color: #0d0f12; border-left: 3px solid #ff7a1a; padding: 0.25rem 0 0.25rem 1.1rem; margin-top: 1.5rem !important; }
+
+.fig { margin: 1.75rem 0; padding: clamp(1rem, 3vw, 1.5rem); background: #ffffff; border: 1px solid var(--line); border-radius: var(--radius); }
+.fig-title { font-weight: 650; color: #0d0f12; line-height: 1.3; }
+.fig-sub { font-size: 0.875rem; color: var(--ink-soft); margin-top: 0.25rem !important; margin-bottom: 1rem; }
+.fig figcaption { font-size: 0.8125rem; color: var(--ink-soft); margin-top: 1rem; line-height: 1.5; }
+.hbars { display: grid; gap: 0.6rem; }
+.hb { display: grid; grid-template-columns: minmax(0, 14.5rem) minmax(0, 1fr) 2.75rem; gap: 0.75rem; align-items: center; font-size: 0.875rem; }
+.hb-t { height: 1.25rem; background: #eef2f7; border-radius: 4px; overflow: hidden; }
+.hb-t i { display: block; height: 100%; width: calc(var(--w) / 4.6 * 100%); border-radius: 4px; background: #9fb9db; }
+.hb.four .hb-t i { background: #0b1230; } .hb.ref .hb-t i { background: repeating-linear-gradient(90deg, #ff7a1a 0 6px, transparent 6px 10px); }
+.hb-v { font-family: var(--font-mono); font-size: 0.8125rem; text-align: right; }
+@media (max-width: 560px) { .hb { grid-template-columns: minmax(0, 1fr) 2.75rem; } .hb-l { grid-column: 1 / -1; } }
+#art-day { display: block; width: 100%; height: auto; color: #0d0f12; --accent-soft: #ffd8b8; --bg-2: #ffd0d6; --ink-soft: #8a93a3; }
+.axis-row { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--ink-soft); margin-top: 0.35rem; }
+.fig-key { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; font-size: 0.8125rem; margin-top: 0.75rem; }
+.fig-key i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.fig-key .k-sun { background: #ffd8b8; } .fig-key .k-eve { background: #ffd0d6; }
+
+.calc { margin: 1.75rem 0; padding: clamp(1.25rem, 3vw, 1.75rem); background: #0b1230; color: #e9edf6; border-radius: var(--radius); }
+.calc h3 { color: #fff; } .calc p { color: #c9d1e3; } .calc b { color: #fff; }
+.calc table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9375rem; }
+.calc td { padding: 0.55rem 0; border-top: 1px solid rgba(255,255,255,0.14); }
+.calc td:last-child { text-align: right; font-family: var(--font-mono); white-space: nowrap; padding-left: 1rem; }
+.calc tr.tot td { font-weight: 650; color: #ffb238; }
+.two-col { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+.mini { background: #ffffff; border: 1px solid var(--line); border-radius: var(--radius); padding: 1.25rem; font-size: 0.9375rem; line-height: 1.6; }
+@media (max-width: 640px) { .two-col { grid-template-columns: minmax(0, 1fr); } }
+.art-cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.75rem; }
+.sources ol { padding-left: 1.3rem; display: grid; gap: 0.55rem; font-size: 0.875rem; line-height: 1.55; color: #3f4653; }
+.disclaimer { margin-top: 1.5rem; font-size: 0.8125rem; color: var(--ink-soft); padding-top: 1rem; border-top: 1px solid var(--line); }
+</style>
+</head>
+<body class="sky-page">
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="frame">
+    <a class="brand" href="../../">Zoltiq</a>
+    <div class="header-tools">
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    </div>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <a href="../../battery-index/">Index</a>
+      <a href="../../markets/">Markets</a>
+      <a href="../../research/" aria-current="page">Research</a>
+      <a href="../../strategies/">Strategies</a>
+      <a href="../../asset-owners/">For asset owners</a>
+      <a class="btn small" href="#subscribe">Subscribe</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero page-hero art-hero" data-hour="6.6" aria-labelledby="page-title">
+    <canvas class="hero-sky" id="hero-sky" aria-hidden="true"></canvas>
+    <img class="hero-slide hero-pylons day" src="../../assets/img/pylons-dark.webp" width="2000" height="1170" alt="">
+    <img class="hero-slide hero-pylons night" src="../../assets/img/pylons-light.webp" width="2000" height="1170" alt="" style="opacity:0">
+    <div class="frame page-copy">
+      <p class="art-kicker"><a href="../">Research</a> · Batteries</p>
+      <h1 id="page-title">From leased asset to market player</h1>
+      <p class="lede">Most Indian batteries today are rented to a discom for a fixed monthly fee. Here is why that is starting to change, and what a battery can earn when it trades on its own.</p>
+      <p class="art-meta">Zoltiq Research · 3 November 2026 · <span id="read-time">14</span> min read</p>
+    </div>
+  </section>
+
+  <article class="art sky-morning" aria-labelledby="page-title">
+    <div class="frame art-grid">
+      <aside class="art-side" aria-label="In this article">
+        <p class="art-side-title">In this article</p>
+        <ol class="toc">
+          <li><a href="#short">The short version</a></li>
+          <li><a href="#lease">How batteries earn today: the lease</a></li>
+          <li><a href="#spread">The spread that changes the maths</a></li>
+          <li><a href="#ancillary">Ancillary services</a></li>
+          <li><a href="#merchant">Merchant batteries are already here</a></li>
+          <li><a href="#risks">What can go wrong</a></li>
+          <li><a href="#next">What comes next</a></li>
+          <li><a href="#sources">Sources</a></li>
+        </ol>
+      </aside>
+
+      <div class="art-body">
+
+        <section id="short" class="keybox" aria-labelledby="short-h">
+          <h2 id="short-h">The short version</h2>
+          <ul>
+            <li><b>Today, most batteries are leased.</b> A discom or central agency pays the owner a fixed capacity charge, usually for 12 years, and decides when the battery charges and discharges. India awarded 10.4 GW of standalone battery capacity this way in 2025.</li>
+            <li><b>The lease leaves money on the table.</b> On India's exchanges, power at midday can cost a few rupees per unit while the evening peak regularly hits the ₹10/kWh ceiling. Under a lease, that gap belongs to the buyer, not the battery owner.</li>
+            <li><b>Trading alone has started to pay.</b> Ember estimates that a battery trading only on the day-ahead market became profitable in 2024, with projected returns of up to 17%, and up to 24% when ancillary services are added.</li>
+            <li><b>It is already happening.</b> India's first merchant battery, 100 MWh in Bikaner, went fully live in January 2026. JMK Research counts merchant projects as about 80% of operational battery capacity.</li>
+            <li><b>The risks are real.</b> More batteries will narrow the evening spread, ancillary markets saturate quickly, and state rules on grid charging are still being written.</li>
+          </ul>
+        </section>
+
+        <section id="lease" aria-labelledby="lease-h">
+          <h2 id="lease-h">How batteries earn today: the lease</h2>
+          <p>Almost every large battery tendered in India so far has been built under a long-term contract called a Battery Energy Storage Purchase Agreement (BESPA). The developer builds, owns and maintains the battery. The buyer, usually a state discom, sometimes through an intermediary such as SECI, NTPC or NHPC, pays a fixed <em>capacity charge</em> quoted in rupees per megawatt per month.</p>
+          <p>Three features define these contracts:</p>
+          <ul>
+            <li><b>The buyer controls the battery.</b> In Punjab's PSPCL tender, for example, the charging and discharging schedule is in the discom's scope. In the Andhra Pradesh tender run by NHPC, the buying entity supplies the charging power.</li>
+            <li><b>Payment is for availability, not performance in the market.</b> The developer is paid to keep the capacity ready. SECI's standard BESPA charges liquidated damages for unavailable capacity, in one illustrated case at twice the capacity charge.</li>
+            <li><b>The terms are long.</b> Most are 12 years. Odisha's GRIDCO tender uses 15.</li>
+          </ul>
+          <p>For a discom this is an attractive deal. It gets a flexible resource for evening peaks without taking construction or technology risk. One example is the 20 MW / 40 MWh Kilokari battery in south Delhi, built by IndiGrid for BSES Rajdhani and in commercial operation since 1 April 2025. It was built to manage peak demand, cut power purchase costs and defer an upgrade of the 33/11 kV Kilokari substation.</p>
+
+          <figure class="fig" aria-labelledby="fig1-cap">
+            <p class="fig-title">Discovered capacity charges in recent standalone battery tenders</p>
+            <p class="fig-sub">₹ lakh per MW per month. Darker bars are 4-hour systems, lighter bars 2-hour.</p>
+            <div class="hbars" role="img" aria-label="Bar chart of capacity charges: APTRANSCO 2-hour 1.48, NVVN Kerala 2-hour 1.81, Gujarat later round 2-hour 2.10, indicative benchmark 2.3, NHPC Kerala 4-hour 4.34, NTPC Green West Bengal 4-hour 4.35, all in rupees lakh per megawatt per month.">
+              <div class="hb two"><span class="hb-l">APTRANSCO, Dec 2025 (2-hour)</span><span class="hb-t"><i style="--w:1.48"></i></span><span class="hb-v">1.48</span></div>
+              <div class="hb two"><span class="hb-l">NVVN, Kerala (2-hour)</span><span class="hb-t"><i style="--w:1.81"></i></span><span class="hb-v">1.81</span></div>
+              <div class="hb two"><span class="hb-l">Gujarat, later round (2-hour)</span><span class="hb-t"><i style="--w:2.10"></i></span><span class="hb-v">2.10</span></div>
+              <div class="hb ref"><span class="hb-l">Indicative benchmark, 2025</span><span class="hb-t"><i style="--w:2.30"></i></span><span class="hb-v">2.30</span></div>
+              <div class="hb four"><span class="hb-l">NHPC, Kerala, Aug 2025 (4-hour)</span><span class="hb-t"><i style="--w:4.34"></i></span><span class="hb-v">4.34</span></div>
+              <div class="hb four"><span class="hb-l">NTPC Green, West Bengal (4-hour)</span><span class="hb-t"><i style="--w:4.35"></i></span><span class="hb-v">4.35</span></div>
+            </div>
+            <figcaption id="fig1-cap">Sources: IEEFA–JMK Research (May 2026), Renewable Watch, pv magazine India, Saur Energy. Capacity charges for 2-hour and 4-hour systems are not directly comparable.</figcaption>
+          </figure>
+
+          <p>The government has backed this model heavily. In June 2025 the Ministry of Power announced a second Viability Gap Funding tranche of about ₹5,400 crore to support 30 GWh of battery storage, roughly ₹18 lakh per MWh, split between 15 states (25 GWh) and NTPC (5 GWh). Projects must be commissioned within 18 months of signing their contract. The Ministry also extended a 100% waiver of inter-state transmission charges to co-located batteries commissioned by 30 June 2028.</p>
+          <p>The lease model has a weakness, though. In 2025, competition drove tariffs down faster than costs. The IEEFA–JMK Research review of the 10.4 GW awarded that year found that average standalone tariffs fell about 79.6% between 2022 and 2025, while battery pack prices fell only about 36.5%. The lowest bid, ₹1.48 lakh/MW/month in APTRANSCO's 1,000 MW tender, sat well below the indicative benchmark of ₹2.3 lakh. The report considers nearly 75% of the allocated 2-hour capacity financially risky.</p>
+          <p class="pull">A lease pays the owner a thin, fixed fee. Everything the battery could earn from price swings goes to someone else.</p>
+        </section>
+
+        <section id="spread" aria-labelledby="spread-h">
+          <h2 id="spread-h">The spread that changes the maths</h2>
+          <p>India's power is traded on exchanges in 96 fifteen-minute blocks a day. As solar capacity has grown, the shape of a typical day has become sharp and predictable. Prices sag through the solar hours, when the grid is full of cheap generation, then climb steeply after sunset as solar output disappears and demand peaks.</p>
+
+          <figure class="fig" aria-labelledby="fig2-cap">
+            <p class="fig-title">One day, 96 blocks: where a battery charges and where it sells</p>
+            <p class="fig-sub">IEX day-ahead (solid) and real-time (dashed), <span id="day-date">latest day</span>, ₹/MWh.</p>
+            <svg id="art-day" role="img" aria-label="IEX day-ahead and real-time prices across the 96 blocks of the latest day: low through the solar hours, highest in the evening. A battery charges in the solar dip and sells into the evening peak."></svg>
+            <div class="axis-row" aria-hidden="true"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+            <div class="fig-key" aria-hidden="true"><span><i class="k-sun"></i>Charge in the solar dip</span><span><i class="k-eve"></i>Sell into the evening peak</span></div>
+            <figcaption id="fig2-cap"><span id="day-stats">On the latest day, the day-ahead market was far cheaper in the solar hours than in the evening.</span> Source: IEX market data, updated each morning on the <a href="../../markets/">Markets</a> page.</figcaption>
+          </figure>
+
+          <p>How wide is the gap? The day-ahead and real-time markets have a price ceiling of ₹10/kWh, set by CERC from April 2023 (the high-price day-ahead segment is capped at ₹20/kWh). Ember finds that the day-ahead price has sat near that ₹10 ceiling in about one hour in six since 2022, while its worked example puts solar-hour clearing prices near ₹2.6/kWh. A snapshot of the IEX day-ahead market for 22 October 2026 shows solar hours averaging about ₹4.12/kWh against ₹10.00/kWh in the evening peak. JMK Research notes that in April 2026, surplus solar pushed real-time prices close to zero at midday while evening day-ahead prices approached the cap.</p>
+          <p>Meanwhile the cost of a battery has collapsed. Ember estimates the levelised cost of a 2-hour system at about ₹17 lakh per MWh in 2024, against ₹79 lakh in 2015. Its conclusion is that since early 2024 the average daily day-ahead spread has been larger than the cost of storing a unit of energy. On that basis, a battery trading on its own became profitable for the first time in 2024.</p>
+
+          <div class="calc" aria-labelledby="calc-h">
+            <h3 id="calc-h">A rough ceiling, worked through</h3>
+            <p>Take a 1 MW / 2 MWh battery with 85% round-trip efficiency. To deliver 2 MWh in the evening it must buy about 2.35 MWh at midday.</p>
+            <table>
+              <tr><td>Buy 2.35 MWh at ₹2.6/kWh</td><td>₹6,110</td></tr>
+              <tr><td>Sell 2 MWh at the ₹10/kWh ceiling</td><td>₹20,000</td></tr>
+              <tr><td>Gross margin for the day</td><td>₹13,890</td></tr>
+              <tr class="tot"><td>If every day of the year looked like this</td><td>about ₹51 lakh</td></tr>
+            </table>
+            <p>That is an upper bound, not a forecast. Real days are often flatter, prices are not always at the ceiling, and fees, degradation and exchange charges come off the top. For comparison, a 2-hour lease at ₹1.48–2.10 lakh/MW/month pays about ₹18–25 lakh a year. The gap between those two numbers is what the industry is now chasing.</p>
+          </div>
+
+          <p>Ember projects returns of up to 17% for a battery commissioned in 2025 that trades only on the day-ahead market. Shorter 1–2 hour systems do better (15–22%) than 4-hour ones (13–18%), because the most valuable hours are concentrated in a short evening window.</p>
+        </section>
+
+        <section id="ancillary" aria-labelledby="ancillary-h">
+          <h2 id="ancillary-h">Ancillary services: paid to keep the grid steady</h2>
+          <p>Trading the daily spread is not the only revenue. Grid operators pay for reserves that can push power into the grid, or pull it out, within minutes to keep frequency stable. Batteries are among the fastest resources available for this.</p>
+          <p>CERC's Ancillary Services Regulations, 2022 opened these markets to energy storage, standalone or aggregated, connected to the inter-state or intra-state grid. Grid-India runs them as the nodal agency.</p>
+          <div class="two-col">
+            <div class="mini">
+              <h3>Secondary reserve (SRAS)</h3>
+              <p>In force from 5 December 2022. Automatic, fast response selected regionally for "up" or "down" regulation. Ember notes that a battery providing SRAS-Down can charge without paying for that electricity, and may earn an incentive of up to ₹0.50/kWh for following dispatch closely.</p>
+            </div>
+            <div class="mini">
+              <h3>Tertiary reserve (TRAS)</h3>
+              <p>In force from 1 June 2023. Providers must respond within 15 minutes and sustain the response for at least 60 minutes. Under Grid-India's revised procedures, TRAS-Up clears at a uniform price capped at ₹10/kWh for non-high-priority providers, and cleared but undispatched capacity earns a commitment charge.</p>
+            </div>
+          </div>
+          <p>How much does this add? Ember's modelling puts ancillary services at about 15–20% of a merchant battery's earnings, with day-ahead trading supplying the other 80–85%. It also raises the projected return from up to 17% to up to 24%.</p>
+          <p>Experience abroad suggests treating that extra slice with care. In Texas (ERCOT), the volume batteries offered into ancillary markets nearly tripled in 2024 and clearing prices fell. Modo Energy reports that energy arbitrage rose from about 25% to 76% of ERCOT battery revenue in the year to June 2025. Enverus finds ancillary services falling from 84% to 48% of revenue over two years. In Australia's national market, Modo cites AEMO figures putting arbitrage at 97% of battery revenue in Q1 2026.</p>
+          <p class="pull">Ancillary markets are small. They pay well for the first batteries and quickly fill up. Over time, the energy spread is what pays for a battery.</p>
+        </section>
+
+        <section id="merchant" aria-labelledby="merchant-h">
+          <h2 id="merchant-h">Merchant batteries are already here</h2>
+          <p>A merchant battery has no long-term buyer. It buys and sells on the exchanges, offers ancillary services, and keeps the margin.</p>
+          <ul>
+            <li><b>The first one.</b> Juniper Green Energy's 100 MWh project in Bikaner, Rajasthan, which the company calls India's first merchant battery, commissioned 60 MWh in December 2025 and the remaining 40 MWh on 23 January 2026, after trial operation and approval from the Northern Regional Load Despatch Centre.</li>
+            <li><b>The share.</b> JMK Research reports that merchant projects make up about 80% of roughly 6.8 GWh of operational battery capacity. Its September 2026 monthly update puts total commissioned battery capacity at 9.6 GWh.</li>
+            <li><b>Curtailed solar as fuel.</b> In August 2026 the Ministry of Power allowed renewable projects to use power curtailed under temporary connectivity (T-GNA) to charge an additional co-located battery and sell the stored energy. Around 90% of T-GNA-scheduled power in the northern region was being curtailed.</li>
+            <li><b>States are following.</b> Maharashtra's regulator has proposed exempting electricity drawn for storage from intra-state transmission, wheeling and cross-subsidy charges when the energy is consumed within the state. These are draft proposals, not final charges.</li>
+          </ul>
+          <p>The trading activity is moving closer to real time too. In IEX's first half of FY27, the real-time market overtook the day-ahead market, at 41% of volumes against 35%. Real-time trading rewards an asset that can respond within the hour, which a battery can.</p>
+        </section>
+
+        <section id="risks" aria-labelledby="risks-h">
+          <h2 id="risks-h">What can go wrong</h2>
+          <ul class="risks">
+            <li><b>Batteries flatten the spread they live on.</b> Every new battery buys at midday and sells in the evening, lifting the trough and lowering the peak. Researchers have documented this cannibalisation in ERCOT. India plans for a lot of storage: the National Electricity Plan's base case is 47.24 GW / 236.22 GWh of batteries by 2031–32.</li>
+            <li><b>Grid charging rules are unsettled.</b> A May 2026 draft procedure from Rajasthan's transmission utility would stop co-located batteries charging from the grid at all, restricting them to their own solar output. A CTUIL agenda for the western region has proposed barring withdrawal from the inter-state grid. JMK Research suggests allowing charging in defined surplus-solar windows instead.</li>
+            <li><b>The price ceiling caps the upside.</b> At ₹10/kWh, the evening peak cannot rise further. A battery's best days are clipped, while the floor is close to zero.</li>
+            <li><b>Market design is changing.</b> CERC ordered day-ahead market coupling across exchanges in July 2025. In February 2026 the appellate tribunal dismissed IEX's challenge as premature, because coupling needs separate regulations first. Analysts do not expect it before late 2027. Coupling should improve price discovery, but it will change how and where batteries bid.</li>
+            <li><b>Merchant revenue is harder to finance.</b> A lease gives a lender a fixed payment for 12 years. Merchant revenue depends on forecasts of prices, battery wear and policy. That usually means a higher cost of capital, which eats into the extra return.</li>
+          </ul>
+        </section>
+
+        <section id="next" aria-labelledby="next-h">
+          <h2 id="next-h">What comes next</h2>
+          <p>The likely path is neither pure lease nor pure merchant, but a mix. Expect contracts that lease part of a battery's capacity for a bankable base income and leave the rest free to trade. Expect co-located batteries that store curtailed solar and sell it after sunset. And expect discoms that own batteries to start optimising them against exchange prices, not just their own peak.</p>
+          <p>In all of these, the value comes from the same three decisions, made 96 times a day: when to charge, when to discharge, and which market to use. A battery that charges at a fixed hour every day leaves much of its value unused. One that forecasts tomorrow's prices, weighs day-ahead against real-time and ancillary prices, and accounts for its own degradation earns more from the same hardware.</p>
+          <p>That is the work Zoltiq is built for. Our backtests on IEX data are on the <a href="../../strategies/">Strategies</a> page, and the companion note <a href="../day-ahead-or-real-time/">Day-ahead or real-time? What waiting is worth</a> tests one of these decisions in detail. Next in the series: a tender tariff against the exchange, lease or trade.</p>
+          <div class="art-cta">
+            <a class="btn" href="../../asset-owners/#estimate">See what your battery could earn <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg></a>
+            <a class="btn paper" href="#subscribe">Get the next note by email</a>
+          </div>
+        </section>
+
+        <section id="sources" class="sources" aria-labelledby="sources-h">
+          <h2 id="sources-h">Sources</h2>
+          <ol>
+            <li>Ember, <a href="https://ember-energy.org/latest-insights/the-age-of-storage-batteries-primed-for-indias-power-markets/chapter-3-the-economics-of-merchant-bess/">The age of storage: Batteries primed for India's power markets</a> (August 2025), and <a href="https://ember-energy.org/latest-updates/battery-storage-operations-in-indias-power-exchanges-became-profitable-for-the-first-time-in-2024/">summary</a>.</li>
+            <li>IEEFA and JMK Research, <a href="https://ieefa.org/resources/viability-standalone-battery-energy-storage-tariffs-discovered-2025">Viability of standalone battery energy storage tariffs discovered in 2025</a> (May 2026); coverage in <a href="https://www.pv-magazine-india.com/2026/05/19/india-awards-10-4-gw-of-standalone-bess-capacity-in-2025-but-tariff-viability-remains-a-concern-ieefa-jmk-report/">pv magazine India</a>.</li>
+            <li>JMK Research, <a href="https://jmkresearch.com/indias-emerging-merchant-bess-market-faces-its-first-regulatory-test/">India's emerging merchant BESS market faces its first regulatory test</a> (2026), and <a href="https://ieefa.org/sites/default/files/2026-09/ESSjmk-0926.pdf">EnergyWatts monthly update, September 2026</a>.</li>
+            <li>pv magazine, <a href="http://www.pv-magazine.com/2026/01/23/india-commissions-first-merchant-battery-energy-storage-system/">India commissions first merchant battery energy storage system</a> (January 2026).</li>
+            <li>Renewable Watch, <a href="https://renewablewatch.in/2025/08/04/nhpc-announces-auction-results-for-125-mw-500-mwh-bess-tender/">NHPC announces auction results for 125 MW/500 MWh BESS</a> (August 2025); pv magazine India, <a href="https://www.pv-magazine-india.com/2026/08/10/ntpc-green-energy-wins-200-mw-800-mwh-battery-storage-project-in-west-bengal/">NTPC Green Energy wins 200 MW/800 MWh in West Bengal</a>; Saur Energy, <a href="https://www.saurenergy.com/solar-energy-news/bess-tender-results-tamil-nadu-awards-at-rs-315-lakhmwmonth-kerala-at-rs-181-lakhmwmonth-11060025">BESS tender results, Tamil Nadu and Kerala</a>.</li>
+            <li>SECI, <a href="https://www.seci.co.in/Upload/Tender/SECI000160-8368158-StandardBESPA-ESS-II-finalupload.pdf">Standard Battery Energy Storage Purchase Agreement</a>; tender summaries for <a href="https://www.energetica-india.net/news/punjab-discom-invites-bids-for-500-mw-1000-mwh-standalone-bess">PSPCL Punjab</a>, <a href="https://taiyangnews.info/tenders/andhra-pradesh-issues-125-gw-5-gwh-bess-tender">Andhra Pradesh</a> and <a href="https://www.seci.co.in/uploads/tenders/RfS-BESS_Projects-GRIDCO.pdf">GRIDCO Odisha</a>.</li>
+            <li>Mercom India, <a href="https://mercomindia.com/indigrid-commissions-indias-first-bess-project-for-discoms-in-delhi">IndiGrid commissions India's first BESS project for discoms in Delhi</a> (April 2025).</li>
+            <li>pv magazine India, <a href="https://www.pv-magazine-india.com/2025/06/10/power-ministry-announces-inr-5400-crore-viability-gap-funding-to-support-30-gwh-bess-development/">Power ministry announces ₹5,400 crore VGF for 30 GWh BESS</a> (June 2025); Mercom India, <a href="https://www.mercomindia.com/power-ministry-announces-100-ists-charges-waiver-for-psps-co-located-bess">100% ISTS charges waiver for PSPs and co-located BESS</a>.</li>
+            <li>CERC, <a href="https://www.cercind.gov.in/Regulations/Ancillary-Service-Regulations-2022.pdf">Ancillary Services Regulations, 2022</a>; Grid-India procedures as reported by <a href="https://powerpeakdigest.com/grid-india-revises-sras-tras-procedures/">Power Peak Digest</a>; CIGRE India, <a href="https://www.cigreindia.org/BESS_Ancillary%20Services_CIGRE_15052026_delivered.pdf">Participation of battery energy storage in ancillary services</a> (May 2026).</li>
+            <li>CERC, <a href="https://cercind.gov.in/2023/orders/04-SM-2023.pdf">order revising price ceilings on power exchanges</a> (effective 4 April 2023).</li>
+            <li>Energymap, <a href="https://www.energymap.in/iex-market">IEX market data</a> (snapshot of 22 October 2026); Investing.com, <a href="https://www.investing.com/news/company-news/iex-q2-fy27-slides-rtm-surges-to-41-as-exchange-eyes-coal-gas-expansion-93CH-4989514">IEX Q2 FY27 results</a>.</li>
+            <li>Business Standard, <a href="https://www.business-standard.com/industry/news/govt-allows-renewable-energy-projects-store-sell-curtailed-power-bess-126082900357_1.html">Govt allows RE projects to store and sell curtailed power via battery systems</a> (August 2026); Saur Energy, <a href="https://www.saurenergy.com/solar-energy-news/merc-proposes-new-rules-for-open-access-rooftop-solar-and-energy-storage-12567357">MERC proposes new rules for energy storage</a>.</li>
+            <li>Modo Energy, <a href="https://modoenergy.com/research/how-does-battery-energy-storage-make-money">How does a battery energy storage system make money?</a>; pv magazine USA, <a href="https://pv-magazine-usa.com/2025/11/21/battery-energy-storage-revenues-for-ancillary-services-fall-nearly-90-in-ercot">Battery revenues for ancillary services fall nearly 90% in ERCOT</a> (November 2025).</li>
+            <li>Energy Economics, <a href="https://www.sciencedirect.com/science/article/abs/pii/S0140988326004688">Battery storage cannibalization of price spreads in ERCOT</a> (2026).</li>
+            <li>CEA, National Electricity Plan, Volume I (Generation), May 2023, as reported by <a href="https://powerline.net.in/2023/06/01/national-electricity-plan-volume-i-generation-cea/">Power Line</a>.</li>
+            <li>Mercom India, <a href="https://www.mercomindia.com/aptel-dismisses-iexs-appeal-against-cercs-market-coupling-directions">APTEL dismisses IEX's appeal against CERC's market coupling directions</a> (February 2026).</li>
+          </ol>
+          <p class="disclaimer">Figures are as reported by the sources listed and were not independently verified by Zoltiq. Projected returns are third-party modelled estimates, not guarantees. The worked example is illustrative arithmetic, not a forecast. This note is not investment advice.</p>
+        </section>
+      </div>
+    </div>
+  </article>
+
+</main>
+
+<footer class="site-footer stars" id="subscribe">
+  <div class="frame">
+    <div class="footer-top">
+      <div>
+        <a class="brand" href="../../">Zoltiq</a>
+        <div class="footer-notes">
+          <p>Energy Intelligence for India.</p>
+          <p>Market data, research and strategies for India's power exchanges.</p>
+        </div>
+      </div>
+      <form class="subscribe" data-form="Newsletter signup" data-success="You're subscribed. Watch your inbox for the next note.">
+        <h2>New research and market notes, by email.</h2>
+        <div class="field-input">
+          <label for="sub-email">Email address</label>
+          <div class="subscribe-row">
+            <input id="sub-email" name="email" type="email" autocomplete="email" required placeholder="you@company.in">
+            <button class="btn" type="submit">Subscribe</button>
+          </div>
+        </div>
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-10000px">
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+    <a class="footer-mail" data-contact-email data-keep-text href="mailto:hello@zoltiq.in">hello@<wbr>zoltiq.in</a>
+    <div class="footer-meta">
+      <nav aria-label="Footer">
+        <a href="../../battery-index/">Index</a><a href="../../markets/">Markets</a><a href="../../research/">Research</a><a href="../../strategies/">Strategies</a><a href="../../asset-owners/">For asset owners</a>
+      </nav>
+      <p>Backtested results are not a guarantee of future returns.</p>
+      <p>© 2026 Zoltiq · India</p>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/js/site.js?v=11"></script>
+<script src="../../assets/js/charts.js?v=11"></script>
+<script src="../../assets/js/hero.js?v=11"></script>
+<script>
+  (function () {
+    var svg = document.getElementById("art-day");
+    ZOLTIQ.loadJSON("../../data/market-snapshot.json").then(function (d) {
+      ZoltiqCharts.dayCurve(svg, d);
+      if (d.date) document.getElementById("day-date").textContent = new Date(d.date + "T00:00:00").toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
+      var s = d.stats && d.stats.dam;
+      if (s && !d.sample) {
+        var kwh = function (v) { return "₹" + (v / 1000).toFixed(2) + "/kWh"; };
+        document.getElementById("day-stats").textContent = "On this day the day-ahead price averaged " + kwh(s.solar) + " in the solar hours and " +
+          kwh(s.evening) + " in the evening, a spread of " + kwh(s.spread) + ", and " + s.at_cap + " of the 96 blocks cleared at the ₹10/kWh ceiling.";
+      }
+    }).catch(function () { svg.remove(); });
+    var words = document.querySelector(".art-body").innerText.split(/\s+/).length;
+    document.getElementById("read-time").textContent = Math.max(1, Math.round(words / 230));
+  })();
+</script>
+</body>
+</html>

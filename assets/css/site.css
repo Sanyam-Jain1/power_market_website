@@ -520,3 +520,8 @@ details.panel summary { cursor: pointer; font-weight: 600; }
 .prose figure .controls { margin-bottom: 0.5rem; }
 .panel .btn.paper { background: var(--bg-2); color: var(--ink); }
 .panel .btn.ink { background: var(--ink); color: var(--bg); }
+
+/* On a phone, the pylons on the other pages sit in a band below the words (as on Home). */
+@media (max-width: 760px) {
+  .page-hero .hero-slide { top: auto; bottom: 0; height: 46%; object-position: 72% 40%; }
+}
