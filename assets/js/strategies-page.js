@@ -54,16 +54,24 @@
         $("lease-tag").textContent = "Lease: " + lakhY(lease.lakh_mw_yr);
         var cap = $("pod-cap"); cap.hidden = false;
         cap.textContent = "Leasing the battery at " + lease.authority + "'s " + F.month(lease.result_date.slice(0, 7)) + " tender tariff: " + lakhY(lease.lakh_mw_yr) + " a year, fixed.";
+        // the line spans the bars only, from the first track's top edge to the last track's bottom
+        var tracks = pod.querySelectorAll(".pod-track"), first = tracks[0], last = tracks[tracks.length - 1];
+        if (first && last) {
+          var t0 = first.offsetTop - 10, t1 = last.offsetTop + last.offsetHeight + 6;
+          line.style.top = t0 + "px";
+          line.style.bottom = "auto";
+          line.style.height = (t1 - t0) + "px";
+        }
       }
     }
 
     /* ---- Over time ---- */
     function drawRace() {
       var lines = [
-        ["BOTH", "PH", "Best possible, both markets (hindsight)", "#9aa6c8", true],
-        ["BOTH", "T1", "Day-ahead plan, corrected in real-time", "#ffb238"],
-        ["DAM", "B2", "Plan on last week's prices, day-ahead", "#6fa8ff"],
-        ["DAM", "B0", "Fixed 11:00 / 18:00", "#7b86a8"]
+        ["BOTH", "PH", "Best possible, both markets (hindsight)", "#9aa6bd", true],
+        ["BOTH", "T1", "Day-ahead plan, corrected in real-time", "#ff7a1a"],
+        ["DAM", "B2", "Plan on last week's prices, day-ahead", "#0b1230"],
+        ["DAM", "B0", "Fixed 11:00 / 18:00", "#b9c2d3"]
       ];
       C.lineChart($("race"), {
         label: "Cumulative earnings per MW since May 2022",
