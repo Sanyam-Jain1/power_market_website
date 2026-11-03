@@ -44,7 +44,7 @@
 .hero-card { display: block; text-decoration: none; background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; transition: transform 0.2s ease; }
 .hero-card:hover { transform: translateY(-4px); }
 .hero-card img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
-.hero-card span { display: flex; justify-content: space-between; gap: 0.5rem; padding: 0.7rem 0.8rem; font-size: 1rem; font-weight: 600; line-height: 1.25; }
+.hero-card > span { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; padding: 0.7rem 0.8rem; font-size: 1rem; font-weight: 600; line-height: 1.25; }
 @media (max-width: 1100px) {
   .hero-foot { flex-direction: column; align-items: stretch; gap: 1rem; }
   .hero-cards { grid-template-columns: repeat(2, minmax(0, 230px)); }
