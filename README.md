@@ -42,7 +42,7 @@ tools/build_data.py              Builds data/ from IEX prices and the battery ba
 
 ## Updating styles or scripts
 
-Pages link to `assets/...?v=<number>` (currently `v=14`). After changing any file in `assets/`, bump that number in every page so browsers fetch the new file instead of a cached copy.
+Pages link to `assets/...?v=<number>` (currently `v=15`). After changing any file in `assets/`, bump that number in every page so browsers fetch the new file instead of a cached copy.
 
 ## Data
 
@@ -78,6 +78,13 @@ The first build simulates every run (about an hour). Results are cached in `tool
 
 Forms post to the endpoint in `assets/js/site.js` (`formEndpoint`, FormSubmit). The site shows and delivers to `zoltiqenergy@gmail.com`.
 FormSubmit sends a one-time activation email to that inbox on the first submission; click it before forms deliver.
+
+## Visitor analytics
+
+Cloudflare Web Analytics (no cookies). `assets/js/site.js` loads Cloudflare's beacon on every page when
+`cfAnalyticsToken` is set, and only on zoltiq.in, so local previews are not counted. To turn it on, paste the
+token from dash.cloudflare.com → Web Analytics → zoltiq.in (the `"token"` value in the JS snippet) into
+`cfAnalyticsToken`. Nothing changes at GoDaddy.
 
 ## Rules for content
 
