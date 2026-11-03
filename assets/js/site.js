@@ -8,9 +8,21 @@
     // Shown on the site, and where forms are delivered.
     contactEmail: "zoltiqenergy@gmail.com",
     // Where forms are delivered (FormSubmit forwards submissions to this inbox by email).
-    formEndpoint: "https://formsubmit.co/ajax/zoltiqenergy@gmail.com"
+    formEndpoint: "https://formsubmit.co/ajax/zoltiqenergy@gmail.com",
+    // Cloudflare Web Analytics site token for zoltiq.in (dash.cloudflare.com → Web Analytics →
+    // zoltiq.in → JS snippet: the value of "token" in data-cf-beacon). Empty = analytics off.
+    cfAnalyticsToken: ""
   };
   window.ZOLTIQ = CONFIG;
+
+  /* ---- Visitor analytics: Cloudflare Web Analytics (no cookies), on the live domain only ---- */
+  if (CONFIG.cfAnalyticsToken && /(^|\.)zoltiq\.in$/.test(location.hostname)) {
+    var beacon = document.createElement("script");
+    beacon.defer = true;
+    beacon.src = "https://static.cloudflareinsights.com/beacon.min.js";
+    beacon.setAttribute("data-cf-beacon", JSON.stringify({ token: CONFIG.cfAnalyticsToken }));
+    document.body.appendChild(beacon);
+  }
 
   [].forEach.call(document.querySelectorAll("[data-contact-email]"), function (el) {
     if (!el.hasAttribute("data-keep-text")) el.textContent = CONFIG.contactEmail;
