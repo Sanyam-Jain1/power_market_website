@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Day-ahead or real-time? | Zoltiq Research</title>
+<meta name="description" content="Should a battery sell day-ahead or wait for real-time on IEX? Waiting alone earns about ₹5 lakh per MW-year less; correcting the day-ahead plan in real-time earns ₹1–2 lakh more.">
+<meta name="theme-color" content="#f4f3ee">
+<script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Ctext x='16' y='24' font-family='Georgia' font-size='22' text-anchor='middle' fill='%23ff7a1a'%3EZ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../assets/css/site.css?v=11">
+<style>
+.page-hero { min-height: max(100svh, 600px); }
+.page-hero .page-copy { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-block: clamp(2rem, 8vh, 5rem) clamp(9rem, 22vh, 14rem); }
+.page-hero h1 { font-size: clamp(2.25rem, 1.2rem + 2.8vw, 4.25rem); line-height: 1.02; max-width: 15ch; }
+.page-hero .lede { margin-top: 1.25rem; max-width: 42ch; }
+.page-hero .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+</style>
+</head>
+<body class="sky-page">
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="frame">
+    <a class="brand" href="../../">Zoltiq</a>
+    <div class="header-tools">
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    </div>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <a href="../../battery-index/">Index</a>
+      <a href="../../markets/">Markets</a>
+      <a href="../../research/" aria-current="page">Research</a>
+      <a href="../../strategies/">Strategies</a>
+      <a href="../../asset-owners/">For asset owners</a>
+      <a class="btn small" href="#subscribe">Subscribe</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero page-hero note-hero" data-hour="21.9" aria-labelledby="page-title">
+    <canvas class="hero-sky" id="hero-sky" aria-hidden="true"></canvas>
+    <img class="hero-slide hero-pylons day" src="../../assets/img/pylons-dark.webp" width="2000" height="1170" alt="">
+    <img class="hero-slide hero-pylons night" src="../../assets/img/pylons-light.webp" width="2000" height="1170" alt="" style="opacity:0">
+    <div class="frame page-copy">
+      <p class="mono">Exchanges · Zoltiq Research · 3 November 2026 · 6 min read</p>
+      <h1 id="page-title">Day-ahead or real-time?</h1>
+      <p class="lede">A battery can sell a day early, or wait for the real-time market. On four and a half years of IEX prices, waiting on its own earns less. Waiting to correct the day-ahead plan earns more, in every year and every month of the year.</p>
+    </div>
+  </section>
+
+  <article class="sky-morning page-section">
+    <div class="frame axis">
+      <aside class="note-side">
+        <div class="stat"><span class="k">Real-time only, against day-ahead only</span><span class="v">−₹5.2 lakh</span><span class="n">per MW-year, May 2022 – Oct 2026</span></div>
+        <div class="stat"><span class="k">Day-ahead, corrected in real-time</span><span class="v">+₹1.2 lakh</span><span class="n">per MW-year over day-ahead only; +₹1.8 lakh in the last 12 months</span></div>
+        <div class="stat"><span class="k">Years it beat day-ahead only</span><span class="v">5 of 5</span><span class="n">2022 (from May) to 2026 (to October)</span></div>
+      </aside>
+      <div class="prose on-axis">
+        <p>Every day a battery owner on IEX makes the same choice. Bid into the day-ahead market by noon the day before, at prices that clear around 13:00. Or wait for the real-time market, which clears an hour ahead of each half-hour of delivery. Waiting means more information. Does it mean more money?</p>
+        <p>We tested every option on each delivery day from 1 May 2022 to 31 October 2026: 1,645 days of IEX prices, block by block. The battery is 100 MW / 200 MWh, 87% round trip, kept between 10% and 90% charge, one cycle a day, paying ₹20/MWh exchange fees on each side and a ₹300 wear charge on every MWh discharged. No strategy sees a price before it was published.</p>
+
+        <h2>Waiting on its own earns less</h2>
+        <p>Planned on the last 7 days' prices, the battery earned <b>₹32.7 lakh</b> per MW-year on day-ahead and <b>₹27.5 lakh</b> on real-time. Even with perfect hindsight, real-time pays less: ₹32.1 lakh against ₹34.2 lakh.</p>
+        <p>The reason is when the two markets differ. Over the last 12 months, real-time cleared on average ₹800–1,100/MWh <i>below</i> day-ahead between 18:00 and 22:00, when a battery sells. It cleared ₹70–330 <i>above</i> day-ahead in the solar hours, when a battery buys. A battery that only uses real-time sells cheaper and buys dearer.</p>
+        <figure class="wide">
+          <div id="basis"></div>
+          <figcaption>Average real-time minus day-ahead price in each 15-minute block, Nov 2025 – Oct 2026. ₹/MWh. Below zero: real-time was cheaper.</figcaption>
+        </figure>
+
+        <h2>Waiting to correct pays</h2>
+        <p>The average hides large swings. In a typical block the two markets end ₹500–1,500/MWh apart, one way or the other. That is room to trade, if the battery knows roughly where real-time will land.</p>
+        <p>So we tested a battery that does both. At noon it commits its day-ahead plan, made on the last 7 days' prices. At 22:00 the next day's day-ahead prices are public. It re-plans its schedule on a forecast of real-time, the average of those prices and last week's real-time prices, and buys or sells the difference from its day-ahead position in real-time.</p>
+        <p>It earned <b>₹33.9 lakh</b> per MW-year, ₹1.2 lakh more than day-ahead alone. Over the last 12 months it earned ₹38.8 lakh against ₹37.0 lakh, more than even the hindsight best on day-ahead alone (₹38.4 lakh).</p>
+        <figure class="wide">
+          <div id="by-year"></div>
+          <figcaption>₹ lakh per MW-year by calendar year. 2022 from May; 2026 to October.</figcaption>
+        </figure>
+        <p>It beat day-ahead alone in every year: by ₹1.5 lakh in 2022, ₹1.0 lakh in 2023 and 2024, ₹0.6 lakh in 2025 and ₹2.0 lakh in 2026 so far. It also beat it in every calendar month, at a yearly rate of ₹0.3 lakh in June up to ₹3.6 lakh in October. Day by day it won 56% of the time and lost 43%: this is an edge, not a sure thing.</p>
+        <figure class="wide">
+          <div id="by-month"></div>
+          <figcaption>Gain over day-ahead alone by calendar month, all years together, as a yearly rate in ₹ lakh per MW.</figcaption>
+        </figure>
+        <p>The gain holds for other batteries. For a 4-hour battery it is ₹1.9 lakh (₹58.6 to ₹60.5 lakh). With two cycles a day it is ₹1.5 lakh (₹39.5 to ₹41.1 lakh). Under a rule that allows charging only from 10:00 to 15:00 it is ₹0.8 lakh.</p>
+
+        <h2>The forecast is the whole trick</h2>
+        <p>We tried three forecasts of real-time for the 22:00 re-plan. On the next day's day-ahead prices alone, the battery earned ₹31.7 lakh, <b>less</b> than not correcting at all. Adding the recent real-time-minus-day-ahead gap made it worse, at ₹31.0 lakh. Only the blend of day-ahead prices and last week's real-time prices paid. Each correction pays a second exchange fee, so a forecast that is slightly wrong loses money.</p>
+        <p>Because we picked the best of three, treat the ₹1.2 lakh as an estimate to be checked on new data, not a promise. That it held in every year and every month is encouraging, not proof.</p>
+        <p>A simpler idea does nothing. Choosing at noon the day before which market to buy and sell each block in, from last week's averages, earned ₹32.7 lakh: the same as day-ahead alone.</p>
+        <div id="summary"></div>
+
+        <h2>What it means</h2>
+        <ul>
+          <li><b>Don't move to real-time; add it.</b> A battery that only trades real-time gives up about ₹5 lakh per MW a year. One that keeps its day-ahead plan and corrects it in real-time gains about ₹1–2 lakh.</li>
+          <li><b>The correction is cheap to run.</b> It needs one re-plan a night, after day-ahead results are out, and no data a battery owner does not already have.</li>
+          <li><b>Most of the prize is still there.</b> With hindsight in both markets, a 2-hour battery could have earned ₹38.2 lakh at one cycle and ₹55.8 lakh at two. The correction reaches ₹33.9 and ₹41.1 lakh. Re-planning during the day, session by session, is where the rest is.</li>
+        </ul>
+        <p class="callout">Method: the backtester, its strategy specification and its look-ahead tests are open. The day-ahead leg settles at IEX day-ahead clearing prices and the correction at real-time clearing prices, with fees on both legs. Each day starts and ends at 10% charge. Figures are after exchange fees and wear, before transmission charges, O&amp;M and deviation charges. Backtested results are not a guarantee of future returns.</p>
+        <p>Every figure here, for every battery size and setting, is on the <a class="text-link" href="../../strategies/">Strategies</a> and <a class="text-link" href="../../battery-index/">Index</a> pages, updated daily. <a class="text-link" href="#subscribe">Get the next note by email</a>.</p>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer stars" id="subscribe">
+  <div class="frame">
+    <div class="footer-top">
+      <div>
+        <a class="brand" href="../../">Zoltiq</a>
+        <div class="footer-notes">
+          <p>Energy Intelligence for India.</p>
+          <p>Market data, research and strategies for India's power exchanges.</p>
+        </div>
+      </div>
+      <form class="subscribe" data-form="Newsletter signup" data-success="You're subscribed. Watch your inbox for the next note.">
+        <h2>New research and market notes, by email.</h2>
+        <div class="field-input">
+          <label for="sub-email">Email address</label>
+          <div class="subscribe-row">
+            <input id="sub-email" name="email" type="email" autocomplete="email" required placeholder="you@company.in">
+            <button class="btn" type="submit">Subscribe</button>
+          </div>
+        </div>
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-10000px">
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+    <a class="footer-mail" data-contact-email data-keep-text href="mailto:zoltiqenergy@gmail.com">zoltiqenergy<wbr>@gmail.com</a>
+    <div class="footer-meta">
+      <nav aria-label="Footer">
+        <a href="../../battery-index/">Index</a><a href="../../markets/">Markets</a><a href="../../research/">Research</a><a href="../../strategies/">Strategies</a><a href="../../asset-owners/">For asset owners</a>
+      </nav>
+      <p>Backtested results are not a guarantee of future returns.</p>
+      <p>© 2026 Zoltiq · India</p>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/js/site.js?v=11"></script>
+<script src="../../assets/js/charts.js?v=11"></script>
+<script src="../../assets/js/hero.js?v=11"></script>
+<script src="../../assets/js/note-waiting.js?v=11"></script>
+</body>
+</html>

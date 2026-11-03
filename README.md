@@ -18,7 +18,10 @@ index.html                       Home: hero, the latest day's sheet, Index, stra
 battery-index/index.html         Zoltiq Battery Index: headline, history, every battery x strategy, method, CSV
 markets/index.html               Markets: any of the last 60 days block by block, spreads, month table, CSV
 research/index.html              Research notes
-research/day-ahead-or-real-time/ First note: day-ahead or real-time? What waiting is worth
+research/day-ahead-or-real-time/ "Coming soon" page for the note (not linked from the site)
+_drafts/                         Unpublished drafts. GitHub Pages (Jekyll) does not publish folders starting with "_".
+                                 The full day-ahead or real-time note is in _drafts/research/day-ahead-or-real-time/;
+                                 to publish it, move it back to research/day-ahead-or-real-time/ and restore its links.
 strategies/index.html            Strategies: cumulative earnings, the ladder, findings, cards
 asset-owners/index.html          Battery estimate on last year's prices, and the estimate request form
 assets/css/site.css              Shared design system (incl. panels, charts, tables)
