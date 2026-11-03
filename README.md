@@ -17,7 +17,8 @@ Section colours are set by the `.sky-*` classes in `site.css`. Type: Archivo, wi
 index.html                  Home
 battery-index/index.html    Zoltiq Battery Index        (placeholder page for now)
 markets/index.html          Markets dashboards          (placeholder page for now)
-research/index.html         Research notes              (placeholder page for now)
+research/index.html         Research: featured article and upcoming notes
+research/<slug>/index.html  One page per article (first: batteries-beyond-the-lease)
 strategies/index.html       Strategies: results, not rules (placeholder page for now)
 asset-owners/index.html     For asset owners + estimate (placeholder page for now)
 assets/css/site.css         Shared design system
@@ -31,7 +32,7 @@ data/*.json                 Data the charts read
 
 ## Updating styles or scripts
 
-Pages link to `assets/...?v=<number>` (currently `v=8`). After changing any file in `assets/`, bump that number in every page so browsers fetch the new file instead of a cached copy.
+Pages link to `assets/...?v=<number>` (currently `v=9`). After changing any file in `assets/`, bump that number in every page so browsers fetch the new file instead of a cached copy.
 
 ## Data
 

@@ -393,3 +393,8 @@ body.dark-hero .site-header:not(.is-solid) { color: #f2f4f8; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
   .js .rise { opacity: 1; transform: none; }
 }
+
+/* On a phone, the pylons on the other pages sit in a band below the words (as on Home). */
+@media (max-width: 760px) {
+  .page-hero .hero-slide { top: auto; bottom: 0; height: 46%; object-position: 72% 40%; }
+}

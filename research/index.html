@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/site.css?v=8">
+<link rel="stylesheet" href="../assets/css/site.css?v=9">
 <style>
 .page-hero { min-height: max(100svh, 600px); }
 .page-hero .page-copy { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-block: clamp(2rem, 8vh, 5rem) clamp(9rem, 22vh, 14rem); }
@@ -25,6 +25,14 @@
 .coming-list .k { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
 .coming-foot { margin-top: 1.5rem; color: var(--ink-soft); max-width: 52ch; }
 @media (max-width: 860px) { .coming-grid { grid-template-columns: minmax(0, 1fr); } }
+.featured { padding-top: var(--gap-section); }
+.feat-card { display: grid; gap: 0.9rem; max-width: 60rem; padding: clamp(1.5rem, 4vw, 2.75rem); background: #ffffff; border: 1px solid var(--line); border-radius: var(--radius); text-decoration: none; transition: transform 0.2s ease; }
+.feat-card:hover { transform: translateY(-3px); }
+.feat-card .k { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+.feat-card h2 { font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.75rem); }
+.feat-card p { max-width: 52ch; color: var(--ink-soft); }
+.feat-card .go { font-weight: 600; }
+.featured + .coming { padding-top: clamp(3rem, 6vw, 5rem); }
 </style>
 </head>
 <body class="sky-page">
@@ -62,9 +70,20 @@
     </div>
   </section>
 
+  <section class="featured sky-morning" aria-labelledby="feat-title">
+    <div class="frame">
+      <a class="feat-card" href="batteries-beyond-the-lease/">
+        <span class="k">New · Batteries · 3 November 2026</span>
+        <h2 id="feat-title">From leased asset to market player</h2>
+        <p>Most Indian batteries are leased to discoms for a fixed monthly fee. Why that is changing, and what a battery can earn from merchant trading and ancillary services.</p>
+        <span class="go">Read the article →</span>
+      </a>
+    </div>
+  </section>
+
   <section class="coming sky-morning" aria-labelledby="coming-title">
     <div class="frame coming-grid">
-      <h2 id="coming-title">The first series</h2>
+      <h2 id="coming-title">Coming next</h2>
       <div>
         <ul class="coming-list">
           <li><span class="k">Batteries</span><span>The 1pm / 10pm rule: how much of a battery's value one simple schedule captures</span></li>
@@ -114,7 +133,7 @@
   </div>
 </footer>
 
-<script src="../assets/js/site.js?v=8"></script>
-<script src="../assets/js/hero.js?v=8"></script>
+<script src="../assets/js/site.js?v=9"></script>
+<script src="../assets/js/hero.js?v=9"></script>
 </body>
 </html>

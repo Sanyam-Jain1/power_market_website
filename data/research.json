@@ -2,12 +2,20 @@
  "note": "Titles are real starter notes. Dates and read times are placeholders until each note is published.",
  "notes": [
   {
+   "slug": "batteries-beyond-the-lease",
+   "tag": "Batteries",
+   "title": "From leased asset to market player: how India's batteries will earn their keep",
+   "date": "2026-11-03",
+   "minutes": 11,
+   "featured": true,
+   "url": "research/batteries-beyond-the-lease/"
+  },
+  {
    "slug": "one-pm-ten-pm-rule",
    "tag": "Batteries",
    "title": "The 1pm / 10pm rule: how much of a battery's value one simple schedule captures",
    "date": null,
-   "minutes": null,
-   "featured": true
+   "minutes": null
   },
   {
    "slug": "where-the-rest-hides",
