@@ -11,14 +11,14 @@
     formEndpoint: "https://formsubmit.co/ajax/zoltiqenergy@gmail.com",
     // Cloudflare Web Analytics site token for zoltiq.in (dash.cloudflare.com → Web Analytics →
     // zoltiq.in → JS snippet: the value of "token" in data-cf-beacon). Empty = analytics off.
-    cfAnalyticsToken: ""
+    cfAnalyticsToken: "dca5516bfbe747499c815c3705cef666"
   };
   window.ZOLTIQ = CONFIG;
 
   /* ---- Visitor analytics: Cloudflare Web Analytics (no cookies), on the live domain only ---- */
   if (CONFIG.cfAnalyticsToken && /(^|\.)zoltiq\.in$/.test(location.hostname)) {
     var beacon = document.createElement("script");
-    beacon.defer = true;
+    beacon.type = "module";  // as in Cloudflare's own snippet
     beacon.src = "https://static.cloudflareinsights.com/beacon.min.js";
     beacon.setAttribute("data-cf-beacon", JSON.stringify({ token: CONFIG.cfAnalyticsToken }));
     document.body.appendChild(beacon);
