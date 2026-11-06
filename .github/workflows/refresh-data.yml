@@ -1,11 +1,13 @@
 name: Refresh site data
 
-# Rebuilds data/*.json from IEX prices once a day, after the Dhruva terminal
-# (power_price_terminal) has committed the day's IEX results, and commits the
-# result to master, which GitHub Pages serves.
+# Rebuilds data/*.json from IEX prices and commits it to master, which GitHub Pages serves.
+# It fetches the latest IEX day-ahead, real-time, green and high-price day-ahead results itself
+# (with the Dhruva terminal's fetcher), so it does not wait for the terminal's own daily commit.
+# It runs every three hours: GitHub often starts scheduled jobs hours late, and a day's real-time
+# results are only complete after midnight IST. A run commits only when the data changed.
 on:
   schedule:
-    - cron: "40 17 * * *"   # 23:10 IST
+    - cron: "17 */3 * * *"
   workflow_dispatch:
 
 permissions:
@@ -16,7 +18,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  BACKTESTER_REF: main      # power_market branch with bess.py (needs `ingest-csv` and the S1 rule)
+  BACKTESTER_REF: main      # power_market branch with bess.py
 
 jobs:
   refresh:
@@ -28,7 +30,6 @@ jobs:
         with:
           repository: Sanyam-Jain1/power_price_terminal
           path: terminal
-          sparse-checkout: data
       - uses: actions/checkout@v4
         with:
           repository: Sanyam-Jain1/power_market
@@ -37,7 +38,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install numpy pandas
+      - run: pip install numpy pandas -r terminal/requirements.txt
+      - name: Fetch the latest IEX results
+        working-directory: terminal
+        run: python -m dhruva -v ingest --only spot --from "$(date -u -d "$(date -u +%Y-%m-01) -1 month" +%F)"
       - name: Restore backtest cache
         uses: actions/cache@v4
         with:
@@ -52,10 +56,15 @@ jobs:
           python bess.py ingest-csv ../terminal/data
       - name: Build site data
         run: python tools/build_data.py --backtester backtester --terminal terminal
-      - name: Commit
+      - name: Commit if the data changed
         run: |
           git config user.name "zoltiq-bot"
           git config user.email "zoltiq-bot@users.noreply.github.com"
           git add data
-          git diff --cached --quiet || git commit -m "data: refresh $(date -u +%F)"
-          git push
+          # build_data.py leaves a file untouched when only its timestamp would change
+          if git diff --cached --quiet; then
+            echo "No new data"
+          else
+            git commit -m "data: refresh $(date -u +'%F %H:%M') UTC"
+            git pull --rebase -q && git push
+          fi

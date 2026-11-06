@@ -72,7 +72,7 @@ cd ../power_market_website && python tools/build_data.py --backtester ../power_m
 The first build simulates every run (about an hour). Results are cached in `tools/.cache/` (git-ignored), so later builds only simulate new days.
 `--markets-only` rebuilds the market files alone in seconds.
 
-**Daily refresh.** `.github/workflows/refresh-data.yml` runs every evening: it checks out both repositories, rebuilds `data/` and commits it to `master`. It uses `power_market` at `BACKTESTER_REF` (`main`), which must include the `ingest-csv` command and the `T1` and `XF` strategies.
+**Refresh.** `.github/workflows/refresh-data.yml` runs every three hours: it fetches the latest IEX results with the terminal's fetcher (`python -m dhruva ingest --only spot`), rebuilds `data/` and commits to `master` only when the data changed (build_data.py leaves a file alone when only its timestamp would change). It uses `power_market` at `BACKTESTER_REF` (`main`), which must include the `ingest-csv` command and the `T1` and `XF` strategies.
 
 ## Forms and email
 

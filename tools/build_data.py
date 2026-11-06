@@ -75,6 +75,22 @@ def arr(a, nd=2):
     return [None if not np.isfinite(v) else round(float(v), nd) for v in a]
 
 
+def write_json(path, obj):
+    """Write obj as compact JSON, but leave the file alone when nothing but its "updated"
+    timestamp would change, so a refresh with no new data makes no commit."""
+    path = Path(path)
+    if path.exists():
+        try:
+            old = json.loads(path.read_text())
+            strip = lambda o: {k: v for k, v in o.items() if k != "updated"} if isinstance(o, dict) else o
+            if strip(old) == strip(json.loads(json.dumps(obj))):
+                return False
+        except ValueError:
+            pass
+    path.write_text(json.dumps(obj, separators=(",", ":")))
+    return True
+
+
 # ------------------------------------------------------------------ inputs
 
 def load_terminal(terminal, folder):
@@ -334,7 +350,7 @@ def main(argv=None):
             "dam": arr(P["DAM"][i]), "rtm": arr(P["RTM"][i]),
             "stats": {"dam": day_stats(P["DAM"][i], V["DAM"][i]), "rtm": day_stats(P["RTM"][i], V["RTM"][i])}}
     snap["stats"]["rt_minus_da"] = r(np.nanmean(P["RTM"][i]) - np.nanmean(P["DAM"][i]), 0)
-    (DATA / "market-snapshot.json").write_text(json.dumps(snap, separators=(",", ":")))
+    write_json(DATA / "market-snapshot.json", snap)
 
     # --- markets: recent days in full, every day summarised, and months
     recent = days[-60:]
@@ -381,7 +397,7 @@ def main(argv=None):
                "daily_fields": ["date", "dam_avg", "dam_vwap", "dam_solar", "dam_evening", "dam_spread", "dam_max",
                                 "dam_blocks_at_cap", "rtm_avg", "rtm_solar", "rtm_evening", "rtm_spread"],
                "daily": daily, "months": mtable}
-    (DATA / "markets.json").write_text(json.dumps(markets, separators=(",", ":")))
+    write_json(DATA / "markets.json", markets)
     print(f"markets: through {last_day}", file=sys.stderr)
     if args.markets_only:
         return
@@ -423,7 +439,7 @@ def main(argv=None):
         "units": {"monthly_rs_mw": "₹ per MW of power in the month, after fees and wear",
                   "lakh_mw_yr": "₹ lakh per MW per year, after fees and wear"},
     }
-    (DATA / "backtests.json").write_text(json.dumps(bt, separators=(",", ":")))
+    write_json(DATA / "backtests.json", bt)
     h = summary[HEADLINE]
     ceiling = summary[CEILING_OF(HEADLINE)]
     simple = summary["2h|DAM|B0|c1|any"]
@@ -436,11 +452,11 @@ def main(argv=None):
         "last_month": mlist[-1], "last_value": h["monthly_rs_mw"][-1],
         "month_to_date": {"month": mtd_month, "value": mtd.get(HEADLINE)} if mtd_month else None,
     }
-    (DATA / "battery-index.json").write_text(json.dumps(idx, separators=(",", ":")))
+    write_json(DATA / "battery-index.json", idx)
     (DATA / "research").mkdir(exist_ok=True)
     note = research_waiting(runs, days, P, eval_from, last_complete_month_end)
     note.update(updated=now)
-    (DATA / "research" / "day-ahead-or-real-time.json").write_text(json.dumps(note, separators=(",", ":")))
+    write_json(DATA / "research" / "day-ahead-or-real-time.json", note)
     old = DATA / "research" / "one-pm-ten-pm-rule.json"
     if old.exists():
         old.unlink()
